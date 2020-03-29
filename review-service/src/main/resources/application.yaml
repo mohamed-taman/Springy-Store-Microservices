@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: review-service
+
+server:
+  port: 9083

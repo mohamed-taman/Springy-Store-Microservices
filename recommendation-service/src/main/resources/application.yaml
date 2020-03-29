@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: recommend-service
+
+server:
+  port: 9082
