@@ -5,7 +5,8 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.0.M3</version>
+        <!-- FIXME change this version to 2.3.0.M4 that fixes ASM8_EXPERIMENTAL when using JDK 14 record feature -->
+        <version>2.3.0.M2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -77,6 +78,17 @@
             <groupId>io.projectreactor</groupId>
             <artifactId>reactor-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.siriusxi.ms.store</groupId>
+            <artifactId>store-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.siriusxi.ms.store</groupId>
+            <artifactId>store-utils</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
     </dependencies>

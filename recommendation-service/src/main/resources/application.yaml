@@ -1,6 +1,6 @@
 spring:
   application:
-    name: recommend-service
+    name: recommendation-service
 
 server:
   port: 9082

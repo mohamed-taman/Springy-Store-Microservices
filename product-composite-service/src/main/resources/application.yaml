@@ -4,3 +4,20 @@ spring:
 
 server:
   port: 9080
+
+logging:
+  level:
+    root: INFO
+    com.siriusxi.ms:.store: DEBUG
+
+# Custom configurations
+app:
+  product-service:
+    host: localhost
+    port: 9081
+  recommendation-service:
+    host: localhost
+    port: 9082
+  review-service:
+    host: localhost
+    port: 9083
