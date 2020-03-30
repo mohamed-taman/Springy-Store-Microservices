@@ -8,7 +8,7 @@ import com.siriusxi.ms.store.api.composite.product.dto.ServiceAddresses;
 import com.siriusxi.ms.store.api.core.product.Product;
 import com.siriusxi.ms.store.api.core.recommendation.Recommendation;
 import com.siriusxi.ms.store.api.core.review.Review;
-import com.siriusxi.ms.store.pcs.services.ProductCompositeIntegration;
+import com.siriusxi.ms.store.pcs.integration.ProductCompositeIntegration;
 import com.siriusxi.ms.store.util.exceptions.NotFoundException;
 import com.siriusxi.ms.store.util.http.ServiceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +32,12 @@ public class ProductCompositeServiceImpl implements ProductCompositeService {
     @Override
     public ProductAggregate getProduct(int productId) {
 
-        Product product = integration.getProduct(productId);
+        var product = integration.getProduct(productId);
         if (product == null) throw new NotFoundException("No product found for productId: " + productId);
 
-        List<Recommendation> recommendations = integration.getRecommendations(productId);
+        var recommendations = integration.getRecommendations(productId);
 
-        List<Review> reviews = integration.getReviews(productId);
+        var reviews = integration.getReviews(productId);
 
         return createProductAggregate(product, recommendations, reviews, serviceUtil.getServiceAddress());
     }

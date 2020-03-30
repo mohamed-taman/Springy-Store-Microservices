@@ -4,3 +4,8 @@ spring:
 
 server:
   port: 9082
+
+logging:
+  level:
+    root: INFO
+    com.siriusxi.ms:.store: DEBUG

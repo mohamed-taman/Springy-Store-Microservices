@@ -1,4 +1,4 @@
-package com.siriusxi.ms.store.pcs.services;
+package com.siriusxi.ms.store.pcs.integration;
 
 import com.siriusxi.ms.store.api.core.product.Product;
 import com.siriusxi.ms.store.api.core.product.ProductService;
@@ -27,8 +27,8 @@ import java.util.List;
 import static java.lang.String.*;
 import static org.springframework.http.HttpMethod.GET;
 
-@Log4j2
 @Component
+@Log4j2
 public class ProductCompositeIntegration
         implements
         ProductService,
