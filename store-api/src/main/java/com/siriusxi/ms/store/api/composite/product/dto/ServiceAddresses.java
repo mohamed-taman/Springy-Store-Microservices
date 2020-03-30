@@ -1,9 +1,16 @@
 package com.siriusxi.ms.store.api.composite.product.dto;
 
-//FIXME need a custom JSON serializer to be converted to JSON correctly
-public record ServiceAddresses(
-        String cmp,
-        String pro,
-        String rev,
-        String rec) {
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor(force = true)
+@AllArgsConstructor
+public class ServiceAddresses {
+    private final String productCompositeService;
+    private final String productService;
+    private final String reviewService;
+    private final String recommendationService;
 }

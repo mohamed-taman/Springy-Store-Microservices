@@ -59,12 +59,12 @@ public class ProductCompositeServiceImpl implements ProductCompositeService {
         // 3. Copy summary review info, if available
         List<ReviewSummary> reviewSummaries = (reviews == null)  ? null :
                 reviews.stream()
-                        .map(r -> new ReviewSummary(r.reviewId(), r.author(), r.subject()))
+                        .map(r -> new ReviewSummary(r.getReviewId(), r.getAuthor(), r.getSubject()))
                         .collect(Collectors.toList());
 
         // 4. Create info regarding the involved microservices addresses
         String productAddress = product.getServiceAddress();
-        String reviewAddress = (reviews != null && !reviews.isEmpty()) ? reviews.get(0).serviceAddress() : "";
+        String reviewAddress = (reviews != null && !reviews.isEmpty()) ? reviews.get(0).getServiceAddress() : "";
         String recommendationAddress = (recommendations != null && !recommendations.isEmpty()) ?
                 recommendations.get(0).getServiceAddress() : "";
         ServiceAddresses serviceAddresses = new ServiceAddresses(
