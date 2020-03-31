@@ -15,7 +15,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Springy Store Chassis</name>
-    <description>Parent pom project for Spring Boot MS projects</description>
+    <description>Parent pom project for Spring Boot μServices</description>
 
     <modules>
         <module>../product-composite-service</module>
