@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: product-search
+
+server:
+  port: 9080
+
+logging:
+  level:
+    web: DEBUG
+    root: INFO
+    com.siriusxi.ms:.store: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
+
+# Custom configurations
+app:
+  product-service:
+    host: localhost
+    port: 9081
+  recommendation-service:
+    host: localhost
+    port: 9082
+  review-service:
+    host: localhost
+    port: 9083

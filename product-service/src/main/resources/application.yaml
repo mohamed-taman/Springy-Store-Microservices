@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: product-service
+
+server:
+  port: 9081
+
+logging:
+  level:
+    web: DEBUG
+    root: INFO
+    com.siriusxi.ms:.store: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
