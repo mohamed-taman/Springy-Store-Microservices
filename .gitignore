@@ -53,3 +53,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+## Drawio source files ##
+*.drawio
