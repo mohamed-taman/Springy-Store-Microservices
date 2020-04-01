@@ -33,7 +33,9 @@ The following topics are covered in this 1st stage (other stages topics will be 
 - Adding automated tests of microservices in isolation.
 - Adding semi-automated tests to a microservice landscape.
 
-### System Boundary - μServices Landscape![](docs/stage1/Springy Store Application MS Landscape.png)
+### System Boundary - μServices Landscape
+
+![System Boundary](docs/stage1/Springy%20Store%20Application%20MS%20Landscape.png)
 
 ### Required software
 
