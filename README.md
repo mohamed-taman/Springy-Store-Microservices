@@ -35,7 +35,7 @@ The following topics are covered in this 1st stage (other stages topics will be 
 
 ### System Boundary - μServices Landscape
 
-![System Boundary](docs/stage1/Springy%20Store%20Application%20MS%20Landscape.png)
+![System Boundary](docs/stage1/app_ms_landscape.png)
 
 ### Required software
 
