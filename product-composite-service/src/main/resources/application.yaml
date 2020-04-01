@@ -7,8 +7,18 @@ server:
 
 logging:
   level:
+    web: DEBUG
     root: INFO
     com.siriusxi.ms:.store: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
 
 # Custom configurations
 app:
