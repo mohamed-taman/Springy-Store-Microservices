@@ -1,3 +1,6 @@
+## Drawio source files ##
+*.drawio
+
 # Compiled class file
 *.class
 
@@ -53,6 +56,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-## Drawio source files ##
-*.drawio
