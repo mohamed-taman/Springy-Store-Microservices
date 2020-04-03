@@ -16,7 +16,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Springy Store Chassis</name>
-    <description>Parent pom project for Spring Boot μServices</description>
+    <description>Parent pom project for Springy μServices</description>
 
     <modules>
         <module>../product-composite-service</module>
@@ -80,7 +80,7 @@
             <artifactId>reactor-test</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <!-- Application business dependencies to be inherited by all sub-modules -->
         <dependency>
             <groupId>com.siriusxi.ms.store</groupId>
             <artifactId>store-api</artifactId>
@@ -99,6 +99,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!-- Make final jar, a layered jar -->
+                    <layout>LAYERED_JAR</layout>
+                </configuration>
             </plugin>
 
             <plugin>
