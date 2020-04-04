@@ -27,7 +27,7 @@
     },
     {
       "name": "app.review-service.port",
-      "type": "java.lang.String",
+      "type": "java.lang.Integer",
       "description": "Description for app.review-service.port."
     }
   ] }
