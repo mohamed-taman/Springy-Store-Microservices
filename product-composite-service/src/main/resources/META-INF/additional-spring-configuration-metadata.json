@@ -1,0 +1,33 @@
+{
+  "properties": [
+    {
+      "name": "app.product-service.host",
+      "type": "java.lang.String",
+      "description": "Description for app.product-service.host."
+    },
+    {
+      "name": "app.product-service.port",
+      "type": "java.lang.Integer",
+      "description": "Description for app.product-service.port."
+    },
+    {
+      "name": "app.recommendation-service.host",
+      "type": "java.lang.String",
+      "description": "Description for app.recommendation-service.host."
+    },
+    {
+      "name": "app.recommendation-service.port",
+      "type": "java.lang.Integer",
+      "description": "Description for app.recommendation-service.port."
+    },
+    {
+      "name": "app.review-service.host",
+      "type": "java.lang.String",
+      "description": "Description for app.review-service.host."
+    },
+    {
+      "name": "app.review-service.port",
+      "type": "java.lang.String",
+      "description": "Description for app.review-service.port."
+    }
+  ] }

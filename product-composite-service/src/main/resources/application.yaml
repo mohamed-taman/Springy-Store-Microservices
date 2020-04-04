@@ -31,3 +31,24 @@ app:
   review-service:
     host: localhost
     port: 9083
+
+# This is a docker specific profile properties
+# Also profiles could be separated in its owen file
+# with file name format of "application-docker.yaml"
+---
+spring:
+  profiles: docker
+
+server:
+  port: 8080
+
+app:
+  product-service:
+    host: product
+    port: 8080
+  recommendation-service:
+    host: recommendation
+    port: 8080
+  review-service:
+    host: review
+    port: 8080
