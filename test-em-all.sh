@@ -92,7 +92,7 @@ then
     echo "Restarting the test environment..."
     echo "$ docker-compose down"
     docker-compose down
-    echo "$ docker-compose up -d"
+    echo "$ docker-compose -p ssm up -d"
     docker-compose up -d
 fi
 
