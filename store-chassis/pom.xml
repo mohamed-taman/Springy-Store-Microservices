@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <!-- FIXME change this version to 2.3.0.M4 that fixes ASM8_EXPERIMENTAL when using JDK 14
-         record feature -->
-        <version>2.3.0.M2</version>
+        <version>2.3.0.M4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -16,7 +15,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Springy Store Chassis</name>
-    <description>Parent pom project for Spring Boot μServices</description>
+    <description>Parent pom project for Springy μServices</description>
 
     <modules>
         <module>../product-composite-service</module>
@@ -31,6 +30,19 @@
         <java.version>14</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!--  Dependencies versions properties  -->
+        <dockerfile-maven-version>1.4.13</dockerfile-maven-version>
+
+        <!--  Custom properties  -->
+        <maintainer.name>Mohamed Taman</maintainer.name>
+        <maintainer.email>mohamed.taman@gmail.com</maintainer.email>
+        <docker.repo.image.prefix>siriusxi</docker.repo.image.prefix>
+        <docker.image.default.tag>latest</docker.image.default.tag>
+        <skip.dockerization>true</skip.dockerization>
+        <skip.image.build>true</skip.image.build>
+        <skip.image.tag>true</skip.image.tag>
+        <skip.image.push>true</skip.image.push>
     </properties>
 
     <dependencies>
@@ -80,7 +92,7 @@
             <artifactId>reactor-test</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <!-- Application business dependencies to be inherited by all sub-modules -->
         <dependency>
             <groupId>com.siriusxi.ms.store</groupId>
             <artifactId>store-api</artifactId>
@@ -99,6 +111,12 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!-- Make final jar, a layered jar -->
+                    <layers>
+                        <enabled>true</enabled>
+                    </layers>
+                </configuration>
             </plugin>
 
             <plugin>
@@ -122,6 +140,62 @@
                     <argLine>--enable-preview</argLine>
                 </configuration>
             </plugin>
+
+            <!-- Start docker image build plugin -->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>${dockerfile-maven-version}</version>
+                <executions>
+                    <execution>
+                        <id>build-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                        <configuration>
+                            <skipBuild>${skip.image.build}</skipBuild>
+                            <repository>${docker.repo.image.prefix}/${project.artifactId}</repository>
+                            <tag>${docker.image.default.tag}</tag>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>tag-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>tag</goal>
+                        </goals>
+                        <configuration>
+                            <skipTag>${skip.image.tag}</skipTag>
+                            <tag>${project.version}</tag>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>push-image</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>push</goal>
+                        </goals>
+                        <configuration>
+                            <skipPush>${skip.image.push}</skipPush>
+                            <tag>${project.version}</tag>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <skip>${skip.dockerization}</skip>
+                    <dockerfile>Dockerfile</dockerfile>
+                    <repository>${docker.repo.image.prefix}/${project.artifactId}</repository>
+                    <useMavenSettingsForAuth>true</useMavenSettingsForAuth>
+                    <buildArgs>
+                        <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+                        <IMAGE_VERSION>${project.version}</IMAGE_VERSION>
+                        <IMAGE_NAME>${project.name}</IMAGE_NAME>
+                        <MAINTAINER>"${maintainer.name} (${maintainer.email})"</MAINTAINER>
+                    </buildArgs>
+                </configuration>
+            </plugin>
+            <!-- End docker image build plugin -->
 
         </plugins>
     </build>

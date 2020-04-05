@@ -19,3 +19,15 @@ management:
   endpoint:
     shutdown:
       enabled: true
+
+# This is a docker specific profile properties
+# Also profiles could be separated in its owen file
+# with file name format of "application-docker.yaml"
+---
+spring:
+  profiles: docker
+  jmx:
+    enabled: false
+
+server:
+  port: 8080
