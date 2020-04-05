@@ -17,7 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- Libraries versions -->
-        <spring.boot.dependencies.version>2.2.3.BUILD-SNAPSHOT</spring.boot.dependencies.version>
+        <spring.boot.dependencies.version>2.3.0.M3</spring.boot.dependencies.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <maven.surefire.plugin.version>3.0.0-M4</maven.surefire.plugin.version>
         <maven.failsafe.plugin.version>3.0.0-M4</maven.failsafe.plugin.version>

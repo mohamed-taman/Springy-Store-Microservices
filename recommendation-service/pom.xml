@@ -14,4 +14,9 @@
 	<name>Recommendation Service</name>
 	<description>Recommendation Service Spring Boot based project</description>
 
+	<properties>
+		<skip.dockerization>false</skip.dockerization>
+		<skip.image.build>false</skip.image.build>
+	</properties>
+
 </project>

@@ -4,7 +4,7 @@
 FROM openjdk:14-slim-buster as builder
 WORKDIR temp
 
-# Could be set to different jar file location
+# Fatjar location, but could be set to different location from command line
 ARG JAR_FILE=target/*.jar
 
 # Copy fat jar file to current image builder
@@ -20,8 +20,12 @@ RUN java -Djarmode=layertools -jar --enable-preview application.jar extract
 FROM openjdk:14-slim-buster
 MAINTAINER Mohamed Taman <mohamed.taman@gmail.com>
 
-# Set image information
-LABEL version="0.1.beta" name="Product Service"
+# Set image information, but could be set to different location from command line
+ARG IMAGE_VERSION="0.0.1-SNAPSHOT"
+ARG IMAGE_NAME="Product Service"
+ARG MAINTAINER="Mohamed Taman <mohamed.taman@gmail.com>"
+
+LABEL version=${IMAGE_VERSION} name=${IMAGE_NAME} maintainer=${MAINTAINER}
 
 # Limiting security access to not user root user
 RUN addgroup siriusxi && useradd -g siriusxi -ms /bin/bash taman
@@ -41,7 +45,9 @@ COPY --from=builder temp/application/ ./
 # Expose current application to port 8080
 EXPOSE 8080
 
-# Run the application
+ARG JAVA_OPTS=""
+
+# Run the application with JVM configs if any
 ENTRYPOINT ["bash", "-c", \
 "java -server --enable-preview -XX:+UseContainerSupport \
 -XX:+AlwaysActAsServerClassMachine -XX:+UseG1GC -XX:+UseStringDeduplication ${JAVA_OPTS} \
