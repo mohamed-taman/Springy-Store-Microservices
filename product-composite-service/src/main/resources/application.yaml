@@ -38,6 +38,8 @@ app:
 ---
 spring:
   profiles: docker
+  jmx:
+    enabled: false
 
 server:
   port: 8080
