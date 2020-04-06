@@ -13,6 +13,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Recommendation Service</name>
 	<description>Recommendation Service Spring Boot based project</description>
+	<packaging>jar</packaging>
 
 	<properties>
 		<skip.dockerization>false</skip.dockerization>
