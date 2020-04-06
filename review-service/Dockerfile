@@ -39,7 +39,7 @@ WORKDIR /home/taman/application
 # Copy all layers from builder stage to current image
 COPY --from=builder temp/dependencies/ ./
 COPY --from=builder temp/snapshot-dependencies/ ./
-COPY --from=builder temp/resources/ ./
+COPY --from=builder temp/spring-boot-loader/ ./
 COPY --from=builder temp/application/ ./
 
 # Expose current application to port 8080
