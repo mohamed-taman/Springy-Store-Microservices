@@ -12,5 +12,5 @@ echo -e "Done successfully.\n"
 echo "3- Installing [parent project] module..."
 cd ../store-chassis && mvn -N --quiet clean install
 echo -e "Done successfully.\n"
-echo -e "Wooohooo, building & installing all project modules are finished successfully.\n\
-and the project is ready for the next step. :)"
+echo -e "Woohoo, building & installing all project modules are finished successfully.\n\
+The project is ready for the next step. :)"
