@@ -36,7 +36,7 @@
         <!--  Dependencies versions properties  -->
         <maven.plugin.dockerfile.version>1.4.13</maven.plugin.dockerfile.version>
         <maven.plugin.properties.version>1.0.0</maven.plugin.properties.version>
-
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <dependencies>
@@ -201,6 +201,9 @@
                     <exists>${basedir}/Dockerfile</exists>
                 </file>
             </activation>
+            <properties>
+                <maven.install.skip>true</maven.install.skip>
+            </properties>
             <build>
                 <plugins>
                     <plugin>

@@ -5,14 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.siriusxi.ms.store</groupId>
-        <artifactId>store-chassis</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-    </parent>
-
-    <artifactId>product-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>Product Service</name>
-    <description>Product Service Spring Boot based project</description>
-    <packaging>jar</packaging>
+		<groupId>com.siriusxi.ms.store</groupId>
+		<artifactId>store-chassis</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../store-chassis</relativePath>
+	</parent>
+	
+	<artifactId>product-service</artifactId>
+	<name>Product Service</name>
+	<description>Product Service Spring Boot based project</description>
+	<packaging>jar</packaging>
 </project>
