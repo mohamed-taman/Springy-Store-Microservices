@@ -6,11 +6,15 @@
 
 ------
 
-I am developing this project as stages, and all such stages are documented under project **Springy Store μServices** [wiki page](https://github.com/mohamed-taman/Springy-Store-Microservices/wiki). each such stage will be a release so you can go back and forward between releases to see the differences and how adding things solve specific problems we face.
+I am developing this project as stages, and all such stages are documented under project
+ **Springy Store μServices** [wiki page](https://github.com/mohamed-taman/Springy-Store
+ -Microservices/wiki). Each of such stage will be a release in its owen, so you can go back and
+  forward
+  between releases to see the differences and how adding things solve specific problems we face.
 
-For example; in the first stage (1st release) I just created project structure, basic services skeleton, integration between them, and finally write integration testing as well as semi-automated testing for the whole services functionality.
+For example; in the first stage (1st release) I just created project structure, basic services' skeleton, integration between them, and finally write integration testing as well as semi-automated testing for the whole services' functionality.
 
-At 1st stage the **recommendation** and **review** microservices generate local in-memory data and **product composite service** calls the other three services (*product*, *recommendation*, and *review*) statically to generate client aggregate response for a specific product. Therefore in: 
+At 1st stage the **recommendation** and **review** microservices generate local in-memory data and **product composite service** calls the other three services (*product*, *recommendation*, and *review*) statically to generate client aggregate response for a specific product. Therefore, in: 
 
 - The second stage I will introduce **database integration**, then in 
 - The third stage I will introduce **Dockerization** of our services and **docker-compose**, and in 
@@ -22,7 +26,9 @@ The first stage aka (**Release v1.0**) is about creating and implementing a set 
 
 ### Creating a Set of Cooperating Microservices
 
-The following topics are covered in this 1st stage (other stages topics will be documented in a project wiki):
+The following topics are going to be covered in this 1st stage (other stages topics to be documented
+ in a
+ project wiki):
 
 - Introducing the microservice landscape.
 - Generating skeleton microservices.
@@ -119,7 +125,7 @@ mohamed.taman@DTLNV8 ~/springy-store-microservices/store-chassis
 λ mvn clean verify
 ```
 
-All build commands and test suite for each microservice should run successfully and the final output should be like this:
+All build commands and test suite for each microservice should run successfully, and the final output should be like this:
 
 ```bash
 [INFO] ------------------------------------------------------------------------
@@ -151,11 +157,12 @@ mohamed.taman@DTLNV8 ~/springy-store-microservices
 λ ./run-em-all.sh
 ```
 
-All the services will run in parallel and their output will be printed to the console. 
+All the services will run in parallel, and their output will be printed to the console. 
 
 ### Testing Them All
 
-Now it is time to test all functionality of the application as one part. and to do so just run the following automation test script:
+Now it is time to test all functionality of the application as one part. And to do so just run
+ the following automation test script:
 
 ```bash
 mohamed.taman@DTLNV8 ~/springy-store-microservices 
@@ -190,14 +197,15 @@ Test OK (actual value: "Type mismatch.")
 
 ### Closing The Story
 
-And to close the story, we will need to shutdown Microservices manually service by service, hahaha just kidding, run the following script to shutdown them all:
+Finally, to close the story, we will need to shut down Microservices manually service by service
+, hahaha just kidding, run the following script to shut down them all:
 
 ```bash
 mohamed.taman@DTLNV8 ~/springy-store-microservices 
 λ ./stop-em-all.sh
 ```
 
- and the output should be as the following:
+ And the output should be as the following:
 
 ```bash
 Stopping [Springy Store] μServices ....
@@ -223,3 +231,9 @@ Microservice at port 9083 stopped successfully ....
 ### The End
 
 Happy coding :)
+
+#License
+
+Copyright (C) 2017-2020 Mohamed Taman
+
+Licensed under the MIT License.
