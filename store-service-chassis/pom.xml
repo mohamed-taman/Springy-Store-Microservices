@@ -4,39 +4,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.0.M4</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>com.siriusxi.ms.store</groupId>
+        <artifactId>store-build-chassis</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../store-build-chassis</relativePath>
     </parent>
 
-    <groupId>com.siriusxi.ms.store</groupId>
-    <artifactId>store-chassis</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>store-service-chassis</artifactId>
+    <version>1.0-SNAPSHOT</version>
     <name>Springy Store Chassis</name>
     <description>Parent pom project for Springy μServices</description>
     <packaging>pom</packaging>
 
-    <modules>
-        <module>../product-composite-service</module>
-        <module>../product-service</module>
-        <module>../review-service</module>
-        <module>../recommendation-service</module>
-        <module>../store-api</module>
-        <module>../store-utils</module>
-    </modules>
-
     <properties>
-        <java.version>14</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <project.config.file.location>../config/maven/store.properties
-        </project.config.file.location>
-
         <!--  Dependencies versions properties  -->
         <maven.plugin.dockerfile.version>1.4.13</maven.plugin.dockerfile.version>
-        <maven.plugin.properties.version>1.0.0</maven.plugin.properties.version>
-        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <dependencies>
@@ -165,31 +147,6 @@
                     </layers>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <release>${java.version}</release>
-                    <compilerArgs>
-                        --enable-preview
-                    </compilerArgs>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <argLine>--enable-preview</argLine>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <configuration>
-                    <argLine>--enable-preview</argLine>
-                </configuration>
-            </plugin>
-
         </plugins>
     </build>
     <!-- Project profiles definition -->
@@ -243,20 +200,4 @@
             </build>
         </profile>
     </profiles>
-
-    <repositories>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-        </pluginRepository>
-    </pluginRepositories>
 </project>

@@ -6,9 +6,9 @@
 
     <parent>
 		<groupId>com.siriusxi.ms.store</groupId>
-		<artifactId>store-chassis</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../store-chassis</relativePath>
+		<artifactId>store-service-chassis</artifactId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../store-service-chassis</relativePath>
 	</parent>
 
 	<artifactId>review-service</artifactId>
