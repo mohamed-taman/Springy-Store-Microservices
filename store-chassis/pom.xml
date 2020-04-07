@@ -30,15 +30,14 @@
         <java.version>14</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <project.config.file.location>../config/maven/store.properties
+        </project.config.file.location>
 
         <!--  Dependencies versions properties  -->
-        <dockerfile-maven-version>1.4.13</dockerfile-maven-version>
+        <maven.plugin.dockerfile.version>1.4.13</maven.plugin.dockerfile.version>
+        <maven.plugin.properties.version>1.0.0</maven.plugin.properties.version>
 
         <!--  Custom properties  -->
-        <maintainer.name>"Mohamed Taman"</maintainer.name>
-        <maintainer.email>mohamed.taman@gmail.com</maintainer.email>
-        <docker.repo.image.prefix>siriusxi</docker.repo.image.prefix>
-        <docker.image.default.tag>latest</docker.image.default.tag>
         <skip.dockerization>true</skip.dockerization>
         <skip.image.build>true</skip.image.build>
         <skip.image.tag>true</skip.image.tag>
@@ -46,6 +45,21 @@
     </properties>
 
     <dependencies>
+        <!-- End - development dependencies -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!-- End - development dependencies -->
+
+        <!-- Start - Core dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -53,28 +67,11 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
+        <!-- End - Core dependencies -->
 
+        <!-- Start - Testing dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -92,7 +89,8 @@
             <artifactId>reactor-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- Application business dependencies to be inherited by all sub-modules -->
+        <!-- End - Testing dependencies -->
+        <!-- Start - Store application business dependencies -->
         <dependency>
             <groupId>com.siriusxi.ms.store</groupId>
             <artifactId>store-api</artifactId>
@@ -103,11 +101,42 @@
             <artifactId>store-utils</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <!-- End - Store application business dependencies -->
+
+        <!-- Start - Other dependencies -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!-- End - Other dependencies -->
 
     </dependencies>
 
     <build>
         <plugins>
+            <!-- Start - reading external properties -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>${maven.plugin.properties.version}</version>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>read-project-properties</goal>
+                        </goals>
+                        <configuration>
+                            <!--To continue working if file is messing when set to true-->
+                            <quiet>false</quiet>
+                            <files>
+                                <file>${project.config.file.location}</file>
+                            </files>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- End - reading external properties -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -141,11 +170,11 @@
                 </configuration>
             </plugin>
 
-            <!-- Start docker image build plugin -->
+            <!-- Start - docker image build plugin -->
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>dockerfile-maven-plugin</artifactId>
-                <version>${dockerfile-maven-version}</version>
+                <version>${maven.plugin.dockerfile.version}</version>
                 <executions>
                     <execution>
                         <id>build-image</id>
@@ -155,7 +184,8 @@
                         </goals>
                         <configuration>
                             <skipBuild>${skip.image.build}</skipBuild>
-                            <repository>${docker.repo.image.prefix}/${project.artifactId}</repository>
+                            <repository>${docker.repo.image.prefix}/${project.artifactId}
+                            </repository>
                             <tag>${docker.image.default.tag}</tag>
                         </configuration>
                     </execution>
@@ -195,7 +225,7 @@
                     </buildArgs>
                 </configuration>
             </plugin>
-            <!-- End docker image build plugin -->
+            <!-- End - docker image build plugin -->
 
         </plugins>
     </build>
