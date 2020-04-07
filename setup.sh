@@ -9,7 +9,7 @@ echo -e "Done successfully.\n"
 echo "2- Installing shared [APIs] module..."
 ./mvnw --quiet clean install -f store-api || exit 126
 echo -e "Done successfully.\n"
-echo "3- Installing [parent project] module..."
+echo "3- Installing [Parent] module..."
 ./mvnw --quiet clean install -N -f store-chassis || exit 126
 echo -e "Done successfully.\n"
 echo -e "Woohoo, building & installing all project modules are finished successfully.\n\
