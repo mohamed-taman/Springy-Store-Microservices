@@ -14,10 +14,4 @@
 	<name>Product Composite Service</name>
 	<description>Product Composite Service Spring Boot based project</description>
 	<packaging>jar</packaging>
-
-	<properties>
-		<skip.dockerization>false</skip.dockerization>
-		<skip.image.build>false</skip.image.build>
-	</properties>
-
 </project>
