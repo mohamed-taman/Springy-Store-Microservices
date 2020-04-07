@@ -1,4 +1,5 @@
 package com.siriusxi.ms.store.api.core.review;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -11,10 +12,10 @@ public interface ReviewService {
      *
      * @param productId that you are looking for its reviews.
      * @return list of reviews for this product,
-     *         or empty list if there are no reviews.
+     * or empty list if there are no reviews.
      */
     @GetMapping(
-            value    = "/review",
+            value = "/review",
             produces = "application/json")
     List<Review> getReviews(@RequestParam(value = "productId") int productId);
 }

@@ -33,7 +33,8 @@ public class ProductCompositeServiceImpl implements ProductCompositeService {
     public ProductAggregate getProduct(int productId) {
 
         var product = integration.getProduct(productId);
-        if (product == null) throw new NotFoundException("No product found for productId: " + productId);
+        if (product == null)
+            throw new NotFoundException("No product found for productId: " + productId);
 
         var recommendations = integration.getRecommendations(productId);
 
@@ -57,7 +58,7 @@ public class ProductCompositeServiceImpl implements ProductCompositeService {
                         .collect(Collectors.toList());
 
         // 3. Copy summary review info, if available
-        List<ReviewSummary> reviewSummaries = (reviews == null)  ? null :
+        List<ReviewSummary> reviewSummaries = (reviews == null) ? null :
                 reviews.stream()
                         .map(r -> new ReviewSummary(r.getReviewId(), r.getAuthor(), r.getSubject()))
                         .collect(Collectors.toList());
