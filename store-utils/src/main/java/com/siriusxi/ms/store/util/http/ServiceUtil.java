@@ -1,7 +1,6 @@
 package com.siriusxi.ms.store.util.http;
 
 import lombok.extern.log4j.Log4j2;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

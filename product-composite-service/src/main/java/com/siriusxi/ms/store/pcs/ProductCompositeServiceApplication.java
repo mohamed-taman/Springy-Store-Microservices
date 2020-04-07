@@ -10,13 +10,13 @@ import org.springframework.web.client.RestTemplate;
 @ComponentScan("com.siriusxi.ms.store")
 public class ProductCompositeServiceApplication {
 
-	@Bean
-	RestTemplate newRestClient() {
-		return new RestTemplate();
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ProductCompositeServiceApplication.class, args);
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(ProductCompositeServiceApplication.class, args);
-	}
+    @Bean
+    RestTemplate newRestClient() {
+        return new RestTemplate();
+    }
 
 }

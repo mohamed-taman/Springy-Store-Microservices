@@ -1,13 +1,15 @@
 package com.siriusxi.ms.store.pcs.integration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.siriusxi.ms.store.api.core.product.Product;
 import com.siriusxi.ms.store.api.core.product.ProductService;
 import com.siriusxi.ms.store.api.core.recommendation.Recommendation;
 import com.siriusxi.ms.store.api.core.recommendation.RecommendationService;
 import com.siriusxi.ms.store.api.core.review.Review;
 import com.siriusxi.ms.store.api.core.review.ReviewService;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.siriusxi.ms.store.util.exceptions.InvalidInputException;
+import com.siriusxi.ms.store.util.exceptions.NotFoundException;
+import com.siriusxi.ms.store.util.http.HttpErrorInfo;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,15 +18,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import com.siriusxi.ms.store.util.exceptions.InvalidInputException;
-import com.siriusxi.ms.store.util.exceptions.NotFoundException;
-import com.siriusxi.ms.store.util.http.HttpErrorInfo;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.String.*;
+import static java.lang.String.valueOf;
 import static org.springframework.http.HttpMethod.GET;
 
 @Component
@@ -48,24 +46,24 @@ public class ProductCompositeIntegration
             ObjectMapper mapper,
 
             @Value("${app.product-service.host}") String productServiceHost,
-            @Value("${app.product-service.port}") int    productServicePort,
+            @Value("${app.product-service.port}") int productServicePort,
 
             @Value("${app.recommendation-service.host}") String recommendationServiceHost,
-            @Value("${app.recommendation-service.port}") int    recommendationServicePort,
+            @Value("${app.recommendation-service.port}") int recommendationServicePort,
 
             @Value("${app.review-service.host}") String reviewServiceHost,
-            @Value("${app.review-service.port}") int    reviewServicePort
+            @Value("${app.review-service.port}") int reviewServicePort
     ) {
 
         this.restTemplate = restTemplate;
         this.mapper = mapper;
 
         var http = "http://";
-        productServiceUrl        = http.concat(productServiceHost).concat(":").concat(valueOf(productServicePort))
+        productServiceUrl = http.concat(productServiceHost).concat(":").concat(valueOf(productServicePort))
                 .concat("/product/");
         recommendationServiceUrl = http.concat(recommendationServiceHost).concat(":")
                 .concat(valueOf(recommendationServicePort)).concat("/recommendation?productId=");
-        reviewServiceUrl         = http.concat(reviewServiceHost).concat(":").concat(valueOf(reviewServicePort))
+        reviewServiceUrl = http.concat(reviewServiceHost).concat(":").concat(valueOf(reviewServicePort))
                 .concat("/review?productId=");
     }
 
@@ -104,7 +102,8 @@ public class ProductCompositeIntegration
             log.debug("Will call getRecommendations API on URL: {}", url);
             List<Recommendation> recommendations = restTemplate
                     .exchange(url, GET, null,
-                            new ParameterizedTypeReference<List<Recommendation>>() {})
+                            new ParameterizedTypeReference<List<Recommendation>>() {
+                            })
                     .getBody();
 
             log.debug("Found {} recommendations for a product with id: {}",
@@ -132,7 +131,8 @@ public class ProductCompositeIntegration
                     url,
                     GET,
                     null,
-                    new ParameterizedTypeReference<List<Review>>() {})
+                    new ParameterizedTypeReference<List<Review>>() {
+                    })
                     .getBody();
 
             log.debug("Found {} reviews for a product with id: {}",

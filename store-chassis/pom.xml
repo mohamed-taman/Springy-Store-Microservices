@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -85,7 +85,7 @@
             <scope>test</scope>
         </dependency>
         <!-- End - Testing dependencies -->
-      
+
         <!-- Start - Store application business dependencies -->
         <dependency>
             <groupId>com.siriusxi.ms.store</groupId>
@@ -144,7 +144,7 @@
                             <goal>read-project-properties</goal>
                         </goals>
                         <configuration>
-                            <!--To continue working if file is messing when set to true-->
+                            <!--To continue working if file is messing when set to true -->
                             <quiet>false</quiet>
                             <files>
                                 <file>${project.config.file.location}</file>
@@ -154,8 +154,8 @@
                 </executions>
             </plugin>
             <!-- End - reading external properties -->
-            
-          <plugin>
+
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
@@ -165,8 +165,8 @@
                     </layers>
                 </configuration>
             </plugin>
-            
-          <plugin>
+
+            <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <release>${java.version}</release>
@@ -175,15 +175,15 @@
                     </compilerArgs>
                 </configuration>
             </plugin>
-            
-          <plugin>
+
+            <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <argLine>--enable-preview</argLine>
                 </configuration>
             </plugin>
-            
-          <plugin>
+
+            <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <configuration>
                     <argLine>--enable-preview</argLine>
@@ -243,8 +243,8 @@
             </build>
         </profile>
     </profiles>
-    
-  <repositories>
+
+    <repositories>
         <repository>
             <id>spring-milestones</id>
             <name>Spring Milestones</name>

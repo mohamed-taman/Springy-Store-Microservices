@@ -30,4 +30,5 @@
       "type": "java.lang.Integer",
       "description": "Description for app.review-service.port."
     }
-  ] }
+  ]
+}
