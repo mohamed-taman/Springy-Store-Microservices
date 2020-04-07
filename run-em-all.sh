@@ -6,8 +6,7 @@ echo -e "Starting [Springy Store] μServices ....\n\
 ---------------------------------------\n"
 
 function runService(){
-   cd "$1" && \
-   mvn --quiet spring-boot:run -Dspring-boot.run.jvmArguments="--enable-preview"
+   ./mvnw --quiet spring-boot:run -Dspring-boot.run.jvmArguments="--enable-preview" -f $1
 }
 
 for dir in `find *-service -maxdepth 0 -type d`

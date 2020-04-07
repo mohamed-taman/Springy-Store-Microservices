@@ -4,13 +4,13 @@
 echo -e "\nInstalling all Springy store core shared modules"
 echo -e  "................................................\n"
 echo "1- Installing shared [Utilities] module..."
-cd store-utils && mvn --quiet clean install || exit 126
+./mvnw --quiet clean install -f store-utils || exit 126
 echo -e "Done successfully.\n"
 echo "2- Installing shared [APIs] module..."
-cd ../store-api && mvn --quiet clean install || exit 126
+./mvnw --quiet clean install -f store-api || exit 126
 echo -e "Done successfully.\n"
-echo "3- Installing [parent project] module..."
-cd ../store-chassis && mvn -N --quiet clean install
+echo "3- Installing [Parent] module..."
+./mvnw --quiet clean install -N -f store-chassis || exit 126
 echo -e "Done successfully.\n"
 echo -e "Woohoo, building & installing all project modules are finished successfully.\n\
 The project is ready for the next step. :)"
