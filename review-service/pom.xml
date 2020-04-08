@@ -13,6 +13,7 @@
 
 	<artifactId>review-service</artifactId>
 	<name>Review Service</name>
+	<version>1.0-SNAPSHOT</version>
 	<description>Review Service Spring Boot based project</description>
 	<packaging>jar</packaging>
 </project>

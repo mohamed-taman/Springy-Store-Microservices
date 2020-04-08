@@ -13,6 +13,7 @@
 	
 	<artifactId>recommendation-service</artifactId>
 	<name>Recommendation Service</name>
+	<version>1.0-SNAPSHOT</version>
 	<description>Recommendation Service Spring Boot based project</description>
 	<packaging>jar</packaging>
 </project>

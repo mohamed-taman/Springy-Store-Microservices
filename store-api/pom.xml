@@ -21,6 +21,7 @@
         <!-- Libraries versions -->
         <spring.boot.dependencies.version>2.3.0.M4</spring.boot.dependencies.version>
     </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -40,8 +41,14 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+
+        <!-- Start - API documentation dependencies -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
         </dependency>
     </dependencies>
 </project>
