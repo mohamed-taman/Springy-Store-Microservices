@@ -98,17 +98,20 @@ And you should expect output like this:
 Installing all Springy store core shared modules
 ................................................
 
-1- Installing shared [Utilities] module...
+1- Installing [build parent] module...
 Done successfully.
 
-2- Installing shared [APIs] module...
+2- Installing shared [Utilities] module...
 Done successfully.
 
-3- Installing [parent project] module...
+3- Installing shared [APIs] module...
 Done successfully.
 
-Wooohooo, building & installing all project modules are finished successfully.
-and the project is ready for the next step. :)
+4- Installing [service parent] module...
+Done successfully.
+
+Woohoo, building & installing all project modules are finished successfully.
+The project is ready for the next step. :)
 ```
 
 #### Second: Build & Test Microservices
@@ -117,7 +120,7 @@ Now it is time to build our **4 microservices** and run each service integration
 
 ```bash
 mohamed.taman@DTLNV8 ~/springy-store-microservices 
-λ ./mvnw clean verify -f store-chassis/
+λ ./mvnw clean verify
 ```
 
 All build commands and test suite for each microservice should run successfully, and the final output should be like this:
