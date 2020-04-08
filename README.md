@@ -92,7 +92,7 @@ mohamed.taman@DTLNV8 ~/springy-store-microservices
 λ ./setup.sh
 ```
 
-And you should expect output like this:
+Now you should expect output like this:
 
 ```bash
 Installing all Springy store core shared modules
@@ -115,8 +115,8 @@ The project is ready for the next step. :)
 ```
 
 #### Second: Build & Test Microservices
-
-Now it is time to build our **4 microservices** and run each service integration test in isolation by running the following commands:
+Now it is time to build our **4 microservices** and run each service integration test in
+ isolation by running the following commands:
 
 ```bash
 mohamed.taman@DTLNV8 ~/springy-store-microservices 
@@ -126,26 +126,32 @@ mohamed.taman@DTLNV8 ~/springy-store-microservices
 All build commands and test suite for each microservice should run successfully, and the final output should be like this:
 
 ```bash
-[INFO] ------------------------------------------------------------------------
-[INFO] Reactor Summary:
+[INFO] ---------------< com.siriusxi.ms.store:store-aggregator >---------------
+[INFO] Building Springy Store Aggregator 1.0-SNAPSHOT                     [9/9]
+[INFO] --------------------------------[ pom ]---------------------------------
 [INFO]
-[INFO] Springy Store APIs 1.0-SNAPSHOT .................... SUCCESS [  3.048 s]
-[INFO] Springy Store Utils 1.0-SNAPSHOT ................... SUCCESS [  2.107 s]
-[INFO] Springy Store Chassis 0.0.1-SNAPSHOT ............... SUCCESS [  0.865 s]
-[INFO] Product Composite Service 0.0.1-SNAPSHOT ........... SUCCESS [ 11.086 s]
-[INFO] Product Service 0.0.1-SNAPSHOT ..................... SUCCESS [  9.795 s]
-[INFO] Review Service 0.0.1-SNAPSHOT ...................... SUCCESS [  9.214 s]
-[INFO] Recommendation Service 0.0.1-SNAPSHOT .............. SUCCESS [  9.288 s]
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ store-aggregator ---
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for Springy Store Aggregator 1.0-SNAPSHOT:
+[INFO]
+[INFO] Springy Store Build Chassis ........................ SUCCESS [  0.276 s]
+[INFO] Springy Store APIs ................................. SUCCESS [  3.920 s]
+[INFO] Springy Store Utils ................................ SUCCESS [  1.508 s]
+[INFO] Springy Store Chassis .............................. SUCCESS [  0.608 s]
+[INFO] Product Composite Service .......................... SUCCESS [  4.073 s]
+[INFO] Product Service .................................... SUCCESS [  2.710 s]
+[INFO] Review Service ..................................... SUCCESS [  2.633 s]
+[INFO] Recommendation Service ............................. SUCCESS [  2.615 s]
+[INFO] Springy Store Aggregator ........................... SUCCESS [  0.071 s]
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  46.006 s
-[INFO] Finished at: 2020-04-01T17:07:52+02:00
+[INFO] Total time:  18.900 s
+[INFO] Finished at: 2020-04-09T01:33:14+02:00
 [INFO] ------------------------------------------------------------------------
 ```
 
 ### Running Them All
-
 Now it's the time to run all of them, and it's very simple just run the following two commands:
 
 ```bash
@@ -156,13 +162,12 @@ mohamed.taman@DTLNV8 ~/springy-store-microservices
 All the services will run in parallel, and their output will be printed to the console. 
 
 ### Testing Them All
-
-Now it's time to test all functionality of the application as one part. And to do so just run
+Now it's time to test all functionality of the application as one part. To do so just run
  the following automation test script:
 
 ```bash
 mohamed.taman@DTLNV8 ~/springy-store-microservices 
-λ ./test-em-all.sh
+λ PORT=9080 ./test-em-all.sh
 ```
 
 The result should be something like this:
@@ -176,7 +181,8 @@ Test OK (HTTP Code: 200)
 Test OK (actual value: 1)
 Test OK (actual value: 3)
 Test OK (actual value: 3)
-Test OK (HTTP Code: 404, {"httpStatus":"NOT_FOUND","message":"No product found for productId: 13","path":"/product-composite/13","time":"2020-04-01@14:51:48.812+0200"})
+Test OK (HTTP Code: 404, {"httpStatus":"NOT_FOUND","message":"No product found for productId: 13
+","path":"/v1/product-composite/13","time":"2020-04-01@14:51:48.812+0200"})
 Test OK (HTTP Code: 200)
 Test OK (actual value: 113)
 Test OK (actual value: 0)
@@ -185,9 +191,11 @@ Test OK (HTTP Code: 200)
 Test OK (actual value: 213)
 Test OK (actual value: 3)
 Test OK (actual value: 0)
-Test OK (HTTP Code: 422, {"httpStatus":"UNPROCESSABLE_ENTITY","message":"Invalid productId: -1","path":"/product-composite/-1","time":"2020-04-01@14:51:49.763+0200"})
+Test OK (HTTP Code: 422, {"httpStatus":"UNPROCESSABLE_ENTITY","message":"Invalid productId: -1
+","path":"/v1/product-composite/-1","time":"2020-04-01@14:51:49.763+0200"})
 Test OK (actual value: "Invalid productId: -1")
-Test OK (HTTP Code: 400, {"timestamp":"2020-04-01T12:51:49.965+0000","path":"/product-composite/invalidProductId","status":400,"error":"Bad Request","message":"Type mismatch."})
+Test OK (HTTP Code: 400, {"timestamp":"2020-04-01T12:51:49.965+0000","path":"/v1/product-composite
+/invalidProductId","status":400,"error":"Bad Request","message":"Type mismatch."})
 Test OK (actual value: "Type mismatch.")
 ```
 
@@ -225,11 +233,9 @@ Microservice at port 9083 stopped successfully ....
 ```
 
 ### The End
-
 Happy coding :)
 
 # License
-
 Copyright (C) 2017-2020 Mohamed Taman
 
 Licensed under the MIT License.

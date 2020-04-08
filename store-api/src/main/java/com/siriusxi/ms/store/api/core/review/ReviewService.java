@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 public interface ReviewService {
 
     /**
@@ -16,6 +18,6 @@ public interface ReviewService {
      */
     @GetMapping(
             value = "/review",
-            produces = "application/json")
+            produces = APPLICATION_JSON_VALUE)
     List<Review> getReviews(@RequestParam(value = "productId") int productId);
 }
