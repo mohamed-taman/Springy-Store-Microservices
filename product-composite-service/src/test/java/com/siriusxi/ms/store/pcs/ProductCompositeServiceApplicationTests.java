@@ -25,6 +25,8 @@ class ProductCompositeServiceApplicationTests {
     private static final int PRODUCT_ID_OK = 1;
     private static final int PRODUCT_ID_NOT_FOUND = 2;
     private static final int PRODUCT_ID_INVALID = 3;
+    public static final String BASE_URL = "/v1/product-composite/";
+
 
     @Autowired
     private WebTestClient client;
@@ -59,7 +61,7 @@ class ProductCompositeServiceApplicationTests {
     public void getProductById() {
 
         client.get()
-                .uri("/product-composite/" + PRODUCT_ID_OK)
+                .uri(BASE_URL + PRODUCT_ID_OK)
                 .accept(APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isOk()
@@ -74,13 +76,13 @@ class ProductCompositeServiceApplicationTests {
     public void getProductNotFound() {
 
         client.get()
-                .uri("/product-composite/" + PRODUCT_ID_NOT_FOUND)
+                .uri(BASE_URL + PRODUCT_ID_NOT_FOUND)
                 .accept(APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isNotFound()
                 .expectHeader().contentType(APPLICATION_JSON)
                 .expectBody()
-                .jsonPath("$.path").isEqualTo("/product-composite/" + PRODUCT_ID_NOT_FOUND)
+                .jsonPath("$.path").isEqualTo(BASE_URL + PRODUCT_ID_NOT_FOUND)
                 .jsonPath("$.message").isEqualTo("NOT FOUND: " + PRODUCT_ID_NOT_FOUND);
     }
 
@@ -88,13 +90,13 @@ class ProductCompositeServiceApplicationTests {
     public void getProductInvalidInput() {
 
         client.get()
-                .uri("/product-composite/" + PRODUCT_ID_INVALID)
+                .uri(BASE_URL + PRODUCT_ID_INVALID)
                 .accept(APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isEqualTo(UNPROCESSABLE_ENTITY)
                 .expectHeader().contentType(APPLICATION_JSON)
                 .expectBody()
-                .jsonPath("$.path").isEqualTo("/product-composite/" + PRODUCT_ID_INVALID)
+                .jsonPath("$.path").isEqualTo(BASE_URL + PRODUCT_ID_INVALID)
                 .jsonPath("$.message").isEqualTo("INVALID: " + PRODUCT_ID_INVALID);
     }
 

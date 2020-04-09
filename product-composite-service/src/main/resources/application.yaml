@@ -32,6 +32,57 @@ app:
     host: localhost
     port: 9083
 
+# Swagger properties
+api:
+  common:
+    version: 1.0.0
+    title: Springy Store μServices
+    description: |
+      **Springy Store** is a conceptual simple μServices-based project using the latest
+      cutting-edge technologies, to demonstrate how the store is created to be a
+      cloud-native and 12-factor app agnostic.
+
+      This project μServices are developed based on Spring Boot & Cloud framework, that implement
+      **cloud-native** intuitive, **design patterns** and **best practices**.
+    termsOfServiceUrl: https://mohamed-taman.github.io/Springy-Store-Microservices/
+    license: MIT License
+    licenseUrl: https://github.com/mohamed-taman/Springy-Store-Microservices/blob/master/LICENSE
+
+    contact:
+      name: Mohamed Taman
+      url: https://twitter.com/_tamanm
+      email: mohamed.taman@mail.com
+
+  product-composite:
+    get-composite-product:
+      description: Returns a composite view of the specified product id
+      notes: |
+        # Normal response
+        If the requested product id is found the method will return information regarding:
+        1. Base product information
+        1. Reviews
+        1. Recommendations
+        1. Service Addresses\n(technical information regarding the addresses of the microservices that created the response)
+
+        # Expected partial and error responses
+        In the following cases, only a partial response be created (used to simplify testing of error conditions)
+
+        ## Product id 113
+        200 - Ok, but no recommendations will be returned
+
+        ## Product id 213
+        200 - Ok, but no reviews will be returned
+
+        ## Non numerical product id
+        400 - A <b>Bad Request</b> error will be returned
+
+        ## Product id 13
+        404 - A <b>Not Found</b> error will be returned
+
+        ## Negative product ids
+        422 - An <b>Unprocessable Entity</b> error will be returned
+
+# -----------------------------------------------
 # This is a docker specific profile properties
 # Also profiles could be separated in its owen file
 # with file name format of "application-docker.yaml"

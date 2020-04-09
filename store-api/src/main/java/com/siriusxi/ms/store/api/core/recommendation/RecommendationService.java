@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 public interface RecommendationService {
 
     /**
@@ -16,7 +18,7 @@ public interface RecommendationService {
      */
     @GetMapping(
             value = "/recommendation",
-            produces = "application/json")
+            produces = APPLICATION_JSON_VALUE)
     List<Recommendation> getRecommendations(
             @RequestParam(value = "productId")
                     int productId);

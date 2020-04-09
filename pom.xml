@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.siriusxi.ms.store</groupId>
+    <artifactId>store-aggregator</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>Springy Store Aggregator</name>
+    <description>Aggregator pom project for Springy μServices</description>
+    <packaging>pom</packaging>
+
+    <properties>
+        <maven.install.skip>true</maven.install.skip>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
+
+
+    <modules>
+        <module>product-composite-service</module>
+        <module>product-service</module>
+        <module>review-service</module>
+        <module>recommendation-service</module>
+        <module>store-api</module>
+        <module>store-utils</module>
+        <module>store-build-chassis</module>
+        <module>store-service-chassis</module>
+    </modules>
+</project>
