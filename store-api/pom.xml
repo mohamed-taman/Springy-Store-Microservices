@@ -4,7 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.siriusxi.ms.store</groupId>
+    <parent>
+        <groupId>com.siriusxi.ms.store</groupId>
+        <artifactId>store-build-chassis</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../store-build-chassis</relativePath>
+    </parent>
+
     <artifactId>store-api</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>Springy Store APIs</name>
@@ -12,63 +18,9 @@
     <packaging>jar</packaging>
 
     <properties>
-        <java.version>14</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- Libraries versions -->
         <spring.boot.dependencies.version>2.3.0.M4</spring.boot.dependencies.version>
-        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
-        <maven.surefire.plugin.version>3.0.0-M4</maven.surefire.plugin.version>
-        <maven.failsafe.plugin.version>3.0.0-M4</maven.failsafe.plugin.version>
-        <maven.install.skip>false</maven.install.skip>
-        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-        </dependency>
-
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven.compiler.plugin.version}</version>
-                <configuration>
-                    <release>${java.version}</release>
-                    <compilerArgs>
-                        --enable-preview
-                    </compilerArgs>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.surefire.plugin.version}</version>
-                <configuration>
-                    <argLine>
-                        --enable-preview
-                    </argLine>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>${maven.failsafe.plugin.version}</version>
-                <configuration>
-                    <argLine>
-                        --enable-preview
-                    </argLine>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
     <dependencyManagement>
         <dependencies>
@@ -82,19 +34,21 @@
         </dependencies>
     </dependencyManagement>
 
-    <repositories>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-        </repository>
-    </repositories>
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-        </pluginRepository>
-    </pluginRepositories>
+        <!-- Start - API documentation dependencies -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
+    </dependencies>
 </project>
