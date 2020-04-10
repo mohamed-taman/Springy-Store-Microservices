@@ -7,8 +7,7 @@
 ------
 
 I am developing this project as stages, and all such stages are documented under project
- **Springy Store μServices** [wiki page](https://github.com/mohamed-taman/Springy-Store
- -Microservices/wiki). Each of such stage will be a release in its owen, so you can go back and
+ **Springy Store μServices** [wiki page](https://github.com/mohamed-taman/Springy-Store-Microservices/wiki). Each of such stage will be a release in its owen, so you can go back and
   forward
   between releases to see the differences and how adding things solve specific problems we face.
 
@@ -45,7 +44,7 @@ The following topics are going to be covered in this 1st stage (other stages top
 
 ### Required software
 
-The following software pieces are initially required:
+The following are the initially required software pieces:
 
 1. **Git**: it can be downloaded and installed from https://git-scm.com/downloads.
 
