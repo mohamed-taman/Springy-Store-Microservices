@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.siriusxi.ms.store</groupId>
+		<artifactId>store-service-chassis</artifactId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../store-service-chassis</relativePath>
+	</parent>
+	
+	<artifactId>store-service</artifactId>
+	<name>Store Service</name>
+	<version>1.0-SNAPSHOT</version>
+	<description>Store Product Composite Service Spring Boot based project</description>
+	<packaging>jar</packaging>
+
+	<dependencies>
+		<!-- Start - API documentation dependencies -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-spring-webflux</artifactId>
+			<version>${springfox.swagger.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${springfox.swagger.version}</version>
+		</dependency>
+		<!-- End - API documentation dependencies -->
+	</dependencies>
+</project>
