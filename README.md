@@ -7,17 +7,17 @@
 ------
 
 I am developing this project as stages, and all such stages are documented under project
- **Springy Store μServices** [wiki page](https://github.com/mohamed-taman/Springy-Store
- -Microservices/wiki). Each of such stage will be a release in its owen, so you can go back and
+ **Springy Store μServices** [wiki page](https://github.com/mohamed-taman/Springy-Store-Microservices/wiki). Each of such stage will be a release in its owen, so you can go back and
   forward
   between releases to see the differences and how adding things solve specific problems we face.
 
 For example; in the first stage (1st release) I just created project structure, basic services' skeleton, integration between them, and finally write integration testing as well as semi-automated testing for the whole services' functionality.
 
-At 1st stage the **recommendation** and **review** microservices generate local in-memory data and **product composite service** calls the other three services (*product*, *recommendation*, and *review*) statically to generate client aggregate response for a specific product. Therefore, in: 
+At 1st stage the **Recommendation** and **Review** microservices generate local in-memory data
+ and **Store Service** calls the other three services (*Product*, *Recommendation*, and *Review*) statically to generate client aggregate response for a specific product. Therefore, in: 
 
-- The second stage I will introduce **database integration**, then in 
-- The third stage I will introduce **Dockerization** of our services and **docker-compose**, and in 
+- The second stage I will introduce **database integration**, then in (***done***)
+- The third stage I will introduce **Dockerization** of our services and **docker-compose**, and in (***done***)
 - The fourth stage I will introduce **service discovery**, and so on.
 
 ## Getting started
@@ -33,19 +33,19 @@ The following topics are going to be covered in this 1st stage (other stages top
 - Introducing the microservice landscape.
 - Generating skeleton microservices.
 - Adding RESTful APIs.
-- Adding a **product composite**, **product**, **recommendation**, and **review** microservices.
+- Adding a **Store**, **Product**, **Recommendation**, and **Review** microservices.
 - Adding error handling.
 - Testing the APIs manually.
 - Adding automated tests of microservices in isolation.
 - Adding semi-automated tests to a microservice landscape.
 
-### System Boundary - μServices Landscape
+### System Boundary - μServices Landscape (Release 3)
 
 ![System Boundary](docs/stage1/app_ms_landscape.png)
 
 ### Required software
 
-The following software pieces are initially required:
+The following are the initially required software pieces:
 
 1. **Git**: it can be downloaded and installed from https://git-scm.com/downloads.
 
@@ -56,6 +56,8 @@ The following software pieces are initially required:
 4. **jq**: This command-line JSON processor can be downloaded and installed from https://stedolan.github.io/jq/download/.
 
 5. Spring Boot Initializer: This *Initializer* generates *spring* boot project with just what you need to start quickly! start from here https://start.spring.io/.
+
+6. **Docker Desktop**: The fastest way to containerize applications on your desktop, and you can download it from here [https://www.docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop)
 
    > For each future stage, I will list the newly required software. 
 
@@ -85,7 +87,9 @@ To build and run test cases for each service & shared modules in the project we 
 
 > This done only for the first time or any new version of shared modules.
 
-To build and install `store-utils`, `store-api`, `store-chassis`  libraries, from the root folder `springy-store-microservices` run the following commands:
+To build and install `store-build-chassis`, `store-utils`, `store-api`, `store-chassis` libraries
+, from the root
+ folder `springy-store-microservices` run the following commands:
 
 ```bash
 mohamed.taman@DTLNV8 ~/springy-store-microservices 
@@ -98,16 +102,16 @@ Now you should expect output like this:
 Installing all Springy store core shared modules
 ................................................
 
-1- Installing [build parent] module...
+1- Installing [Parent Build Chassis] module...
 Done successfully.
 
-2- Installing shared [Utilities] module...
+2- Installing shared [Services Utilities] module...
 Done successfully.
 
-3- Installing shared [APIs] module...
+3- Installing shared [Services APIs] module...
 Done successfully.
 
-4- Installing [service parent] module...
+4- Installing [Services Parent Chassis] module...
 Done successfully.
 
 Woohoo, building & installing all project modules are finished successfully.
@@ -120,7 +124,7 @@ Now it is time to build our **4 microservices** and run each service integration
 
 ```bash
 mohamed.taman@DTLNV8 ~/springy-store-microservices 
-λ ./mvnw clean verify
+λ ./mvnw clean verify -Ddockerfile.skip
 ```
 
 All build commands and test suite for each microservice should run successfully, and the final output should be like this:
@@ -138,7 +142,7 @@ All build commands and test suite for each microservice should run successfully,
 [INFO] Springy Store APIs ................................. SUCCESS [  3.920 s]
 [INFO] Springy Store Utils ................................ SUCCESS [  1.508 s]
 [INFO] Springy Store Chassis .............................. SUCCESS [  0.608 s]
-[INFO] Product Composite Service .......................... SUCCESS [  4.073 s]
+[INFO] Store Service ...................................... SUCCESS [  4.073 s]
 [INFO] Product Service .................................... SUCCESS [  2.710 s]
 [INFO] Review Service ..................................... SUCCESS [  2.633 s]
 [INFO] Recommendation Service ............................. SUCCESS [  2.615 s]
@@ -152,22 +156,36 @@ All build commands and test suite for each microservice should run successfully,
 ```
 
 ### Running Them All
-Now it's the time to run all of them, and it's very simple just run the following two commands:
+Now it's the time to run all of them, and it's very simple just run the following *<u>docker compose</u>* commands:
 
 ```bash
 mohamed.taman@DTLNV8 ~/springy-store-microservices 
-λ ./run-em-all.sh
+λ docker-compose -p ssm up -d
 ```
 
-All the services will run in parallel, and their output will be printed to the console. 
+All the **services** and **databases** will run in parallel in detached mode (option `-d`), and their output will be printed to the console as the following:
+
+```bash
+Creating network "ssm_default" with the default driver
+Creating ssm_mysql_1   ... done
+Creating ssm_mongodb_1 ... done
+Creating ssm_store_1   ... done
+Creating ssm_review_1         ... done
+Creating ssm_product_1        ... done
+Creating ssm_recommendation_1 ... done
+```
+
+### Access Store APIs
+You can manually test `Store Service` APIs through out its **Swagger** interface at the following
+ URL [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html).
 
 ### Testing Them All
-Now it's time to test all functionality of the application as one part. To do so just run
+Now it's time to test all the application functionality as one part. To do so just run
  the following automation test script:
 
 ```bash
 mohamed.taman@DTLNV8 ~/springy-store-microservices 
-λ PORT=9080 ./test-em-all.sh
+λ ./test-em-all.sh
 ```
 
 The result should be something like this:
@@ -175,14 +193,18 @@ The result should be something like this:
 ```bash
 Starting [Springy Store] full functionality testing....
 
+Start: Sun, Apr 12, 2020 2:34:19 PM
 HOST=localhost
-PORT=9080
+PORT=8080
+Wait for: curl -X DELETE http://localhost:8080/store/api/v1/products/13... Ok
+Test OK (HTTP Code: 200)
+Test OK (HTTP Code: 200)
+Test OK (HTTP Code: 200)
 Test OK (HTTP Code: 200)
 Test OK (actual value: 1)
 Test OK (actual value: 3)
 Test OK (actual value: 3)
-Test OK (HTTP Code: 404, {"httpStatus":"NOT_FOUND","message":"No product found for productId: 13
-","path":"/v1/product-composite/13","time":"2020-04-01@14:51:48.812+0200"})
+Test OK (HTTP Code: 404, {"httpStatus":"NOT_FOUND","message":"No product found for productId: 13","path":"/store/api/v1/products/13","time":"2020-04-12@12:34:25.144+0000"})
 Test OK (HTTP Code: 200)
 Test OK (actual value: 113)
 Test OK (actual value: 0)
@@ -191,12 +213,11 @@ Test OK (HTTP Code: 200)
 Test OK (actual value: 213)
 Test OK (actual value: 3)
 Test OK (actual value: 0)
-Test OK (HTTP Code: 422, {"httpStatus":"UNPROCESSABLE_ENTITY","message":"Invalid productId: -1
-","path":"/v1/product-composite/-1","time":"2020-04-01@14:51:49.763+0200"})
+Test OK (HTTP Code: 422, {"httpStatus":"UNPROCESSABLE_ENTITY","message":"Invalid productId: -1","path":"/store/api/v1/products/-1","time":"2020-04-12@12:34:26.243+0000"})
 Test OK (actual value: "Invalid productId: -1")
-Test OK (HTTP Code: 400, {"timestamp":"2020-04-01T12:51:49.965+0000","path":"/v1/product-composite
-/invalidProductId","status":400,"error":"Bad Request","message":"Type mismatch."})
+Test OK (HTTP Code: 400, {"timestamp":"2020-04-12T12:34:26.471+00:00","path":"/store/api/v1/products/invalidProductId","status":400,"error":"Bad Request","message":"Type mismatch.","requestId":"044dcdf2-13"})
 Test OK (actual value: "Type mismatch.")
+End: Sun, Apr 12, 2020 2:34:26 PM
 ```
 
 ### Closing The Story
@@ -206,30 +227,25 @@ Finally, to close the story, we will need to shut down Microservices manually se
 
 ```bash
 mohamed.taman@DTLNV8 ~/springy-store-microservices 
-λ ./stop-em-all.sh
+λ docker-compose -p ssm down
 ```
 
  And the output should be as the following:
 
 ```bash
-Stopping [Springy Store] μServices ....
----------------------------------------
-
-Stopping Microservice at port 9080 ....
-{"message":"Shutting down, bye..."}
-Microservice at port 9080 stopped successfully ....
-
-Stopping Microservice at port 9081 ....
-{"message":"Shutting down, bye..."}
-Microservice at port 9081 stopped successfully ....
-
-Stopping Microservice at port 9082 ....
-{"message":"Shutting down, bye..."}
-Microservice at port 9082 stopped successfully ....
-
-Stopping Microservice at port 9083 ....
-{"message":"Shutting down, bye..."}
-Microservice at port 9083 stopped successfully ....
+Stopping ssm_recommendation_1 ... done
+Stopping ssm_product_1        ... done
+Stopping ssm_review_1         ... done
+Stopping ssm_mongodb_1        ... done
+Stopping ssm_store_1          ... done
+Stopping ssm_mysql_1          ... done
+Removing ssm_recommendation_1 ... done
+Removing ssm_product_1        ... done
+Removing ssm_review_1         ... done
+Removing ssm_mongodb_1        ... done
+Removing ssm_store_1          ... done
+Removing ssm_mysql_1          ... done
+Removing network ssm_default
 ```
 
 ### The End

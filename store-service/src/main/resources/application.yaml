@@ -1,0 +1,112 @@
+spring:
+  application:
+    name: store-service
+
+server:
+  port: 9080
+
+logging:
+  level:
+    web: DEBUG
+    root: INFO
+    com.siriusxi.ms.store: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
+
+# Custom configurations
+app:
+  product-service:
+    host: localhost
+    port: 9081
+  recommendation-service:
+    host: localhost
+    port: 9082
+  review-service:
+    host: localhost
+    port: 9083
+
+# Swagger properties
+api:
+  common:
+    version: 1.0.0
+    title: Springy Store μServices
+    description: |
+      **Springy Store** is a conceptual simple μServices-based project using the latest
+      cutting-edge technologies, to demonstrate how the store is created to be a
+      cloud-native and 12-factor app agnostic.
+
+      This project μServices are developed based on Spring Boot & Cloud framework, that implement
+      **cloud-native** intuitive, **design patterns** and **best practices**.
+    termsOfServiceUrl: https://mohamed-taman.github.io/Springy-Store-Microservices/
+    license: MIT License
+    licenseUrl: https://github.com/mohamed-taman/Springy-Store-Microservices/blob/master/LICENSE
+
+    contact:
+      name: Mohamed Taman
+      url: https://twitter.com/_tamanm
+      email: mohamed.taman@mail.com
+
+  product-composite:
+    get-composite-product:
+      description: Returns a composite view of the specified product id
+      notes: |
+        # Normal response
+        If the requested product id is found the method will return information regarding:
+        1. Product information
+        1. Reviews
+        1. Recommendations
+        1. Service Addresses
+        (technical information regarding the addresses of the microservices that created the response)
+
+        # Expected partial and error responses
+        1. If no product information is found, a <b>404 - Not Found</b> error will be returned
+        1. In no recommendations or reviews are found for a product, a partial response will be returned
+
+    create-composite-product:
+      description: Creates a composite product
+      notes: |
+        # Normal response
+        The composite product information posted to the API will be splitted up and stored as separate product-info, recommendation and review entities.
+
+        # Expected error responses
+        1. If a product with the same productId as specified in the posted information already exists,
+           an <b>422 - Unprocessable Entity</b> error with a "duplicate key" error message will be returned
+
+    delete-composite-product:
+      description: Deletes a product composite
+      notes: |
+        # Normal response
+        Entities for product information, recommendations and reviews related to the specificed productId will be deleted.
+        The implementation of the delete method is idempotent, i.e. it can be called several times with the same response.
+        This means that a delete request of a non existing product will return <b>200 Ok</b>.
+
+# -----------------------------------------------
+# This is a docker specific profile properties
+# Also profiles could be separated in its owen file
+# with file name format of "application-docker.yaml"
+---
+spring:
+  profiles: docker
+  jmx:
+    enabled: false
+
+server:
+  port: 8080
+
+app:
+  product-service:
+    host: product
+    port: 8080
+  recommendation-service:
+    host: recommendation
+    port: 8080
+  review-service:
+    host: review
+    port: 8080

@@ -1,6 +1,11 @@
 spring:
   application:
     name: recommendation-service
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: recommendation-db
 
 server:
   port: 9082
@@ -9,7 +14,10 @@ logging:
   level:
     web: DEBUG
     root: INFO
-    com.siriusxi.ms:.store: DEBUG
+    com.siriusxi.ms.store: DEBUG
+    org:
+      springframework.data.mongodb.core.MongoTemplate: DEBUG
+      mongodb: debug
 
 management:
   endpoints:
@@ -28,6 +36,9 @@ spring:
   profiles: docker
   jmx:
     enabled: false
+  data:
+    mongodb:
+      host: mongodb
 
 server:
   port: 8080

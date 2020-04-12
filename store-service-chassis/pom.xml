@@ -42,10 +42,6 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
-        </dependency>
         <!-- End - Core dependencies -->
 
         <!-- Start - Testing dependencies -->
@@ -59,6 +55,11 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -82,11 +83,13 @@
         <!-- End - Store application business dependencies -->
 
         <!-- Start - Other dependencies -->
+        <!-- Start - POJO <-> Entity conversion made easy -->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${org.mapstruct.version}</version>
         </dependency>
+        <!-- End - POJO <-> Entity conversion made easy -->
         <!-- End - Other dependencies -->
     </dependencies>
 
@@ -113,6 +116,7 @@
                 <!-- End - Of product dockerization -->
             </plugins>
         </pluginManagement>
+
         <plugins>
             <!-- Start - reading external properties -->
             <plugin>
