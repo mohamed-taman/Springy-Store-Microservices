@@ -1,28 +1,58 @@
-version: '2.1'
+version: '3.7' ## Latest version works with Docker Engine release 18.06.0+
 
 services:
   product:
     build: product-service
-    mem_limit: 350m
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - mongodb
 
   recommendation:
     build: recommendation-service
-    mem_limit: 350m
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - mongodb
 
   review:
     build: review-service
-    mem_limit: 350m
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - mysql
 
-  product-composite:
-    build: product-composite-service
-    mem_limit: 350m
+  store:
+    build: store-service
     ports:
       - "8080:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+
+  # $ mongo
+  mongodb:
+    image: mongo:4.2.5-bionic
+    ports:
+      - "27017-27019:27017-27019"
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/test --quiet 1
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  # $ mysql -uroot -h127.0.0.1 -p
+  mysql:
+    image: mysql:8.0.19
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpwd
+      - MYSQL_DATABASE=review-db
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=pwd
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-uuser", "-ppwd", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 10

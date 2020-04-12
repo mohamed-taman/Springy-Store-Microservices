@@ -2,6 +2,17 @@ spring:
   application:
     name: review-service
 
+  jpa:
+    hibernate:
+      # Strongly recommend to set this property to "none" in a production environment!
+      ddl-auto: update
+  datasource:
+    url: "jdbc:mysql://localhost/review-db"
+    username: user
+    password: pwd
+    hikari:
+      initializationFailTimeout: 60000
+
 server:
   port: 9083
 
@@ -9,7 +20,11 @@ logging:
   level:
     web: DEBUG
     root: INFO
-    com.siriusxi.ms:.store: DEBUG
+    com.siriusxi.ms.store: DEBUG
+    org:
+      hibernate:
+        SQL: DEBUG
+        type.descriptor.sql.BasicBinder: TRACE
 
 management:
   endpoints:
@@ -28,6 +43,8 @@ spring:
   profiles: docker
   jmx:
     enabled: false
+  datasource:
+    url: "jdbc:mysql://mysql/review-db"
 
 server:
   port: 8080

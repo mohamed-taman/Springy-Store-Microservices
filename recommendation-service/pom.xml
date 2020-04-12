@@ -16,4 +16,21 @@
 	<version>1.0-SNAPSHOT</version>
 	<description>Recommendation Service Spring Boot based project</description>
 	<packaging>jar</packaging>
+
+	<dependencies>
+		<!-- Start - Data technology layer -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+		<!-- End - Data technology layer -->
+
+		<!-- Start - Data technology test layer -->
+		<dependency>
+			<groupId>de.flapdoodle.embed</groupId>
+			<artifactId>de.flapdoodle.embed.mongo</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- End - Data technology test layer -->
+	</dependencies>
 </project>
