@@ -1,7 +1,7 @@
 package com.siriusxi.ms.store.pcs.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.siriusxi.ms.store.api.core.product.Product;
+import com.siriusxi.ms.store.api.core.product.dto.Product;
 import com.siriusxi.ms.store.api.core.product.ProductService;
 import com.siriusxi.ms.store.api.core.recommendation.Recommendation;
 import com.siriusxi.ms.store.api.core.recommendation.RecommendationService;

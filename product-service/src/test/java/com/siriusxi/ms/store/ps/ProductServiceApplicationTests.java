@@ -1,6 +1,6 @@
 package com.siriusxi.ms.store.ps;
 
-import com.siriusxi.ms.store.api.core.product.Product;
+import com.siriusxi.ms.store.api.core.product.dto.Product;
 import com.siriusxi.ms.store.ps.persistence.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -32,7 +32,6 @@ class ProductServiceApplicationTests {
     public void setupDb() {
         repository.deleteAll();
     }
-
 
     @Test
     public void getProductById() {
@@ -70,10 +69,10 @@ class ProductServiceApplicationTests {
         postAndVerifyProduct(productId, OK);
         assertTrue(repository.findByProductId(productId).isPresent());
 
-        deleteAndVerifyProduct(productId, OK);
+        deleteAndVerifyProduct(productId);
         assertFalse(repository.findByProductId(productId).isPresent());
 
-        deleteAndVerifyProduct(productId, OK);
+        deleteAndVerifyProduct(productId);
     }
 
     @Test
@@ -130,12 +129,12 @@ class ProductServiceApplicationTests {
                 .expectBody();
     }
 
-    private WebTestClient.BodyContentSpec deleteAndVerifyProduct(int productId, HttpStatus expectedStatus) {
-        return client.delete()
+    private void deleteAndVerifyProduct(int productId) {
+         client.delete()
                 .uri(BASE_URI + productId)
                 .accept(APPLICATION_JSON)
                 .exchange()
-                .expectStatus().isEqualTo(expectedStatus)
+                .expectStatus().isEqualTo(OK)
                 .expectBody();
     }
 

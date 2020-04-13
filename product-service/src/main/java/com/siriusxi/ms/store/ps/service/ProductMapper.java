@@ -1,6 +1,6 @@
-package com.siriusxi.ms.store.ps.controller;
+package com.siriusxi.ms.store.ps.service;
 
-import com.siriusxi.ms.store.api.core.product.Product;
+import com.siriusxi.ms.store.api.core.product.dto.Product;
 import com.siriusxi.ms.store.ps.persistence.ProductEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

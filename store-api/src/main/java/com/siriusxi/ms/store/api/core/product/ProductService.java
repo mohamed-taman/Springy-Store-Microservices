@@ -1,43 +1,44 @@
 package com.siriusxi.ms.store.api.core.product;
 
-import org.springframework.web.bind.annotation.*;
+import com.siriusxi.ms.store.api.core.product.dto.Product;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
-//@RequestMapping("products")
+/**
+ * Interface that define the general service contract (methods) for th Product
+ *  1. Service and
+ *  2. Controller interfaces.
+ *
+ * @author mohamed.taman
+ * @version 3.0.
+ */
 public interface ProductService {
 
   /**
-   * Sample usage: curl $HOST:$PORT/products/1
+   * Get the product with Id from repository.
    *
-   * @param productId is the product that you are looking for.
+   * @param id is the product id that you are looking for.
    * @return the product, if found, else null.
+   *
+   * @since version 0.1
    */
-  @GetMapping(value = "products/{productId}",
-          produces = APPLICATION_JSON_VALUE)
-  Product getProduct(@PathVariable int productId);
+  Product getProduct(int id);
 
   /**
-   * Sample usage:
-   *
-   * <p>curl -X POST $HOST:$PORT/products \ -H "Content-Type: application/json" --data \
-   * '{"productId":123,"name":"product 123","weight":123}'
+   * Add product to the repository.
    *
    * @param body product to save.
    * @return just created product.
+   *
+   * @since version 0.1
    */
-  @PostMapping( value = "products",
-          produces = APPLICATION_JSON_VALUE,
-          consumes = APPLICATION_JSON_VALUE)
-  Product createProduct(@RequestBody Product body);
+  Product createProduct(Product body);
 
   /**
-   * Sample usage:
+   * Delete the product from repository.
    *
-   * <p>curl -X DELETE $HOST:$PORT/products/1
+   * @implNote This method should be idempotent and always return 200 OK status.
+   * @param id to be deleted.
    *
-   * @param productId to be deleted.
+   * @since version 0.1
    */
-  @DeleteMapping("products/{productId}")
-  void deleteProduct(@PathVariable int productId);
+  void deleteProduct(int id);
 }

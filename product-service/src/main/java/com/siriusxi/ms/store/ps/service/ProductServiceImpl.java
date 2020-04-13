@@ -1,7 +1,7 @@
-package com.siriusxi.ms.store.ps.controller;
+package com.siriusxi.ms.store.ps.service;
 
 import com.mongodb.DuplicateKeyException;
-import com.siriusxi.ms.store.api.core.product.Product;
+import com.siriusxi.ms.store.api.core.product.dto.Product;
 import com.siriusxi.ms.store.api.core.product.ProductService;
 import com.siriusxi.ms.store.ps.persistence.ProductEntity;
 import com.siriusxi.ms.store.ps.persistence.ProductRepository;
@@ -10,9 +10,9 @@ import com.siriusxi.ms.store.util.exceptions.NotFoundException;
 import com.siriusxi.ms.store.util.http.ServiceUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 
-@RestController
+@Service("ProductServiceImpl")
 @Log4j2
 public class ProductServiceImpl implements ProductService {
 
@@ -60,6 +60,10 @@ public class ProductServiceImpl implements ProductService {
         return response;
     }
 
+    /*
+     Implementation is idempotent, that is,
+     it will not report any failure if the entity is not found Always 200
+    */
     @Override
     public void deleteProduct(int productId) {
         log.debug("deleteProduct: tries to delete an entity with productId: {}", productId);

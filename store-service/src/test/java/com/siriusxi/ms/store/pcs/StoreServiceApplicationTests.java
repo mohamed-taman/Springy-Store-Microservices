@@ -3,7 +3,7 @@ package com.siriusxi.ms.store.pcs;
 import com.siriusxi.ms.store.api.composite.dto.ProductAggregate;
 import com.siriusxi.ms.store.api.composite.dto.RecommendationSummary;
 import com.siriusxi.ms.store.api.composite.dto.ReviewSummary;
-import com.siriusxi.ms.store.api.core.product.Product;
+import com.siriusxi.ms.store.api.core.product.dto.Product;
 import com.siriusxi.ms.store.api.core.recommendation.Recommendation;
 import com.siriusxi.ms.store.api.core.review.Review;
 import com.siriusxi.ms.store.pcs.integration.StoreIntegration;
