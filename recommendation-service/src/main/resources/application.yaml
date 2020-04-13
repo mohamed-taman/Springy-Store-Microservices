@@ -6,6 +6,7 @@ spring:
       host: localhost
       port: 27017
       database: recommendation-db
+      auto-index-creation: true
 
 server:
   port: 9082
