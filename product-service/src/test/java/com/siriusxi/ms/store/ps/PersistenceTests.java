@@ -4,7 +4,6 @@ import com.siriusxi.ms.store.ps.persistence.ProductEntity;
 import com.siriusxi.ms.store.ps.persistence.ProductRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
@@ -76,9 +75,7 @@ public class PersistenceTests {
     assertEqualsProduct(savedEntity, entity.get());
   }
 
-  //FIXME error which is not thrown
   @Test
-  @Disabled
   public void duplicateError() {
 
     Assertions.assertThrows(
