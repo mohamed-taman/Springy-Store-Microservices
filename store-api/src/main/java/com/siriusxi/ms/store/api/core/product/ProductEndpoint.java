@@ -11,7 +11,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  * to define <strong>Product Service</strong> endpoint APIs that follow <code>ProductService</code>
  * interface. And to be implemented by service controllers.
  *
- * @see com.siriusxi.ms.store.api.core.product.ProductService
+ * @see ProductService
  *
  * @author mohamed.taman
  * @version v1.0
