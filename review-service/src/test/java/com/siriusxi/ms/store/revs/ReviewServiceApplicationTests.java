@@ -1,6 +1,6 @@
 package com.siriusxi.ms.store.revs;
 
-import com.siriusxi.ms.store.api.core.review.Review;
+import com.siriusxi.ms.store.api.core.review.dto.Review;
 import com.siriusxi.ms.store.revs.persistence.ReviewRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -82,10 +82,10 @@ class ReviewServiceApplicationTests {
         postAndVerifyReview(productId, recommendationId, OK);
         assertEquals(1, repository.findByProductId(productId).size());
 
-        deleteAndVerifyReviewsByProductId(productId, OK);
+        deleteAndVerifyReviewsByProductId(productId);
         assertEquals(0, repository.findByProductId(productId).size());
 
-        deleteAndVerifyReviewsByProductId(productId, OK);
+        deleteAndVerifyReviewsByProductId(productId);
     }
 
     @Test
@@ -153,12 +153,12 @@ class ReviewServiceApplicationTests {
                 .expectBody();
     }
 
-    private void deleteAndVerifyReviewsByProductId(int productId, HttpStatus expectedStatus) {
+    private void deleteAndVerifyReviewsByProductId(int productId) {
          client.delete()
                 .uri(BASE_URI + "?productId=" + productId)
                 .accept(APPLICATION_JSON)
                 .exchange()
-                .expectStatus().isEqualTo(expectedStatus)
+                .expectStatus().isEqualTo(OK)
                 .expectBody();
     }
 }

@@ -1,6 +1,6 @@
-package com.siriusxi.ms.store.rs.controller;
+package com.siriusxi.ms.store.rs.service;
 
-import com.siriusxi.ms.store.api.core.recommendation.Recommendation;
+import com.siriusxi.ms.store.api.core.recommendation.dto.Recommendation;
 import com.siriusxi.ms.store.rs.persistence.RecommendationEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

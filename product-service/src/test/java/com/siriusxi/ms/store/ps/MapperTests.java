@@ -1,7 +1,7 @@
 package com.siriusxi.ms.store.ps;
 
-import com.siriusxi.ms.store.api.core.product.Product;
-import com.siriusxi.ms.store.ps.controller.ProductMapper;
+import com.siriusxi.ms.store.api.core.product.dto.Product;
+import com.siriusxi.ms.store.ps.service.ProductMapper;
 import com.siriusxi.ms.store.ps.persistence.ProductEntity;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class MapperTests {
 
-  private final ProductMapper mapper = ProductMapper.INSTANCE;
+  private final ProductMapper mapper =  ProductMapper.INSTANCE;
 
   @Test
   public void mapperTests() {

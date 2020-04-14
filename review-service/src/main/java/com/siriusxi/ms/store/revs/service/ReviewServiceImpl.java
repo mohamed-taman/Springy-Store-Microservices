@@ -1,6 +1,6 @@
-package com.siriusxi.ms.store.revs.controller;
+package com.siriusxi.ms.store.revs.service;
 
-import com.siriusxi.ms.store.api.core.review.Review;
+import com.siriusxi.ms.store.api.core.review.dto.Review;
 import com.siriusxi.ms.store.api.core.review.ReviewService;
 import com.siriusxi.ms.store.revs.persistence.ReviewEntity;
 import com.siriusxi.ms.store.revs.persistence.ReviewRepository;
@@ -9,11 +9,12 @@ import com.siriusxi.ms.store.util.http.ServiceUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
+@Service("ReviewServiceImpl")
 @Log4j2
 public class ReviewServiceImpl implements ReviewService {
 

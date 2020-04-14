@@ -1,7 +1,7 @@
 package com.siriusxi.ms.store.rs;
 
-import com.siriusxi.ms.store.api.core.recommendation.Recommendation;
-import com.siriusxi.ms.store.rs.controller.RecommendationMapper;
+import com.siriusxi.ms.store.api.core.recommendation.dto.Recommendation;
+import com.siriusxi.ms.store.rs.service.RecommendationMapper;
 import com.siriusxi.ms.store.rs.persistence.RecommendationEntity;
 import org.junit.jupiter.api.Test;
 

@@ -1,14 +1,14 @@
 package com.siriusxi.ms.store.rs;
 
-import com.mongodb.DuplicateKeyException;
+
 import com.siriusxi.ms.store.rs.persistence.RecommendationEntity;
 import com.siriusxi.ms.store.rs.persistence.RecommendationRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.OptimisticLockingFailureException;
 
 import java.util.List;
@@ -73,9 +73,8 @@ public class PersistenceTests {
         assertEqualsRecommendation(savedEntity, entityList.get(0));
     }
 
-    //FIXME error which is not thrown
+
     @Test
-    @Disabled
     public void duplicateError() {
 
         Assertions.assertThrows(DuplicateKeyException.class,

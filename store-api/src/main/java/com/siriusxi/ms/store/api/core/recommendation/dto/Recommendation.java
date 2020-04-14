@@ -1,17 +1,17 @@
-package com.siriusxi.ms.store.api.core.review;
+package com.siriusxi.ms.store.api.core.recommendation.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
-public class Review {
+public class Recommendation {
   private int productId;
-  private int reviewId;
+  private int recommendationId;
   private String author;
-  private String subject;
+  private int rate;
   private String content;
   private String serviceAddress;
 }
