@@ -1,7 +1,5 @@
 package com.siriusxi.ms.store.rs.service;
 
-import com.mongodb.DuplicateKeyException;
-
 import com.siriusxi.ms.store.api.core.recommendation.RecommendationService;
 import com.siriusxi.ms.store.api.core.recommendation.dto.Recommendation;
 import com.siriusxi.ms.store.rs.persistence.RecommendationEntity;
@@ -10,6 +8,7 @@ import com.siriusxi.ms.store.util.exceptions.InvalidInputException;
 import com.siriusxi.ms.store.util.http.ServiceUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
