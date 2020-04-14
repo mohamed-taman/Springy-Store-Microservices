@@ -11,7 +11,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  * <strong>Recommendation Service</strong> endpoint APIs, that follow <code>RecommendationService
  * </code> interface. And to be implemented by service controllers.
  *
- * @see com.siriusxi.ms.store.api.core.recommendation.RecommendationService
+ * @see RecommendationService
  * @author mohamed.taman
  * @version v1.0
  * @since v3.0 codename Storm

@@ -1,6 +1,6 @@
-package com.siriusxi.ms.store.revs.controller;
+package com.siriusxi.ms.store.revs.service;
 
-import com.siriusxi.ms.store.api.core.review.Review;
+import com.siriusxi.ms.store.api.core.review.dto.Review;
 import com.siriusxi.ms.store.revs.persistence.ReviewEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

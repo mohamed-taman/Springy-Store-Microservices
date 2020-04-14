@@ -37,7 +37,7 @@ public interface RecommendationService {
     Recommendation createRecommendation(Recommendation body);
 
     /**
-     * Delete all product recommendations,
+     * Delete all product recommendations.
      *
      * @param productId to delete recommendations for.
      * @since v0.1

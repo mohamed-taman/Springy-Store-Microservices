@@ -1,4 +1,4 @@
-package com.siriusxi.ms.store.api.core.review;
+package com.siriusxi.ms.store.api.core.review.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

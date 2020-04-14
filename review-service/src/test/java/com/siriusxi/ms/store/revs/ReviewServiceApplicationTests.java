@@ -1,6 +1,6 @@
 package com.siriusxi.ms.store.revs;
 
-import com.siriusxi.ms.store.api.core.review.Review;
+import com.siriusxi.ms.store.api.core.review.dto.Review;
 import com.siriusxi.ms.store.revs.persistence.ReviewRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

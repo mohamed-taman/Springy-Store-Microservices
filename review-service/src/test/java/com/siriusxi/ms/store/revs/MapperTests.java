@@ -1,7 +1,7 @@
 package com.siriusxi.ms.store.revs;
 
-import com.siriusxi.ms.store.api.core.review.Review;
-import com.siriusxi.ms.store.revs.controller.ReviewMapper;
+import com.siriusxi.ms.store.api.core.review.dto.Review;
+import com.siriusxi.ms.store.revs.service.ReviewMapper;
 import com.siriusxi.ms.store.revs.persistence.ReviewEntity;
 import org.junit.jupiter.api.Test;
 

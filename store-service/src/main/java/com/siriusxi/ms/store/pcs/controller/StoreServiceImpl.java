@@ -7,7 +7,7 @@ import com.siriusxi.ms.store.api.composite.dto.ReviewSummary;
 import com.siriusxi.ms.store.api.composite.dto.ServiceAddresses;
 import com.siriusxi.ms.store.api.core.product.dto.Product;
 import com.siriusxi.ms.store.api.core.recommendation.dto.Recommendation;
-import com.siriusxi.ms.store.api.core.review.Review;
+import com.siriusxi.ms.store.api.core.review.dto.Review;
 import com.siriusxi.ms.store.pcs.integration.StoreIntegration;
 import com.siriusxi.ms.store.util.exceptions.NotFoundException;
 import com.siriusxi.ms.store.util.http.ServiceUtil;
