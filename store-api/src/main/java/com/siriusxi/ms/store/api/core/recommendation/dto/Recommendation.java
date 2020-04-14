@@ -1,4 +1,4 @@
-package com.siriusxi.ms.store.api.core.recommendation;
+package com.siriusxi.ms.store.api.core.recommendation.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

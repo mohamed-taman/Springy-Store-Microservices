@@ -7,23 +7,27 @@ import org.springframework.web.bind.annotation.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
- * Interface <code>ProductServiceApi</code> is a higher level Interface to define <strong>Product
- * service</strong> endpoint APIs. and to be implemented by service controllers.
+ * Interface <code>ProductEndpoint</code> is a higher level Interface
+ * to define <strong>Product Service</strong> endpoint APIs that follow <code>ProductService</code>
+ * interface. And to be implemented by service controllers.
+ *
+ * @see com.siriusxi.ms.store.api.core.product.ProductService
  *
  * @author mohamed.taman
+ * @version v1.0
  * @since v3.0 codename Storm
- * @version 1.0
  */
 @RequestMapping("products")
-public interface ProductServiceApi extends ProductService {
+public interface ProductEndpoint extends ProductService {
 
     /**
      * Sample usage:
      *
-     *  <p>curl $HOST:$PORT/products/1</p>
+     *  <p><code>curl $HOST:$PORT/products/1</code></p>
      *
      * @param id is the product that you are looking for.
-     * @return <code>Product</code> the product, if found, else null.
+     * @return Product the product, if found, else null.
+     * @since v3.0 codename Storm
      */
     @Override
     @GetMapping(value = "{productId}",
@@ -33,11 +37,12 @@ public interface ProductServiceApi extends ProductService {
     /**
      * Sample usage:
      *
-     * <p>curl -X POST $HOST:$PORT/products \ -H "Content-Type: application/json" --data \
-     * '{"productId":123,"name":"product 123","weight":123}'</p>
+     * <p><code>curl -X POST $HOST:$PORT/products \ -H "Content-Type: application/json" --data \
+     * '{"productId":123,"name":"product 123","weight":123}'</code></p>
      *
      * @param body product to save.
-     * @return <code>Product</code> just created.
+     * @return Product just created.
+     * @since v3.0 codename Storm
      */
     @Override
     @PostMapping(
@@ -48,9 +53,10 @@ public interface ProductServiceApi extends ProductService {
     /**
      * Sample usage:
      *
-     * <p>curl -X DELETE $HOST:$PORT/products/1</p>
+     * <p><code>curl -X DELETE $HOST:$PORT/products/1</code></p>
      *
      * @param id to be deleted.
+     * @since v3.0 codename Storm
      */
     @Override
     @DeleteMapping("{productId}")

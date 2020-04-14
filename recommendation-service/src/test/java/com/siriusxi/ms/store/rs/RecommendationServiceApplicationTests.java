@@ -1,6 +1,6 @@
 package com.siriusxi.ms.store.rs;
 
-import com.siriusxi.ms.store.api.core.recommendation.Recommendation;
+import com.siriusxi.ms.store.api.core.recommendation.dto.Recommendation;
 import com.siriusxi.ms.store.rs.persistence.RecommendationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;

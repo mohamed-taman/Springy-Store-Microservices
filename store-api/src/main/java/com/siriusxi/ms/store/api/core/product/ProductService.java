@@ -3,12 +3,15 @@ package com.siriusxi.ms.store.api.core.product;
 import com.siriusxi.ms.store.api.core.product.dto.Product;
 
 /**
- * Interface that define the general service contract (methods) for th Product
- *  1. Service and
- *  2. Controller interfaces.
+ * Interface that define the general service contract (methods) for the Product
+ * <ol>
+ *     <li>Service and,</li>
+ *     <li>Controller interfaces.</li>
+ * </ol>
  *
  * @author mohamed.taman
- * @version 3.0.
+ * @version v0.2
+ * @since v0.1
  */
 public interface ProductService {
 
@@ -17,8 +20,7 @@ public interface ProductService {
    *
    * @param id is the product id that you are looking for.
    * @return the product, if found, else null.
-   *
-   * @since version 0.1
+   * @since v0.1
    */
   Product getProduct(int id);
 
@@ -27,8 +29,7 @@ public interface ProductService {
    *
    * @param body product to save.
    * @return just created product.
-   *
-   * @since version 0.1
+   * @since v0.1
    */
   Product createProduct(Product body);
 
@@ -37,8 +38,7 @@ public interface ProductService {
    *
    * @implNote This method should be idempotent and always return 200 OK status.
    * @param id to be deleted.
-   *
-   * @since version 0.1
+   * @since v0.1
    */
   void deleteProduct(int id);
 }
