@@ -1,6 +1,6 @@
 package com.siriusxi.ms.store.rs.controller;
 
-import com.mongodb.DuplicateKeyException;
+
 import com.siriusxi.ms.store.api.core.recommendation.Recommendation;
 import com.siriusxi.ms.store.api.core.recommendation.RecommendationService;
 import com.siriusxi.ms.store.rs.persistence.RecommendationEntity;
@@ -9,10 +9,9 @@ import com.siriusxi.ms.store.util.exceptions.InvalidInputException;
 import com.siriusxi.ms.store.util.http.ServiceUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 // FIXME to extract service from controller

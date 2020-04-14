@@ -3,7 +3,6 @@ package com.siriusxi.ms.store.rs;
 import com.siriusxi.ms.store.api.core.recommendation.Recommendation;
 import com.siriusxi.ms.store.rs.persistence.RecommendationRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -51,7 +50,6 @@ class RecommendationServiceApplicationTests {
     }
 
     @Test
-    @Disabled
     public void duplicateError() {
 
         int productId = 1;

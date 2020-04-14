@@ -3,7 +3,6 @@ package com.siriusxi.ms.store.ps;
 import com.siriusxi.ms.store.api.core.product.Product;
 import com.siriusxi.ms.store.ps.persistence.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -48,7 +47,6 @@ class ProductServiceApplicationTests {
     }
 
     @Test
-    @Disabled
     public void duplicateError() {
 
         int productId = 1;
@@ -58,7 +56,7 @@ class ProductServiceApplicationTests {
         assertTrue(repository.findByProductId(productId).isPresent());
 
         postAndVerifyProduct(productId, UNPROCESSABLE_ENTITY)
-                .jsonPath("$.path").isEqualTo("BASE_RESOURCE_URI")
+                .jsonPath("$.path").isEqualTo(BASE_URI)
                 .jsonPath("$.message").isEqualTo("Duplicate key, Product Id: " + productId);
     }
 

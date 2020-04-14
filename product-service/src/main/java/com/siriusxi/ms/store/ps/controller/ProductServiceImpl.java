@@ -1,6 +1,6 @@
 package com.siriusxi.ms.store.ps.controller;
 
-import com.mongodb.DuplicateKeyException;
+
 import com.siriusxi.ms.store.api.core.product.Product;
 import com.siriusxi.ms.store.api.core.product.ProductService;
 import com.siriusxi.ms.store.ps.persistence.ProductEntity;
@@ -10,6 +10,7 @@ import com.siriusxi.ms.store.util.exceptions.NotFoundException;
 import com.siriusxi.ms.store.util.http.ServiceUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
