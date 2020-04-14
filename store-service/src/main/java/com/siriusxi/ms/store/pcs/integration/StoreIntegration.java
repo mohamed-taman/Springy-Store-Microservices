@@ -1,11 +1,11 @@
 package com.siriusxi.ms.store.pcs.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.siriusxi.ms.store.api.core.product.Product;
+import com.siriusxi.ms.store.api.core.product.dto.Product;
 import com.siriusxi.ms.store.api.core.product.ProductService;
-import com.siriusxi.ms.store.api.core.recommendation.Recommendation;
-import com.siriusxi.ms.store.api.core.recommendation.RecommendationService;
-import com.siriusxi.ms.store.api.core.review.Review;
+import com.siriusxi.ms.store.api.core.recommendation.dto.Recommendation;
+import com.siriusxi.ms.store.api.core.recommendation.RecommendationEndpoint;
+import com.siriusxi.ms.store.api.core.review.dto.Review;
 import com.siriusxi.ms.store.api.core.review.ReviewService;
 import com.siriusxi.ms.store.util.exceptions.InvalidInputException;
 import com.siriusxi.ms.store.util.exceptions.NotFoundException;
@@ -30,7 +30,7 @@ import static org.springframework.http.HttpMethod.GET;
 public class StoreIntegration
         implements
         ProductService,
-        RecommendationService,
+        RecommendationEndpoint,
         ReviewService {
 
     private final RestTemplate restTemplate;

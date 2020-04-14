@@ -1,49 +1,44 @@
 package com.siriusxi.ms.store.api.core.review;
 
-import org.springframework.web.bind.annotation.*;
+import com.siriusxi.ms.store.api.core.review.dto.Review;
 
 import java.util.List;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
-//@RequestMapping("reviews")
+/**
+ * Interface that define the general service contract (methods) for the Review
+ * <ol>
+ *     <li>Service and,</li>
+ *     <li>Controller interfaces.</li>
+ * </ol>
+ *
+ * @author mohamed.taman
+ * @version v0.2
+ * @since v0.1
+ */
 public interface ReviewService {
 
-    /**
-     * Sample usage:
-     *
-     * curl -X POST $HOST:$PORT/reviews \
-     *   -H "Content-Type: application/json" --data \
-     *   '{"productId":123,"reviewId":456,"author":"me","subject":"yada, yada, yada",
-     *     "content":"yada, yada, yada"}'
-     *
-     * @param body review to be created.
-     * @return just created review.
-     */
-    @PostMapping(value = "reviews",
-            produces = APPLICATION_JSON_VALUE,
-            consumes = APPLICATION_JSON_VALUE)
-    Review createReview(@RequestBody Review body);
 
     /**
-     * Sample usage: curl $HOST:$PORT/reviews?productId=1
+     * Get all reviews for specific product by product id.
      *
      * @param productId that you are looking for its reviews.
      * @return list of reviews for this product,
      * or empty list if there are no reviews.
      */
-    @GetMapping(value = "reviews",
-            produces = APPLICATION_JSON_VALUE)
-    List<Review> getReviews(@RequestParam("productId") int productId);
-
+    List<Review> getReviews(int productId);
 
     /**
-     * Sample usage:
+     * Create a new review for a product.
      *
-     * curl -X DELETE $HOST:$PORT/review?productId=1
+     * @param body review to be created.
+     * @return just created review.
+     */
+    Review createReview(Review body);
+
+    /**
+     * Delete all product reviews.
      *
      * @param productId to delete its reviews.
      */
-    @DeleteMapping(value = "reviews")
-    void deleteReviews(@RequestParam("productId")  int productId);
+    void deleteReviews(int productId);
 }

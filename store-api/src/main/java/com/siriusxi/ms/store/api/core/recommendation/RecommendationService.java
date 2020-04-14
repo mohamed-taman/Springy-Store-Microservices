@@ -1,46 +1,46 @@
 package com.siriusxi.ms.store.api.core.recommendation;
 
-import org.springframework.web.bind.annotation.*;
+import com.siriusxi.ms.store.api.core.recommendation.dto.Recommendation;
 
 import java.util.List;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-//@RequestMapping("recommendations")
+/**
+ * Interface that define the general service contract (methods) for the Recommendation
+ * <ol>
+ *     <li>Service and,</li>
+ *     <li>Controller interfaces.</li>
+ * </ol>
+ *
+ * @author mohamed.taman
+ * @version v0.2
+ * @since v0.1
+ */
 public interface RecommendationService {
+    /**
+     * Get all recommendations for specific product by product id.
+     *
+     * @param productId that you are looking for its recommendations.
+     * @return list of product recommendations,
+     * or empty list if there are no recommendations.
+     * @since v0.1
+     */
+    List<Recommendation> getRecommendations(int productId);
 
-  /**
-   * Sample usage: curl $HOST:$PORT/recommendations?productId=1
-   *
-   * @param productId that you are looking for its recommendations.
-   *
-   * @return list of product recommendations,
-   * or empty list if there are no recommendations.
-   */
-  @GetMapping(value = "recommendations",produces = APPLICATION_JSON_VALUE)
-  List<Recommendation> getRecommendations(@RequestParam("productId") int productId);
+    /**
+     * Create a new recommendation for a product.
+     *
+     * @param body the recommendation to add.
+     * @return currently created recommendation.
+     * @since v0.1
+     */
+    Recommendation createRecommendation(Recommendation body);
 
-  /**
-   * Sample usage:
-   *
-   * <p>curl -X POST $HOST:$PORT/recommendations \ -H "Content-Type: application/json" --data \
-   * '{"productId":123,"recommendationId":456,"author":"me","rate":5,"content":"yada, yada, yada"}'
-   *
-   * @param body the recommendation to add.
-   * @return currently created recommendation.
-   */
-  @PostMapping(value = "recommendations",
-          produces = APPLICATION_JSON_VALUE,
-          consumes = APPLICATION_JSON_VALUE)
-  Recommendation createRecommendation(@RequestBody Recommendation body);
-
-  /**
-   * Sample usage:
-   *
-   * <p>curl -X DELETE $HOST:$PORT/recommendations?productId=1
-   *
-   * @param productId to delete recommendations for.
-   */
-  @DeleteMapping(value = "recommendations")
-  void deleteRecommendations(@RequestParam("productId") int productId);
+    /**
+     * Delete all product recommendations.
+     *
+     * @param productId to delete recommendations for.
+     * @since v0.1
+     */
+    void deleteRecommendations(int productId);
 }
