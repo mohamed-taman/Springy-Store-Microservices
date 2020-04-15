@@ -11,12 +11,12 @@ import org.springframework.context.annotation.ComponentScan;
 @Log4j2
 public class ProductServiceApplication {
 
-    public static void main(String[] args) {
-        ConfigurableApplicationContext ctx = SpringApplication.run(ProductServiceApplication.class, args);
+  public static void main(String[] args) {
+    ConfigurableApplicationContext ctx =
+        SpringApplication.run(ProductServiceApplication.class, args);
 
-        String mongodDbHost = ctx.getEnvironment().getProperty("spring.data.mongodb.host");
-        String mongodDbPort = ctx.getEnvironment().getProperty("spring.data.mongodb.port");
-        log.info("Connected to MongoDb: " + mongodDbHost + ":" + mongodDbPort);
-    }
-
+    String mongodDbHost = ctx.getEnvironment().getProperty("spring.data.mongodb.host");
+    String mongodDbPort = ctx.getEnvironment().getProperty("spring.data.mongodb.port");
+    log.info("Connected to MongoDb: " + mongodDbHost + ":" + mongodDbPort);
+  }
 }

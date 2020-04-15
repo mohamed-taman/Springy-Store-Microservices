@@ -8,5 +8,5 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends PagingAndSortingRepository<ProductEntity, String> {
 
-    Optional<ProductEntity> findByProductId(int productId);
+  Optional<ProductEntity> findByProductId(int productId);
 }

@@ -16,11 +16,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 public class RecommendationEntity {
 
-  @Id
-  private String id;
+  @Id private String id;
 
-  @Version
-  private Integer version;
+  @Version private Integer version;
 
   private int productId;
   private int recommendationId;
@@ -36,5 +34,4 @@ public class RecommendationEntity {
     this.rating = rating;
     this.content = content;
   }
-
 }

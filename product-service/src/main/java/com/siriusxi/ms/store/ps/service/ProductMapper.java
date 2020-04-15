@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
 
-  ProductMapper INSTANCE = Mappers.getMapper( ProductMapper.class);
+  ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
 
   @Mapping(target = "serviceAddress", ignore = true)
   Product entityToApi(ProductEntity entity);

@@ -5,39 +5,39 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-		<groupId>com.siriusxi.ms.store</groupId>
-		<artifactId>store-service-chassis</artifactId>
-		<version>1.0-SNAPSHOT</version>
-		<relativePath>../store-service-chassis</relativePath>
-	</parent>
+        <groupId>com.siriusxi.ms.store</groupId>
+        <artifactId>store-service-chassis</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../store-service-chassis</relativePath>
+    </parent>
 
-	<artifactId>review-service</artifactId>
-	<name>Review Service</name>
-	<version>1.0-SNAPSHOT</version>
-	<description>Review Service Spring Boot based project</description>
-	<packaging>jar</packaging>
+    <artifactId>review-service</artifactId>
+    <name>Review Service</name>
+    <version>1.0-SNAPSHOT</version>
+    <description>Review Service Spring Boot based project</description>
+    <packaging>jar</packaging>
 
-	<dependencies>
-		<!-- Start - Data technology layer -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<!-- End - Data technology layer -->
+    <dependencies>
+        <!-- Start - Data technology layer -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <!-- End - Data technology layer -->
 
-		<!-- Start - Data technology layer driver -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-		</dependency>
-		<!-- End - Data technology layer driver -->
+        <!-- Start - Data technology layer driver -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <!-- End - Data technology layer driver -->
 
-		<!-- Start - Data technology test layer -->
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<!-- End - Data technology test layer -->
-	</dependencies>
+        <!-- Start - Data technology test layer -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- End - Data technology test layer -->
+    </dependencies>
 </project>
