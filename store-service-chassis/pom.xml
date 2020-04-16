@@ -23,12 +23,14 @@
 
     <dependencies>
         <!-- Start - Development dependencies -->
+        <!--  Start - Developer utilities tools   -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
+        <!-- End - Developer utilities tools -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
@@ -37,11 +39,12 @@
         <!-- End - Development dependencies -->
 
         <!-- Start - Core dependencies -->
+        <!-- Start - Providing some useful infos about the service through REST API -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-
+        <!-- End - Providing some useful infos about the service through REST API -->
         <!-- End - Core dependencies -->
 
         <!-- Start - Testing dependencies -->
@@ -149,6 +152,70 @@
                     <layers>
                         <enabled>true</enabled>
                     </layers>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <!--
+                                To generate build information to be included via
+                                http(s)://<hostname>:<port>/actuator/info
+                             -->
+                            <goal>build-info</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <!--
+                     It automatically creates the versioning information during a build
+                     so that you are able to verify the versioning information when
+                     an application is deployed
+                -->
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>get-the-git-infos</id>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>validate-the-git-infos</id>
+                        <goals>
+                            <goal>validateRevision</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+                    <prefix>git</prefix>
+                    <verbose>false</verbose>
+                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties
+                    </generateGitPropertiesFilename>
+                    <!--
+                         Very important to make sure that the format is set to "properties"
+                         (which is the default value if format tag is omitted)
+                         instead of "JSON" inorder to work with spring actuator
+                    -->
+                    <format>properties</format>
+                    <!--<format>json</format>-->
+                    <gitDescribe>
+                        <skip>false</skip>
+                        <always>false</always>
+                        <dirty>-dirty</dirty>
+                    </gitDescribe>
+                    <validationProperties>
+                        <!-- verify that the current repository is not dirty -->
+                        <validationProperty>
+                            <name>validating git dirty</name>
+                            <!--<value>${git.dirty}</value>-->
+                            <value>false</value>
+                            <shouldMatchTo>false</shouldMatchTo>
+                        </validationProperty>
+                    </validationProperties>
                 </configuration>
             </plugin>
         </plugins>

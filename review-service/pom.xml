@@ -18,19 +18,35 @@
     <packaging>jar</packaging>
 
     <dependencies>
-        <!-- Start - Data technology layer -->
+        <!-- Start - Spring boot dependencies -->
+        <!-- Start - JPA data layer -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-        <!-- End - Data technology layer -->
+        <!-- End - JPA Data layer -->
+        <!-- Start - Object validation layer -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <!-- End - Object validation layer -->
+        <!-- End - Spring boot dependencies -->
 
-        <!-- Start - Data technology layer driver -->
+        <!-- Start - Database migration dependencies -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+        <!-- End - Database migration dependencies -->
+        <!-- Start - Database driver for mysql -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
         </dependency>
-        <!-- End - Data technology layer driver -->
+        <!-- End - Database driver for mysql -->
+        <!-- End - Projects dependencies -->
 
         <!-- Start - Data technology test layer -->
         <dependency>
