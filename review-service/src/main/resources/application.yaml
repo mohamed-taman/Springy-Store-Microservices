@@ -68,13 +68,9 @@ spring:
     enabled: false
   datasource:
     url: "jdbc:mysql://mysql/review-db"
-  jpa:
-    hibernate:
-      ddl-auto: update
-  # FIXME to enable docker compose to run with flyway
+
   flyway:
-    enabled: false
-    url: "jdbc:mysql://mysql/mysql?useSSL=false&serverTimezone=UTC"
+    url: "jdbc:mysql://mysql/review-db?useSSL=false&serverTimezone=UTC"
 
 server:
   port: 8080

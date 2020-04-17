@@ -8,5 +8,5 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
     hibernate:
       # Strongly recommend to set this property to "none" or with flyway  to "validate" in a
-      # production environment!
+      # production environment! This is okay for test.
       ddl-auto: update
