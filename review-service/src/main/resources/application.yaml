@@ -3,15 +3,35 @@ spring:
     name: review-service
 
   jpa:
+    show-sql: true
+    open-in-view: false
+    database: MYSQL
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      # Strongly recommend to set this property to "none" in a production environment!
-      ddl-auto: update
+      # Strongly recommend to set this property to "none" or with flyway  to "validate" in a
+      # production environment!
+      ddl-auto: none
   datasource:
-    url: "jdbc:mysql://localhost/review-db"
+    ## You often do not need to specify the driver-class-name,
+    ## since Spring Boot can deduce it for most databases from the url.
+    #driver-class-name: com.mysql.cj.jdbc.Driver
+    platform: mysql
+    url: "jdbc:mysql://localhost/review-db?useSSL=false&serverTimezone=UTC"
     username: user
     password: pwd
     hikari:
       initializationFailTimeout: 60000
+      connection-test-query: SELECT 1
+
+  flyway:
+    #Enable or disable flyway migrations
+    enabled: true
+    url: "jdbc:mysql://localhost/mysql?useSSL=false&serverTimezone=UTC"
+    schemas: review-db
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
 
 server:
   port: 9083
@@ -27,6 +47,9 @@ logging:
         type.descriptor.sql.BasicBinder: TRACE
 
 management:
+  info:
+    git:
+      mode: full
   endpoints:
     web:
       exposure:
@@ -45,6 +68,9 @@ spring:
     enabled: false
   datasource:
     url: "jdbc:mysql://mysql/review-db"
+
+  flyway:
+    url: "jdbc:mysql://mysql/review-db?useSSL=false&serverTimezone=UTC"
 
 server:
   port: 8080

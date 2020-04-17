@@ -21,6 +21,7 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - mysql
+    restart: on-failure
 
   store:
     build: store-service
@@ -35,11 +36,12 @@ services:
     ports:
       - "27017-27019:27017-27019"
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/test --quiet 1
+      test: echo 'db.runCommand("ping").ok' | mongo mongodb:27017/test --quiet 1
       interval: 10s
       timeout: 10s
       retries: 5
       start_period: 40s
+    restart: always
 
   # $ mysql -uroot -h127.0.0.1 -p
   mysql:
@@ -51,8 +53,10 @@ services:
       - MYSQL_DATABASE=review-db
       - MYSQL_USER=user
       - MYSQL_PASSWORD=pwd
+      - MYSQL_ROOT_HOST=%
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-uuser", "-ppwd", "-h", "localhost"]
       interval: 10s
       timeout: 5s
       retries: 10
+    restart: always

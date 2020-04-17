@@ -11,35 +11,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Log4j2
 public class StoreController implements StoreEndpoint {
-    /** Store service business logic interface. */
-    private final StoreService storeService;
+  /** Store service business logic interface. */
+  private final StoreService storeService;
 
-    @Autowired
-    public StoreController(@Qualifier("StoreServiceImpl") StoreService storeService) {
-        this.storeService = storeService;
-    }
+  @Autowired
+  public StoreController(@Qualifier("StoreServiceImpl") StoreService storeService) {
+    this.storeService = storeService;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ProductAggregate getProduct(int id) {
-        return storeService.getProduct(id);
-    }
+  /** {@inheritDoc} */
+  @Override
+  public ProductAggregate getProduct(int id) {
+    return storeService.getProduct(id);
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void createProduct(ProductAggregate body) {
-        storeService.createProduct(body);
-    }
+  /** {@inheritDoc} */
+  @Override
+  public void createProduct(ProductAggregate body) {
+    storeService.createProduct(body);
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void deleteProduct(int id) {
-        storeService.deleteProduct(id);
-    }
+  /** {@inheritDoc} */
+  @Override
+  public void deleteProduct(int id) {
+    storeService.deleteProduct(id);
+  }
 }

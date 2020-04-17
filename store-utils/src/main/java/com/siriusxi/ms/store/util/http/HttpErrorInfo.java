@@ -11,14 +11,13 @@ import org.springframework.http.HttpStatus;
 import java.time.ZonedDateTime;
 
 /**
- * Record HttpErrorInfo which encapsulate all HTTP errors sent to client.
- * <p>
- * Since it is a record and not normal POJO,
- * so it needs some customizations to be serialized to JSON.
+ * Record <code>HttpErrorInfo</code> which encapsulate all HTTP errors sent to client.
  *
+ * @implNote Since it is a record and not normal POJO, so it needs some customizations
+ * to be serialized to JSON.
+ * @see  java.lang.Record
  * @author mohamed.taman
- * @version 0.4
- * @see java.lang.Record
+ * @version v0.4
  * @since v0.1
  */
 public record HttpErrorInfo(
@@ -31,11 +30,19 @@ public record HttpErrorInfo(
         ZonedDateTime timestamp
 ) {
 
-    public HttpErrorInfo(HttpStatus httpStatus, String path, String message) {
+    /**
+     * Instantiates a new Http error info.
+     *
+     * @param httpStatus the http status code and type.
+     * @param path the request path.
+     * @param message the error message.
+     */
+public HttpErrorInfo(HttpStatus httpStatus, String path, String message) {
         this(httpStatus, message, path, ZonedDateTime.now());
     }
 
-    public static void main(String[] args) throws JsonProcessingException {
+
+public static void main(String[] args) throws JsonProcessingException {
         HttpErrorInfo err = new HttpErrorInfo(HttpStatus.BAD_REQUEST, "/path", "Error man");
         HttpErrorInfo err1 = new HttpErrorInfo(HttpStatus.UNPROCESSABLE_ENTITY, "Error message man",
                 "/path1234", ZonedDateTime.now());

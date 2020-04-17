@@ -4,9 +4,10 @@ import com.siriusxi.ms.store.api.core.product.dto.Product;
 
 /**
  * Interface that define the general service contract (methods) for the Product
+ *
  * <ol>
- *     <li>Service and,</li>
- *     <li>Controller interfaces.</li>
+ *   <li>Service and,
+ *   <li>Controller interfaces.
  * </ol>
  *
  * @author mohamed.taman

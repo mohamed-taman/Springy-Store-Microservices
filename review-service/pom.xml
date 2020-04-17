@@ -5,39 +5,55 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-		<groupId>com.siriusxi.ms.store</groupId>
-		<artifactId>store-service-chassis</artifactId>
-		<version>1.0-SNAPSHOT</version>
-		<relativePath>../store-service-chassis</relativePath>
-	</parent>
+        <groupId>com.siriusxi.ms.store</groupId>
+        <artifactId>store-service-chassis</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../store-service-chassis</relativePath>
+    </parent>
 
-	<artifactId>review-service</artifactId>
-	<name>Review Service</name>
-	<version>1.0-SNAPSHOT</version>
-	<description>Review Service Spring Boot based project</description>
-	<packaging>jar</packaging>
+    <artifactId>review-service</artifactId>
+    <name>Review Service</name>
+    <version>1.0-SNAPSHOT</version>
+    <description>Review Service Spring Boot based project</description>
+    <packaging>jar</packaging>
 
-	<dependencies>
-		<!-- Start - Data technology layer -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<!-- End - Data technology layer -->
+    <dependencies>
+        <!-- Start - Spring boot dependencies -->
+        <!-- Start - JPA data layer -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <!-- End - JPA Data layer -->
+        <!-- Start - Object validation layer -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <!-- End - Object validation layer -->
+        <!-- End - Spring boot dependencies -->
 
-		<!-- Start - Data technology layer driver -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-		</dependency>
-		<!-- End - Data technology layer driver -->
+        <!-- Start - Database migration dependencies -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+        <!-- End - Database migration dependencies -->
+        <!-- Start - Database driver for mysql -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- End - Database driver for mysql -->
+        <!-- End - Projects dependencies -->
 
-		<!-- Start - Data technology test layer -->
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<!-- End - Data technology test layer -->
-	</dependencies>
+        <!-- Start - Data technology test layer -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- End - Data technology test layer -->
+    </dependencies>
 </project>

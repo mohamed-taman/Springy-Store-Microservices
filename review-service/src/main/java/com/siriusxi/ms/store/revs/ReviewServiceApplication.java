@@ -1,24 +1,30 @@
 package com.siriusxi.ms.store.revs;
 
 import lombok.extern.log4j.Log4j2;
-import org.springframework.boot.SpringApplication;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
-import static org.springframework.boot.SpringApplication.*;
+import static org.springframework.boot.SpringApplication.run;
 
 @SpringBootApplication
 @ComponentScan("com.siriusxi.ms.store")
 @Log4j2
 public class ReviewServiceApplication {
 
-    public static void main(String[] args) {
+  public static void main(String[] args) {
 
-        ConfigurableApplicationContext ctx = run(ReviewServiceApplication.class, args);
+    var mysqlUri = run(ReviewServiceApplication.class, args)
+            .getEnvironment()
+            .getProperty("spring.datasource.url");
 
-        String mysqlUri = ctx.getEnvironment().getProperty("spring.datasource.url");
-        log.info("Connected to MySQL: " + mysqlUri);
-    }
+    // Useful logged info about which database it is connected to.
+    log.info("Connected to MySQL: {}", mysqlUri);
+  }
 
+  @Bean
+  public CommandLineRunner runner() {
+    return r -> log.info("Review Microservice started successfully.");
+  }
 }

@@ -22,7 +22,7 @@ public interface RecommendationEndpoint extends RecommendationService {
   /**
    * Sample usage:
    *
-   *  <p><code>curl $HOST:$PORT/recommendations?productId=1</code></p>
+   * <p><code>curl $HOST:$PORT/recommendations?productId=1</code>
    *
    * @param productId that you are looking for its recommendations.
    * @return list of product recommendations, or empty list if there are no recommendations.
@@ -37,7 +37,7 @@ public interface RecommendationEndpoint extends RecommendationService {
    * <p><code>curl -X POST $HOST:$PORT/recommendations \
    * -H "Content-Type: application/json" --data \
    * '{"productId":123,"recommendationId":456,"author":"me","rate":5,"content":"yada, yada, yada"
-   * }'</code></p>
+   * }'</code>
    *
    * @param body the recommendation to add.
    * @return currently created recommendation.
@@ -49,7 +49,7 @@ public interface RecommendationEndpoint extends RecommendationService {
   /**
    * Sample usage:
    *
-   * <p><code>curl -X DELETE $HOST:$PORT/recommendations?productId=1</code></p>
+   * <p><code>curl -X DELETE $HOST:$PORT/recommendations?productId=1</code>
    *
    * @param productId to delete recommendations for.
    * @since version 0.1

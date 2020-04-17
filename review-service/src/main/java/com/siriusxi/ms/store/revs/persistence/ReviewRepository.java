@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface ReviewRepository extends CrudRepository<ReviewEntity, Integer> {
 
-    @Transactional(readOnly = true)
-    List<ReviewEntity> findByProductId(int productId);
+  @Transactional(readOnly = true)
+  List<ReviewEntity> findByProductId(int productId);
 }

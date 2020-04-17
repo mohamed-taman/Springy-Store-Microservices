@@ -9,7 +9,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebFlux;
 @EnableSwagger2WebFlux // Starting point for initiating SpringFox
 @ComponentScan("com.siriusxi.ms.store")
 public class StoreServiceApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(StoreServiceApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(StoreServiceApplication.class, args);
+  }
 }
