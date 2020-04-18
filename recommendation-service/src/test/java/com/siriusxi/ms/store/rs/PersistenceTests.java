@@ -16,7 +16,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 
-// FIXME to fix all optional class check with isPresent()
 @DataMongoTest
 public class PersistenceTests {
 
@@ -37,10 +36,10 @@ public class PersistenceTests {
   @Test
   public void create() {
 
-    RecommendationEntity newEntity = new RecommendationEntity(1, 3, "a", 3, "c");
+    var newEntity = new RecommendationEntity(1, 3, "a", 3, "c");
     repository.save(newEntity);
 
-    RecommendationEntity foundEntity = repository.findById(newEntity.getId()).get();
+    var foundEntity = repository.findById(newEntity.getId()).orElse(new RecommendationEntity());
     assertEqualsRecommendation(newEntity, foundEntity);
 
     assertEquals(2, repository.count());
@@ -75,26 +74,26 @@ public class PersistenceTests {
 
     Assertions.assertThrows(
         DuplicateKeyException.class,
-        () -> {
-          RecommendationEntity entity = new RecommendationEntity(1, 2, "a", 3, "c");
-          repository.save(entity);
-        });
+        () -> repository.save(new RecommendationEntity(1, 2, "a", 3, "c")));
   }
 
   @Test
   public void optimisticLockError() {
 
     // Store the saved entity in two separate entity objects
-    RecommendationEntity entity1 = repository.findById(savedEntity.getId()).get();
-    RecommendationEntity entity2 = repository.findById(savedEntity.getId()).get();
+    RecommendationEntity
+        entity1 = repository.findById(savedEntity.getId()).orElse(new RecommendationEntity()),
+        entity2 = repository.findById(savedEntity.getId()).orElse(new RecommendationEntity());
 
     // Update the entity using the first entity object
     entity1.setAuthor("a1");
     repository.save(entity1);
 
-    //  Update the entity using the second entity object.
-    // This should fail since the second entity now holds a old version number, i.e. a Optimistic
-    // Lock Error
+    /*
+      Update the entity using the second entity object.
+      This should fail since the second entity now holds a old version number,
+      i.e. a Optimistic Lock Error.
+    */
     try {
       entity2.setAuthor("a2");
       repository.save(entity2);
@@ -104,7 +103,8 @@ public class PersistenceTests {
     }
 
     // Get the updated entity from the database and verify its new sate
-    RecommendationEntity updatedEntity = repository.findById(savedEntity.getId()).get();
+    var updatedEntity = repository.findById(savedEntity.getId()).orElse(new RecommendationEntity());
+
     assertEquals(1, (int) updatedEntity.getVersion());
     assertEquals("a1", updatedEntity.getAuthor());
   }

@@ -21,7 +21,6 @@ import static java.util.stream.IntStream.rangeClosed;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.data.domain.Sort.Direction.ASC;
 
-// FIXME to fix all optional class check with isPresent()
 @DataMongoTest
 public class PersistenceTests {
 
@@ -42,10 +41,10 @@ public class PersistenceTests {
   @Test
   public void create() {
 
-    ProductEntity newEntity = new ProductEntity(2, "n", 2);
+    var newEntity = new ProductEntity(2, "n", 2);
     repository.save(newEntity);
 
-    ProductEntity foundEntity = repository.findById(newEntity.getId()).get();
+    var foundEntity = repository.findById(newEntity.getId()).orElse(new ProductEntity());
     assertEqualsProduct(newEntity, foundEntity);
 
     assertEquals(2, repository.count());
@@ -56,7 +55,7 @@ public class PersistenceTests {
     savedEntity.setName("n2");
     repository.save(savedEntity);
 
-    ProductEntity foundEntity = repository.findById(savedEntity.getId()).get();
+    var foundEntity = repository.findById(savedEntity.getId()).orElse(new ProductEntity());
     assertEquals(1, (long) foundEntity.getVersion());
     assertEquals("n2", foundEntity.getName());
   }
@@ -90,26 +89,27 @@ public class PersistenceTests {
   public void optimisticLockError() {
 
     // Store the saved entity in two separate entity objects
-    ProductEntity entity1 = repository.findById(savedEntity.getId()).get();
-    ProductEntity entity2 = repository.findById(savedEntity.getId()).get();
+    ProductEntity entity1 = repository.findById(savedEntity.getId()).orElse(new ProductEntity()),
+                  entity2 = repository.findById(savedEntity.getId()).orElse(new ProductEntity());
 
     // Update the entity using the first entity object
     entity1.setName("n1");
     repository.save(entity1);
 
-    //  Update the entity using the second entity object.
-    // This should fail since the second entity now holds a old version number, i.e. a Optimistic
-    // Lock Error
+    /*
+      Update the entity using the second entity object.
+      This should fail since the second entity now holds a old version number,
+      i.e. a Optimistic Lock Error.
+    */
     try {
       entity2.setName("n2");
       repository.save(entity2);
 
       fail("Expected an OptimisticLockingFailureException");
-    } catch (OptimisticLockingFailureException ignored) {
-    }
+    } catch (OptimisticLockingFailureException ignored) { }
 
     // Get the updated entity from the database and verify its new sate
-    ProductEntity updatedEntity = repository.findById(savedEntity.getId()).get();
+    var updatedEntity = repository.findById(savedEntity.getId()).orElse(new ProductEntity());
     assertEquals(1, (int) updatedEntity.getVersion());
     assertEquals("n1", updatedEntity.getName());
   }

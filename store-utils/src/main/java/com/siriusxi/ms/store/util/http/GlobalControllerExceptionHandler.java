@@ -63,8 +63,8 @@ class GlobalControllerExceptionHandler {
 
   private HttpErrorInfo createHttpErrorInfo(
       HttpStatus httpStatus, ServerHttpRequest request, Exception ex) {
-    final String path = request.getPath().pathWithinApplication().value();
-    final String message = ex.getMessage();
+    final var path = request.getPath().pathWithinApplication().value();
+    final var message = ex.getMessage();
 
     log.debug("Returning HTTP status: {} for path: {}, message: {}", httpStatus, path, message);
     return new HttpErrorInfo(httpStatus, path, message);

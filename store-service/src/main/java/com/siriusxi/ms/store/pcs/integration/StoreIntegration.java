@@ -29,6 +29,8 @@ import static org.springframework.http.HttpMethod.GET;
 @Log4j2
 public class StoreIntegration implements ProductService, RecommendationEndpoint, ReviewService {
 
+  public static final String PRODUCT_ID_QUERY_PARAM = "?productId=";
+
   private final RestTemplate restTemplate;
   private final ObjectMapper mapper;
 
@@ -77,7 +79,7 @@ public class StoreIntegration implements ProductService, RecommendationEndpoint,
       log.debug("Will post a new product to URL: {}", url);
 
       Product product = restTemplate.postForObject(url, body, Product.class);
-      log.debug("Created a product with id: {}", product.getProductId());
+      log.debug("Created a product with id: {}", product != null ? product.getProductId() : -1);
 
       return product;
 
@@ -94,7 +96,7 @@ public class StoreIntegration implements ProductService, RecommendationEndpoint,
       log.debug("Will call the getProduct API on URL: {}", url);
 
       Product product = restTemplate.getForObject(url, Product.class);
-      log.debug("Found a product with id: {}", product.getProductId());
+      log.debug("Found a product with id: {}", product != null ? product.getProductId() : -1);
 
       return product;
 
@@ -124,7 +126,8 @@ public class StoreIntegration implements ProductService, RecommendationEndpoint,
       log.debug("Will post a new recommendation to URL: {}", url);
 
       Recommendation recommendation = restTemplate.postForObject(url, body, Recommendation.class);
-      log.debug("Created a recommendation with id: {}", recommendation.getProductId());
+      log.debug("Created a recommendation with id: {}",
+              recommendation != null ? recommendation.getRecommendationId() : -1);
 
       return recommendation;
 
@@ -137,7 +140,7 @@ public class StoreIntegration implements ProductService, RecommendationEndpoint,
   public List<Recommendation> getRecommendations(int productId) {
 
     try {
-      String url = recommendationServiceUrl + "?productId=" + productId;
+      String url = recommendationServiceUrl.concat(PRODUCT_ID_QUERY_PARAM).concat(valueOf(productId));
 
       log.debug("Will call the getRecommendations API on URL: {}", url);
       List<Recommendation> recommendations =
@@ -146,7 +149,7 @@ public class StoreIntegration implements ProductService, RecommendationEndpoint,
               .getBody();
 
       log.debug(
-          "Found {} recommendations for a product with id: {}", recommendations.size(), productId);
+          "Found {} recommendations for a product with id: {}", recommendations != null ? recommendations.size() : 0, productId);
       return recommendations;
 
     } catch (Exception ex) {
@@ -160,7 +163,9 @@ public class StoreIntegration implements ProductService, RecommendationEndpoint,
   @Override
   public void deleteRecommendations(int productId) {
     try {
-      String url = recommendationServiceUrl + "?productId=" + productId;
+      String url = recommendationServiceUrl
+              .concat(PRODUCT_ID_QUERY_PARAM)
+              .concat(valueOf(productId));
       log.debug("Will call the deleteRecommendations API on URL: {}", url);
 
       restTemplate.delete(url);
@@ -177,8 +182,8 @@ public class StoreIntegration implements ProductService, RecommendationEndpoint,
       String url = reviewServiceUrl;
       log.debug("Will post a new review to URL: {}", url);
 
-      Review review = restTemplate.postForObject(url, body, Review.class);
-      log.debug("Created a review with id: {}", review.getProductId());
+      var review = restTemplate.postForObject(url, body, Review.class);
+      log.debug("Created a review with id: {}", review != null ? review.getProductId() : 0);
 
       return review;
 
@@ -191,7 +196,9 @@ public class StoreIntegration implements ProductService, RecommendationEndpoint,
   public List<Review> getReviews(int productId) {
 
     try {
-      String url = reviewServiceUrl + "?productId=" + productId;
+      String url = reviewServiceUrl
+              .concat(PRODUCT_ID_QUERY_PARAM)
+              .concat(valueOf(productId));
 
       log.debug("Will call the getReviews API on URL: {}", url);
       List<Review> reviews =
@@ -199,7 +206,7 @@ public class StoreIntegration implements ProductService, RecommendationEndpoint,
               .exchange(url, GET, null, new ParameterizedTypeReference<List<Review>>() {})
               .getBody();
 
-      log.debug("Found {} reviews for a product with id: {}", reviews.size(), productId);
+      log.debug("Found {} reviews for a product with id: {}", reviews != null ? reviews.size() : 0, productId);
       return reviews;
 
     } catch (Exception ex) {
@@ -212,7 +219,9 @@ public class StoreIntegration implements ProductService, RecommendationEndpoint,
   @Override
   public void deleteReviews(int productId) {
     try {
-      String url = reviewServiceUrl + "?productId=" + productId;
+      String url = reviewServiceUrl
+              .concat(PRODUCT_ID_QUERY_PARAM)
+              .concat(valueOf(productId));
       log.debug("Will call the deleteReviews API on URL: {}", url);
 
       restTemplate.delete(url);
@@ -223,16 +232,14 @@ public class StoreIntegration implements ProductService, RecommendationEndpoint,
   }
 
   private RuntimeException handleHttpClientException(HttpClientErrorException ex) {
-    switch (ex.getStatusCode()) {
-      case NOT_FOUND:
-        return new NotFoundException(getErrorMessage(ex));
-      case UNPROCESSABLE_ENTITY:
-        return new InvalidInputException(getErrorMessage(ex));
-      default:
+    return switch (ex.getStatusCode()) {
+      case NOT_FOUND -> new NotFoundException(getErrorMessage(ex));
+      case UNPROCESSABLE_ENTITY -> new InvalidInputException(getErrorMessage(ex));
+      default -> {
         log.warn("Got a unexpected HTTP error: {}, will rethrow it", ex.getStatusCode());
         log.warn("Error body: {}", ex.getResponseBodyAsString());
-        return ex;
-    }
+      throw ex;}
+    };
   }
 
   private String getErrorMessage(HttpClientErrorException ex) {

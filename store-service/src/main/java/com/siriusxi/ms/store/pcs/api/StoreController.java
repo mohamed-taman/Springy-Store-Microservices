@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Log4j2
 public class StoreController implements StoreEndpoint {
-  /** Store service business logic interface. */
+
+  /**
+   * Store service business logic interface.
+   */
   private final StoreService storeService;
 
   @Autowired

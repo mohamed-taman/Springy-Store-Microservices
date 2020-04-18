@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-// FIXME to add all the checks for empty collections
 @Service("StoreServiceImpl")
 @Log4j2
 public class StoreServiceImpl implements StoreService {
@@ -151,9 +150,9 @@ public class StoreServiceImpl implements StoreService {
     // 4. Create info regarding the involved microservices addresses
     String productAddress = product.getServiceAddress();
     String reviewAddress =
-        (reviews != null && reviews.size() > 0) ? reviews.get(0).getServiceAddress() : "";
+        (reviews != null && !reviews.isEmpty()) ? reviews.get(0).getServiceAddress() : "";
     String recommendationAddress =
-        (recommendations != null && recommendations.size() > 0)
+        (recommendations != null && !recommendations.isEmpty())
             ? recommendations.get(0).getServiceAddress()
             : "";
     ServiceAddresses serviceAddresses =
