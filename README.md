@@ -39,7 +39,7 @@ The following topics are going to be covered in this 1st stage (other stages top
 - Adding automated tests of microservices in isolation.
 - Adding semi-automated tests to a microservice landscape.
 
-### System Boundary - μServices Landscape (Release 3)
+### System Boundary - μServices Landscape (Release 4)
 
 ![System Boundary](docs/stage1/app_ms_landscape.png)
 
