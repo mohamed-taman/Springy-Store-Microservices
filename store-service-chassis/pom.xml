@@ -23,7 +23,7 @@
 
     <dependencies>
         <!-- Start - Development dependencies -->
-        <!--  Start - Developer utilities tools   -->
+        <!-- Start - Developer utilities tools   -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -31,21 +31,35 @@
             <optional>true</optional>
         </dependency>
         <!-- End - Developer utilities tools -->
+        <!-- Start - Spring Configs processor   -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
+        <!-- End - Spring Configs processor   -->
         <!-- End - Development dependencies -->
 
-        <!-- Start - Core dependencies -->
+        <!-- Start - Core spring dependencies -->
         <!-- Start - Providing some useful infos about the service through REST API -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <!-- End - Providing some useful infos about the service through REST API -->
-        <!-- End - Core dependencies -->
+        <!-- Start - Spring Stream processing using "RabbitMQ massaging" -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+        </dependency>
+        <!-- End - Spring Stream processing using "RabbitMQ massaging" -->
+        <!-- Start - Spring Stream processing using "Kafka" -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-stream-kafka</artifactId>
+        </dependency>
+        <!-- End - Spring Stream processing using "Kafka" -->
+        <!-- End - Core spring dependencies -->
 
         <!-- Start - Testing dependencies -->
         <dependency>
@@ -65,11 +79,20 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Start - Spring reactor testing library -->
         <dependency>
             <groupId>io.projectreactor</groupId>
             <artifactId>reactor-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- End - Spring reactor testing library -->
+        <!-- Start - Spring Stream testing library -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-stream-test-support</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- End - Spring Stream testing library -->
         <!-- End - Testing dependencies -->
 
         <!-- Start - Store application business dependencies -->

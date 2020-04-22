@@ -1,0 +1,148 @@
+version: '3.7' ## Latest version works with Docker Engine release 18.06.0+
+
+services:
+  product:
+    build: product-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - MANAGEMENT_HEALTH_RABBIT_ENABLED=false
+      - SPRING_CLOUD_STREAM_DEFAULTBINDER=kafka
+      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
+      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCECOUNT=2
+      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCEINDEX=0
+    depends_on:
+      - mongodb
+      - kafka
+  product-i1:
+    build: product-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - MANAGEMENT_HEALTH_RABBIT_ENABLED=false
+      - SPRING_CLOUD_STREAM_DEFAULTBINDER=kafka
+      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
+      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCECOUNT=2
+      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCEINDEX=1
+    depends_on:
+      - mongodb
+      - kafka
+
+  recommendation:
+    build: recommendation-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - MANAGEMENT_HEALTH_RABBIT_ENABLED=false
+      - SPRING_CLOUD_STREAM_DEFAULTBINDER=kafka
+      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
+      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCECOUNT=2
+      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCEINDEX=0
+    depends_on:
+      - mongodb
+      - kafka
+  recommendation-i1:
+    build: recommendation-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - MANAGEMENT_HEALTH_RABBIT_ENABLED=false
+      - SPRING_CLOUD_STREAM_DEFAULTBINDER=kafka
+      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
+      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCECOUNT=2
+      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCEINDEX=1
+    depends_on:
+      - mongodb
+      - kafka
+
+  review:
+    build: review-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - MANAGEMENT_HEALTH_RABBIT_ENABLED=false
+      - SPRING_CLOUD_STREAM_DEFAULTBINDER=kafka
+      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
+      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCECOUNT=2
+      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCEINDEX=0
+    depends_on:
+      - mysql
+      - kafka
+    restart: on-failure
+  review-i1:
+    build: review-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - MANAGEMENT_HEALTH_RABBIT_ENABLED=false
+      - SPRING_CLOUD_STREAM_DEFAULTBINDER=kafka
+      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
+      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCECOUNT=2
+      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCEINDEX=1
+    depends_on:
+      - mysql
+      - kafka
+    restart: on-failure
+
+  store:
+    build: store-service
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - MANAGEMENT_HEALTH_RABBIT_ENABLED=false
+      - SPRING_CLOUD_STREAM_DEFAULTBINDER=kafka
+      - SPRING_CLOUD_STREAM_BINDINGS_OUTPUT-PRODUCTS_PRODUCER_PARTITION-KEY-EXPRESSION=payload.key
+      - SPRING_CLOUD_STREAM_BINDINGS_OUTPUT-PRODUCTS_PRODUCER_PARTITION-COUNT=2
+      - SPRING_CLOUD_STREAM_BINDINGS_OUTPUT-RECOMMENDATIONS_PRODUCER_PARTITION-KEY-EXPRESSION=payload.key
+      - SPRING_CLOUD_STREAM_BINDINGS_OUTPUT-RECOMMENDATIONS_PRODUCER_PARTITION-COUNT=2
+      - SPRING_CLOUD_STREAM_BINDINGS_OUTPUT-REVIEWS_PRODUCER_PARTITION-KEY-EXPRESSION=payload.key
+      - SPRING_CLOUD_STREAM_BINDINGS_OUTPUT-REVIEWS_PRODUCER_PARTITION-COUNT=2
+    depends_on:
+      - kafka
+
+  # $ mongo
+  mongodb:
+    image: mongo:4.2.5-bionic
+    ports:
+      - "27017-27019:27017-27019"
+    healthcheck:
+      test: "mongo --eval 'db.stats().ok'"
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+    restart: on-failure
+
+  # $ mysql -uroot -h127.0.0.1 -p
+  mysql:
+    image: mysql:8.0.19
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpwd
+      - MYSQL_DATABASE=review-db
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=pwd
+      - MYSQL_ROOT_HOST=%
+    healthcheck:
+      test: "/usr/bin/mysql --user=user --password=pwd --execute \"SHOW DATABASES;\""
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: on-failure
+
+  # Kafka Messaging service
+  kafka:
+    image: wurstmeister/kafka:latest
+    ports:
+      - "9092:9092"
+    environment:
+      - KAFKA_ADVERTISED_HOST_NAME=kafka
+      - KAFKA_ADVERTISED_PORT=9092
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+    depends_on:
+      - zookeeper
+    restart: on-failure
+
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+    ports:
+      - "2181:2181"
+    environment:
+      - KAFKA_ADVERTISED_HOST_NAME=zookeeper
+    restart: on-failure

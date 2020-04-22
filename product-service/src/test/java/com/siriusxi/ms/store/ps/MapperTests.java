@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MapperTests {
+class MapperTests {
 
   private final ProductMapper mapper = ProductMapper.INSTANCE;
 

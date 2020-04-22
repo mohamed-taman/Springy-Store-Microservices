@@ -7,6 +7,7 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - mongodb
+      - rabbitmq
 
   recommendation:
     build: recommendation-service
@@ -14,6 +15,7 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - mongodb
+      - rabbitmq
 
   review:
     build: review-service
@@ -21,6 +23,7 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - mysql
+      - rabbitmq
     restart: on-failure
 
   store:
@@ -29,6 +32,8 @@ services:
       - "8080:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - rabbitmq
 
   # $ mongo
   mongodb:
@@ -36,12 +41,12 @@ services:
     ports:
       - "27017-27019:27017-27019"
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongo mongodb:27017/test --quiet 1
+      test: "mongo --eval 'db.stats().ok'"
       interval: 10s
       timeout: 10s
       retries: 5
       start_period: 40s
-    restart: always
+    restart: on-failure
 
   # $ mysql -uroot -h127.0.0.1 -p
   mysql:
@@ -55,8 +60,21 @@ services:
       - MYSQL_PASSWORD=pwd
       - MYSQL_ROOT_HOST=%
     healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-uuser", "-ppwd", "-h", "localhost"]
+      test: "/usr/bin/mysql --user=user --password=pwd --execute \"SHOW DATABASES;\""
       interval: 10s
       timeout: 5s
       retries: 10
-    restart: always
+    restart: on-failure
+
+  # RabbitMQ Messaging service
+  rabbitmq:
+    image: rabbitmq:3.8.3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: on-failure

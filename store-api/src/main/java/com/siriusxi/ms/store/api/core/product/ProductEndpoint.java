@@ -2,6 +2,7 @@ package com.siriusxi.ms.store.api.core.product;
 
 import com.siriusxi.ms.store.api.core.product.dto.Product;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -12,7 +13,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  *
  * @see ProductService
  * @author mohamed.taman
- * @version v1.0
+ * @version v4.0
  * @since v3.0 codename Storm
  */
 @RequestMapping("products")
@@ -29,31 +30,5 @@ public interface ProductEndpoint extends ProductService {
    */
   @Override
   @GetMapping(value = "{productId}", produces = APPLICATION_JSON_VALUE)
-  Product getProduct(@PathVariable("productId") int id);
-
-  /**
-   * Sample usage:
-   *
-   * <p><code>curl -X POST $HOST:$PORT/products \ -H "Content-Type: application/json" --data \
-   * '{"productId":123,"name":"product 123","weight":123}'</code>
-   *
-   * @param body product to save.
-   * @return Product just created.
-   * @since v3.0 codename Storm
-   */
-  @Override
-  @PostMapping(produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
-  Product createProduct(@RequestBody Product body);
-
-  /**
-   * Sample usage:
-   *
-   * <p><code>curl -X DELETE $HOST:$PORT/products/1</code>
-   *
-   * @param id to be deleted.
-   * @since v3.0 codename Storm
-   */
-  @Override
-  @DeleteMapping("{productId}")
-  void deleteProduct(@PathVariable("productId") int id);
+  Mono<Product> getProduct(@PathVariable("productId") int id);
 }
