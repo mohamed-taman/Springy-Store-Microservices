@@ -1,8 +1,5 @@
 package com.siriusxi.ms.store.pcs;
 
-import com.siriusxi.ms.store.api.composite.dto.ProductAggregate;
-import com.siriusxi.ms.store.api.composite.dto.RecommendationSummary;
-import com.siriusxi.ms.store.api.composite.dto.ReviewSummary;
 import com.siriusxi.ms.store.api.core.product.dto.Product;
 import com.siriusxi.ms.store.api.core.recommendation.dto.Recommendation;
 import com.siriusxi.ms.store.api.core.review.dto.Review;
@@ -17,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.reactive.server.WebTestClient.BodyContentSpec;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import static java.util.Collections.singletonList;
@@ -33,72 +31,33 @@ class StoreServiceApplicationTests {
   private static final int PRODUCT_ID_NOT_FOUND = 2;
   private static final int PRODUCT_ID_INVALID = 3;
 
-  @Autowired
-  private WebTestClient client;
+  @Autowired private WebTestClient client;
 
-  @MockBean
-  private StoreIntegration storeIntegration;
+  @MockBean private StoreIntegration storeIntegration;
 
   @BeforeEach
   void setUp() {
 
     when(storeIntegration.getProduct(PRODUCT_ID_OK))
-        .thenReturn(new Product(PRODUCT_ID_OK, "name", 1, "mock-address"));
+        .thenReturn(Mono.just(new Product(PRODUCT_ID_OK, "name", 1, "mock-address")));
 
     when(storeIntegration.getRecommendations(PRODUCT_ID_OK))
         .thenReturn(
-            singletonList(
-                new Recommendation(PRODUCT_ID_OK, 1, "author", 1, "content", "mock address")));
+            Flux.fromIterable(
+                singletonList(
+                    new Recommendation(PRODUCT_ID_OK, 1, "author", 1, "content", "mock address"))));
 
     when(storeIntegration.getReviews(PRODUCT_ID_OK))
         .thenReturn(
-            singletonList(
-                new Review(PRODUCT_ID_OK, 1, "author", "subject", "content", "mock address")));
+            Flux.fromIterable(
+                singletonList(
+                    new Review(PRODUCT_ID_OK, 1, "author", "subject", "content", "mock address"))));
 
     when(storeIntegration.getProduct(PRODUCT_ID_NOT_FOUND))
         .thenThrow(new NotFoundException("NOT FOUND: " + PRODUCT_ID_NOT_FOUND));
 
     when(storeIntegration.getProduct(PRODUCT_ID_INVALID))
         .thenThrow(new InvalidInputException("INVALID: " + PRODUCT_ID_INVALID));
-  }
-
-  @Test
-  public void createCompositeProduct1() {
-
-    var compositeProduct = new ProductAggregate(1, "name", 1, null, null, null);
-
-    postAndVerifyProductIsCreated(compositeProduct);
-  }
-
-  @Test
-  public void createCompositeProduct2() {
-    var compositeProduct =
-        new ProductAggregate(
-            1,
-            "name",
-            1,
-            singletonList(new RecommendationSummary(1, "a", 1, "c")),
-            singletonList(new ReviewSummary(1, "a", "s", "c")),
-            null);
-
-    postAndVerifyProductIsCreated(compositeProduct);
-  }
-
-  @Test
-  public void deleteCompositeProduct() {
-    var compositeProduct =
-        new ProductAggregate(
-            1,
-            "name",
-            1,
-            singletonList(new RecommendationSummary(1, "a", 1, "c")),
-            singletonList(new ReviewSummary(1, "a", "s", "c")),
-            null);
-
-    postAndVerifyProductIsCreated(compositeProduct);
-
-    deleteAndVerifyProductIsDeleted(compositeProduct.getProductId());
-    deleteAndVerifyProductIsDeleted(compositeProduct.getProductId());
   }
 
   @Test
@@ -144,19 +103,5 @@ class StoreServiceApplicationTests {
         .expectHeader()
         .contentType(APPLICATION_JSON)
         .expectBody();
-  }
-
-  private void postAndVerifyProductIsCreated(ProductAggregate compositeProduct) {
-    client
-        .post()
-        .uri(BASE_URL)
-        .body(Mono.just(compositeProduct), ProductAggregate.class)
-        .exchange()
-        .expectStatus()
-        .isEqualTo(OK);
-  }
-
-  private void deleteAndVerifyProductIsDeleted(int productId) {
-    client.delete().uri(BASE_URL + productId).exchange().expectStatus().isEqualTo(OK);
   }
 }

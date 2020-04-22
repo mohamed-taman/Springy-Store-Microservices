@@ -7,6 +7,8 @@ import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import static java.lang.String.format;
+
 @Document(collection = "recommendations")
 @CompoundIndex(
     name = "prod-rec-id",

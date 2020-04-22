@@ -8,16 +8,15 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
 
 /**
  * Class <code>ReviewController</code> is the implementation of the main Review Endpoint API
  * definition.
  *
- * @see ProductEndpoint
+ * @see ReviewEndpoint
  * @author mohamed.taman
- * @version v1.0
+ * @version v4.0
  * @since v3.0 codename Storm
  */
 @RestController
@@ -34,19 +33,7 @@ public class ReviewController implements ReviewEndpoint {
 
   /** {@inheritDoc} */
   @Override
-  public Review createReview(Review body) {
-    return reviewService.createReview(body);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public List<Review> getReviews(int productId) {
+  public Flux<Review> getReviews(int productId) {
     return reviewService.getReviews(productId);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public void deleteReviews(int productId) {
-    reviewService.deleteReviews(productId);
   }
 }

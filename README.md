@@ -39,7 +39,7 @@ The following topics are going to be covered in this 1st stage (other stages top
 - Adding automated tests of microservices in isolation.
 - Adding semi-automated tests to a microservice landscape.
 
-### System Boundary - μServices Landscape (Release 3)
+### System Boundary - μServices Landscape (Release 4)
 
 ![System Boundary](docs/stage1/app_ms_landscape.png)
 
@@ -69,7 +69,7 @@ I recommend that you work with your Java code using an IDE that supports the dev
 
 All that you want to do is just fire up your IDE **->** open or import the parent folder `springy-store-microservices` and everything will be ready for you.
 
-## Playing With Spring Store Project
+## Playing With Springy Store Project
 
 ### Cloning It
 
@@ -156,29 +156,94 @@ All build commands and test suite for each microservice should run successfully,
 ```
 
 ### Running Them All
-Now it's the time to run all of them, and it's very simple just run the following *<u>docker compose</u>* commands:
+#### Using RabbitMQ without the use of partitions
+Now it's the time to run all of our reactive Microservices, and it's very simple just run the
+ following
+`docker-compose` commands:
 
 ```bash
 mohamed.taman@DTLNV8 ~/springy-store-microservices 
 λ docker-compose -p ssm up -d
 ```
 
-All the **services** and **databases** will run in parallel in detached mode (option `-d`), and their output will be printed to the console as the following:
+All the **services**, **databases**, and **messaging service** will run in parallel in detach
+ mode
+ (option `-d`), and
+ command output will print to the console the following:
 
 ```bash
 Creating network "ssm_default" with the default driver
-Creating ssm_mysql_1   ... done
-Creating ssm_mongodb_1 ... done
-Creating ssm_store_1   ... done
+Creating ssm_mysql_1          ... done
+Creating ssm_mongodb_1        ... done
+Creating ssm_rabbitmq_1       ... done
+Creating ssm_store_1          ... done
 Creating ssm_review_1         ... done
 Creating ssm_product_1        ... done
 Creating ssm_recommendation_1 ... done
 ```
 
 ### Access Store APIs
-You can manually test `Store Service` APIs through out its **Swagger** interface at the following
+You can manually test `Store Service` APIs throughout its **Swagger** interface at the following
  URL [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html).
+#### Access RabbitMQ
+In browser point to this URL [http://localhost:5672/](http://localhost:5672/) `username: guest
+` and `password: guest`, and you can see all **topics**, **DLQs**, **partitions**, and payload.
 
+1. For running 2 instances of each service and using _RabbitMQ with two partitions per topic_, use
+ the following
+ `docker-compose` command:
+     ```bash
+     mohamed.taman@DTLNV8 ~/springy-store-microservices 
+     λ docker-compose -p ssm -f docker-compose-partitions.yml up -d 
+     ```
+ 1. To use _Kafka and Zookeeper with two partitions per topic_ run the following
+  command:
+      ```bash
+      mohamed.taman@DTLNV8 ~/springy-store-microservices 
+      λ docker-compose -p ssm -f docker-compose-kafka.yml up -d
+      ```
+
+#### Check All Services Health
+From Store front Service we can check all the core services health, when you have all the
+ microservices up and running using Docker Compose,
+```bash
+mohamed.taman@DTLNV8 ~/springy-store-microservices 
+λ curl http://localhost:8080/actuator/health -s | jq .
+```
+This will result in the following response:
+```json
+{
+   "status":"UP",
+    "components":{
+      "Core System Microservices":{
+         "status":"UP",
+         "components":{
+            "Product Service":{
+               "status":"UP"
+            },
+            "Recommendation Service":{
+               "status":"UP"
+            },
+            "Review Service":{
+               "status":"UP"
+            }
+         }
+      },
+      "diskSpace":{
+         "status":"UP",
+         "details":{
+            "total":255382777856,
+            "free":86618931200,
+            "threshold":10485760,
+            "exists":true
+         }
+      },
+      "ping":{
+         "status":"UP"
+      }
+   }
+}
+```
 ### Testing Them All
 Now it's time to test all the application functionality as one part. To do so just run
  the following automation test script:
@@ -188,7 +253,7 @@ mohamed.taman@DTLNV8 ~/springy-store-microservices
 λ ./test-em-all.sh
 ```
 
-The result should be something like this:
+The result will look like this:
 
 ```bash
 Starting [Springy Store] full functionality testing....
@@ -227,10 +292,10 @@ Finally, to close the story, we will need to shut down Microservices manually se
 
 ```bash
 mohamed.taman@DTLNV8 ~/springy-store-microservices 
-λ docker-compose -p ssm down
+λ docker-compose -p ssm down --remove-orphans
 ```
 
- And the output should be as the following:
+ And you should see output like the following:
 
 ```bash
 Stopping ssm_recommendation_1 ... done
@@ -239,12 +304,14 @@ Stopping ssm_review_1         ... done
 Stopping ssm_mongodb_1        ... done
 Stopping ssm_store_1          ... done
 Stopping ssm_mysql_1          ... done
+Stopping ssm_rabbitmq_1       ... done
 Removing ssm_recommendation_1 ... done
 Removing ssm_product_1        ... done
 Removing ssm_review_1         ... done
 Removing ssm_mongodb_1        ... done
 Removing ssm_store_1          ... done
 Removing ssm_mysql_1          ... done
+Removing ssm_rabbitmq_1       ... done
 Removing network ssm_default
 ```
 

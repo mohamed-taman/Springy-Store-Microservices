@@ -24,7 +24,7 @@ import static org.springframework.transaction.annotation.Propagation.NOT_SUPPORT
 @Transactional(propagation = NOT_SUPPORTED)
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class PersistenceTests {
+class PersistenceTests {
 
   @Autowired private ReviewRepository repository;
 

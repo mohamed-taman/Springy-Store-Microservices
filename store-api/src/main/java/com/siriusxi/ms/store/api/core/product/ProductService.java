@@ -1,6 +1,7 @@
 package com.siriusxi.ms.store.api.core.product;
 
 import com.siriusxi.ms.store.api.core.product.dto.Product;
+import reactor.core.publisher.Mono;
 
 /**
  * Interface that define the general service contract (methods) for the Product
@@ -18,21 +19,21 @@ public interface ProductService {
 
   /**
    * Get the product with Id from repository.
+   * It is a Non-Blocking API.
    *
    * @param id is the product id that you are looking for.
    * @return the product, if found, else null.
    * @since v0.1
    */
-  Product getProduct(int id);
+  Mono<Product> getProduct(int id);
 
   /**
    * Add product to the repository.
    *
    * @param body product to save.
-   * @return just created product.
    * @since v0.1
    */
-  Product createProduct(Product body);
+  default Product createProduct(Product body){ return null;}
 
   /**
    * Delete the product from repository.
@@ -41,5 +42,5 @@ public interface ProductService {
    * @param id to be deleted.
    * @since v0.1
    */
-  void deleteProduct(int id);
+  default void deleteProduct(int id){}
 }

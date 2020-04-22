@@ -1,12 +1,11 @@
 package com.siriusxi.ms.store.ps.persistence;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
+import reactor.core.publisher.Mono;
 
 @Repository
-public interface ProductRepository extends PagingAndSortingRepository<ProductEntity, String> {
+public interface ProductRepository extends ReactiveCrudRepository<ProductEntity, String> {
 
-  Optional<ProductEntity> findByProductId(int productId);
+  Mono<ProductEntity> findByProductId(int productId);
 }

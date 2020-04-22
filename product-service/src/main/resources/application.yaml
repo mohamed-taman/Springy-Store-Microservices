@@ -7,6 +7,39 @@ spring:
       port: 27017
       database: product-db
       auto-index-creation: true
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    stream:
+      defaultBinder: rabbit
+      default:
+        contentType: application/json
+      bindings:
+        input:
+          destination: products
+          group: productsGroup
+          consumer:
+            maxAttempts: 3
+            backOffInitialInterval: 500
+            backOffMaxInterval: 1000
+            backOffMultiplier: 2.0
+      rabbit:
+        bindings:
+          input:
+            consumer:
+              autoBindDlq: true
+              republishToDlq: true
+      kafka:
+        bindings:
+          input:
+            consumer:
+              enableDlq: true
+        binder:
+          brokers: 127.0.0.1
+          defaultBrokerPort: 9092
 
 server:
   port: 9081
@@ -16,9 +49,14 @@ logging:
     web: DEBUG
     root: INFO
     com.siriusxi.ms.store: DEBUG
-    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+    org:
+      springframework.data.mongodb.core.MongoTemplate: DEBUG
+      mongodb: debug
 
 management:
+  info:
+    git:
+      mode: full
   endpoints:
     web:
       exposure:
@@ -26,6 +64,8 @@ management:
   endpoint:
     shutdown:
       enabled: true
+    health:
+      show-details: always
 
 # This is a docker specific profile properties
 # Also profiles could be separated in its owen file
@@ -38,6 +78,13 @@ spring:
   data:
     mongodb:
       host: mongodb
+  rabbitmq:
+    host: rabbitmq
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: kafka
 
 server:
   port: 8080

@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -53,7 +54,7 @@ public interface StoreEndpoint extends StoreService {
       })
   @GetMapping(value = "products/{id}",
           produces = APPLICATION_JSON_VALUE)
-  ProductAggregate getProduct(@PathVariable int id);
+  Mono<ProductAggregate> getProduct(@PathVariable int id);
 
   /**
    * Sample usage:

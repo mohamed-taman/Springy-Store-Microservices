@@ -2,6 +2,35 @@ spring:
   application:
     name: store-service
 
+  cloud:
+    stream:
+      default-binder: rabbit
+      default:
+        contentType: application/json
+      bindings:
+        output-products:
+          destination: products
+          producer:
+            required-groups: auditGroup
+        output-recommendations:
+          destination: recommendations
+          producer:
+            required-groups: auditGroup
+        output-reviews:
+          destination: reviews
+          producer:
+            required-groups: auditGroup
+      kafka:
+        binder:
+          brokers: 127.0.0.1
+          defaultBrokerPort: 9092
+
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+
 server:
   port: 9080
 
@@ -12,6 +41,9 @@ logging:
     com.siriusxi.ms.store: DEBUG
 
 management:
+  info:
+    git:
+      enabled: true
   endpoints:
     web:
       exposure:
@@ -19,6 +51,8 @@ management:
   endpoint:
     shutdown:
       enabled: true
+    health:
+      show-details: "ALWAYS"
 
 # Custom configurations
 app:
@@ -35,8 +69,16 @@ app:
 # Swagger properties
 api:
   common:
-    version: 1.0.0
-    title: Springy Store μServices
+    version: 4.0
+    title: "Springy Store μServices"
+    termsOfServiceUrl: https://mohamed-taman.github.io/Springy-Store-Microservices/
+    license: "MIT License"
+    licenseUrl: "https://github.com/mohamed-taman/Springy-Store-Microservices/blob/master/LICENSE"
+
+    contact:
+      name: "Mohamed Taman"
+      url: "https://twitter.com/_tamanm"
+      email: "mohamed.taman@mail.com"
     description: |
       **Springy Store** is a conceptual simple μServices-based project using the latest
       cutting-edge technologies, to demonstrate how the store is created to be a
@@ -44,14 +86,6 @@ api:
 
       This project μServices are developed based on Spring Boot & Cloud framework, that implement
       **cloud-native** intuitive, **design patterns** and **best practices**.
-    termsOfServiceUrl: https://mohamed-taman.github.io/Springy-Store-Microservices/
-    license: MIT License
-    licenseUrl: https://github.com/mohamed-taman/Springy-Store-Microservices/blob/master/LICENSE
-
-    contact:
-      name: Mohamed Taman
-      url: https://twitter.com/_tamanm
-      email: mohamed.taman@mail.com
 
   product-composite:
     get-composite-product:
@@ -96,6 +130,13 @@ spring:
   profiles: docker
   jmx:
     enabled: false
+  rabbitmq:
+    host: rabbitmq
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: kafka
 
 server:
   port: 8080

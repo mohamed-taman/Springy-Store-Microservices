@@ -1,6 +1,7 @@
 package com.siriusxi.ms.store.api.composite;
 
 import com.siriusxi.ms.store.api.composite.dto.ProductAggregate;
+import reactor.core.publisher.Mono;
 
 /**
  * Interface that define the general service contract (methods) for the Store
@@ -28,13 +29,14 @@ public interface StoreService {
   /**
    * Get the aggregate product with its reviews and recommendations and services involved in the
    * call.
+   * It is a Non-Blocking API.
    *
    * @see ProductAggregate
    * @param id is the product id that you are looking for.
    * @return the product, if found, else null.
    * @since v0.1
    */
-  ProductAggregate getProduct(int id);
+  Mono<ProductAggregate> getProduct(int id);
 
   /**
    * Delete the product and all its relate reviews and recommendations from their repositories.
