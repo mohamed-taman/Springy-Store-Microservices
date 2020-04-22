@@ -261,7 +261,7 @@ Starting [Springy Store] full functionality testing....
 Start: Sun, Apr 12, 2020 2:34:19 PM
 HOST=localhost
 PORT=8080
-Wait for: curl -X DELETE http://localhost:8080/store/api/v1/products/13... Ok
+Wait for: curl http://localhost:8080/actuator/health ... Ok
 Test OK (HTTP Code: 200)
 Test OK (HTTP Code: 200)
 Test OK (HTTP Code: 200)
