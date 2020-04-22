@@ -21,7 +21,7 @@
         <!-- Start - Data technology layer -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+            <artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
         </dependency>
         <!-- End - Data technology layer -->
 

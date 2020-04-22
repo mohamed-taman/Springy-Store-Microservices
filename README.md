@@ -69,7 +69,7 @@ I recommend that you work with your Java code using an IDE that supports the dev
 
 All that you want to do is just fire up your IDE **->** open or import the parent folder `springy-store-microservices` and everything will be ready for you.
 
-## Playing With Spring Store Project
+## Playing With Springy Store Project
 
 ### Cloning It
 

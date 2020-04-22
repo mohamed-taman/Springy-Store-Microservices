@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MapperTests {
+class MapperTests {
 
   private final ReviewMapper mapper = ReviewMapper.INSTANCE;
 

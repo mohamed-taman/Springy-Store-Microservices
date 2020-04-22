@@ -1,7 +1,6 @@
 spring:
   application:
     name: review-service
-
   jpa:
     show-sql: true
     open-in-view: false
@@ -24,7 +23,7 @@ spring:
     hikari:
       initializationFailTimeout: 60000
       connection-test-query: SELECT 1
-
+      maximum-pool-size: 10
   flyway:
     #Enable or disable flyway migrations
     enabled: true
@@ -32,7 +31,39 @@ spring:
     schemas: review-db
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
-
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    stream:
+      defaultBinder: rabbit
+      default:
+        contentType: application/json
+      bindings:
+        input:
+          destination: reviews
+          group: reviewsGroup
+          consumer:
+            maxAttempts: 3
+            backOffInitialInterval: 500
+            backOffMaxInterval: 1000
+            backOffMultiplier: 2.0
+      rabbit:
+        bindings:
+          input:
+            consumer:
+              autoBindDlq: true
+              republishToDlq: true
+      kafka:
+        bindings:
+          input:
+            consumer:
+              enableDlq: true
+        binder:
+          brokers: 127.0.0.1
+          defaultBrokerPort: 9092
 server:
   port: 9083
 
@@ -57,6 +88,8 @@ management:
   endpoint:
     shutdown:
       enabled: true
+    health:
+      show-details: always
 
 # This is a docker specific profile properties
 # Also profiles could be separated in its owen file
@@ -71,6 +104,13 @@ spring:
 
   flyway:
     url: "jdbc:mysql://mysql/review-db?useSSL=false&serverTimezone=UTC"
+  rabbitmq:
+    host: rabbitmq
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: kafka
 
 server:
   port: 8080

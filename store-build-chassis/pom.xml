@@ -19,6 +19,7 @@
 
     <properties>
         <java.version>14</java.version>
+        <spring.cloud.version>Hoxton.RELEASE</spring.cloud.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -47,6 +48,15 @@
                 <version>${springfox.swagger.version}</version>
             </dependency>
             <!-- End - API documentation with Swagger -->
+            <!-- Start - Spring cloud dependencies -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- End - Spring cloud dependencies -->
         </dependencies>
     </dependencyManagement>
     <!-- General and common dependencies for all services and libraries -->
@@ -66,6 +76,13 @@
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
         <!-- End - Typical spring reactive web framework -->
+        <!-- Start - Spring tool to check the old keys to be migrated to new ones -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-properties-migrator</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- End - Spring tool to check the old keys to be migrated to new ones -->
     </dependencies>
 
     <build>
@@ -96,6 +113,10 @@
                     <version>${maven.surefire.plugin.version}</version>
                     <configuration>
                         <argLine>--enable-preview</argLine>
+                        <includes>
+                            <include>**/*Tests.java</include>
+                            <include>**/*Test.java</include>
+                        </includes>
                     </configuration>
                 </plugin>
                 <plugin>

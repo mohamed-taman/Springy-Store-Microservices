@@ -2,6 +2,7 @@ package com.siriusxi.ms.store.api.core.review;
 
 import com.siriusxi.ms.store.api.core.review.dto.Review;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -14,26 +15,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  *
  * @see ReviewService
  * @author mohamed.taman
- * @version v1.0
+ * @version v4.0
  * @since v3.0 codename Storm
  */
 @RequestMapping("reviews")
 public interface ReviewEndpoint extends ReviewService {
-
-  /**
-   * Sample usage:
-   *
-   * <p><code>curl -X POST $HOST:$PORT/reviews \
-   *   -H "Content-Type: application/json" --data \
-   *   '{"productId":123,"reviewId":456,"author":"me","subject":"yada, yada, yada",
-   *     "content":"yada, yada, yada"}'</code>
-   *
-   * @param body review to be created.
-   * @return just created review.
-   * @since v3.0 codename Storm
-   */
-  @PostMapping(produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
-  Review createReview(@RequestBody Review body);
 
   /**
    * Sample usage:
@@ -45,16 +31,5 @@ public interface ReviewEndpoint extends ReviewService {
    * @since v3.0 codename Storm
    */
   @GetMapping(produces = APPLICATION_JSON_VALUE)
-  List<Review> getReviews(@RequestParam("productId") int productId);
-
-  /**
-   * Sample usage:
-   *
-   * <p><code>curl -X DELETE $HOST:$PORT/review?productId=1</code>
-   *
-   * @param productId to delete its reviews.
-   * @since v3.0 codename Storm
-   */
-  @DeleteMapping
-  void deleteReviews(@RequestParam("productId") int productId);
+  Flux<Review> getReviews(@RequestParam("productId") int productId);
 }
