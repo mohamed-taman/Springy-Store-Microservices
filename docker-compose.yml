@@ -1,6 +1,7 @@
 version: '3.7' ## Latest version works with Docker Engine release 18.06.0+
 
 services:
+  ## Start - Product service definition
   product:
     build: product-service
     environment:
@@ -8,7 +9,9 @@ services:
     depends_on:
       - mongodb
       - rabbitmq
+  ## End - Product service definition
 
+  ## Start - Recommendation service definition
   recommendation:
     build: recommendation-service
     environment:
@@ -16,7 +19,9 @@ services:
     depends_on:
       - mongodb
       - rabbitmq
+  ## End - Recommendation service definition
 
+  ## Start - Review service definition
   review:
     build: review-service
     environment:
@@ -25,7 +30,9 @@ services:
       - mysql
       - rabbitmq
     restart: on-failure
+  ## End - Review service definition
 
+  ## Start - Store service definition
   store:
     build: store-service
     ports:
@@ -34,8 +41,10 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - rabbitmq
+  ## End - Store service definition
 
-  # $ mongo
+  ## Start - mongodb database definition
+  ### $ mongo
   mongodb:
     image: mongo:4.2.5-bionic
     ports:
@@ -47,8 +56,10 @@ services:
       retries: 5
       start_period: 40s
     restart: on-failure
+  ## End - mongodb database definition
 
-  # $ mysql -uroot -h127.0.0.1 -p
+  ## Start - MySql database definition
+  ### $ mysql -uroot -h127.0.0.1 -p
   mysql:
     image: mysql:8.0.19
     ports:
@@ -65,8 +76,9 @@ services:
       timeout: 5s
       retries: 10
     restart: on-failure
+  ## End - MySql database definition
 
-  # RabbitMQ Messaging service
+  ## Start - RabbitMQ Messaging service
   rabbitmq:
     image: rabbitmq:3.8.3-management
     ports:
@@ -78,3 +90,4 @@ services:
       timeout: 5s
       retries: 10
     restart: on-failure
+  ## End - RabbitMQ Messaging service

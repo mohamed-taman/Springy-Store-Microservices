@@ -1,6 +1,8 @@
 version: '3.7' ## Latest version works with Docker Engine release 18.06.0+
 
 services:
+  ## Start - Product service definition
+  ### Instance 1
   product:
     build: product-service
     environment:
@@ -13,6 +15,7 @@ services:
     depends_on:
       - mongodb
       - kafka
+  ### Instance 2
   product-i1:
     build: product-service
     environment:
@@ -25,7 +28,10 @@ services:
     depends_on:
       - mongodb
       - kafka
+  ## End - Product service definition
 
+  ## Start - Recommendation service definition
+  ### Instance 1
   recommendation:
     build: recommendation-service
     environment:
@@ -38,6 +44,7 @@ services:
     depends_on:
       - mongodb
       - kafka
+  ### Instance 2
   recommendation-i1:
     build: recommendation-service
     environment:
@@ -50,7 +57,10 @@ services:
     depends_on:
       - mongodb
       - kafka
+  ## End - Recommendation service definition
 
+  ## Start - Review service definition
+  ### Instance 1
   review:
     build: review-service
     environment:
@@ -64,6 +74,7 @@ services:
       - mysql
       - kafka
     restart: on-failure
+  ### Instance 2
   review-i1:
     build: review-service
     environment:
@@ -77,7 +88,9 @@ services:
       - mysql
       - kafka
     restart: on-failure
+  ## End - Review service definition
 
+  ## Start - Store service definition
   store:
     build: store-service
     ports:
@@ -94,8 +107,10 @@ services:
       - SPRING_CLOUD_STREAM_BINDINGS_OUTPUT-REVIEWS_PRODUCER_PARTITION-COUNT=2
     depends_on:
       - kafka
+  ## End - Store service definition
 
-  # $ mongo
+  ## Start - mongodb database definition
+  ### $ mongo
   mongodb:
     image: mongo:4.2.5-bionic
     ports:
@@ -107,8 +122,10 @@ services:
       retries: 5
       start_period: 40s
     restart: on-failure
+  ## End - mongodb database definition
 
-  # $ mysql -uroot -h127.0.0.1 -p
+  ## Start - MySql database definition
+  ### $ mysql -uroot -h127.0.0.1 -p
   mysql:
     image: mysql:8.0.19
     ports:
@@ -125,8 +142,9 @@ services:
       timeout: 5s
       retries: 10
     restart: on-failure
+  ## End - MySql database definition
 
-  # Kafka Messaging service
+  ## Start - Kafka Messaging service
   kafka:
     image: wurstmeister/kafka:latest
     ports:
@@ -138,7 +156,9 @@ services:
     depends_on:
       - zookeeper
     restart: on-failure
+  ## End - Kafka Messaging service
 
+  ## Start - Zookeeper (Kafka) cluster management service
   zookeeper:
     image: wurstmeister/zookeeper:latest
     ports:
@@ -146,3 +166,4 @@ services:
     environment:
       - KAFKA_ADVERTISED_HOST_NAME=zookeeper
     restart: on-failure
+  ## End - Zookeeper cluster management service
