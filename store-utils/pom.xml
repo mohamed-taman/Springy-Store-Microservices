@@ -13,7 +13,7 @@
 
     <artifactId>store-utils</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>Springy Store Utils</name>
+    <name>Store Utils</name>
     <description>Project that define all Springy Store shared functionality</description>
     <packaging>jar</packaging>
 

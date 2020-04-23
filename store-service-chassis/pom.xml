@@ -221,7 +221,7 @@
                     <!--
                          Very important to make sure that the format is set to "properties"
                          (which is the default value if format tag is omitted)
-                         instead of "JSON" inorder to work with spring actuator
+                         instead of "JSON" in order to work with spring actuator
                     -->
                     <format>properties</format>
                     <!--<format>json</format>-->

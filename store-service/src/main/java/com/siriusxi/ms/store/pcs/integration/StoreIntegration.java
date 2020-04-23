@@ -3,7 +3,7 @@ package com.siriusxi.ms.store.pcs.integration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.siriusxi.ms.store.api.core.product.ProductService;
 import com.siriusxi.ms.store.api.core.product.dto.Product;
-import com.siriusxi.ms.store.api.core.recommendation.RecommendationEndpoint;
+import com.siriusxi.ms.store.api.core.recommendation.RecommendationService;
 import com.siriusxi.ms.store.api.core.recommendation.dto.Recommendation;
 import com.siriusxi.ms.store.api.core.review.ReviewService;
 import com.siriusxi.ms.store.api.core.review.dto.Review;
@@ -36,7 +36,7 @@ import static reactor.core.publisher.Flux.empty;
 @EnableBinding(MessageSources.class)
 @Component
 @Log4j2
-public class StoreIntegration implements ProductService, RecommendationEndpoint, ReviewService {
+public class StoreIntegration implements ProductService, RecommendationService, ReviewService {
 
   public static final String PRODUCT_ID_QUERY_PARAM = "?productId=";
   private final WebClient webClient;
