@@ -6,7 +6,7 @@ echo -e "Stopping [Springy Store] μServices ....\n\
 ---------------------------------------\n"
 for port in 9080 9081 9082 9083
 do
-    echo "Stopping Microservice at port $port ...."
+    echo "Stopping μService at port $port ...."
     curl -X POST localhost:${port}/actuator/shutdown
-    echo -e "\nMicroservice at port ${port} stopped successfully .... \n"
+    echo -e "\nμService at port ${port} stopped successfully .... \n"
 done

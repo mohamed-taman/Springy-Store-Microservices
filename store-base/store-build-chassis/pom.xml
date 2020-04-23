@@ -24,7 +24,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!--  Dependencies versions properties  -->
-        <project.config.file.location>../config/maven/store.properties
+        <project.config.file.location>../../config/maven/store.properties
         </project.config.file.location>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <maven.surefire.plugin.version>3.0.0-M4</maven.surefire.plugin.version>

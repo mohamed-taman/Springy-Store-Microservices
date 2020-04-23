@@ -17,13 +17,13 @@
     </properties>
 
     <modules>
-        <module>product-service</module>
-        <module>review-service</module>
-        <module>recommendation-service</module>
-        <module>store-service</module>
-        <module>store-api</module>
-        <module>store-utils</module>
-        <module>store-build-chassis</module>
-        <module>store-service-chassis</module>
+        <module>store-services/product-service</module>
+        <module>store-services/review-service</module>
+        <module>store-services/recommendation-service</module>
+        <module>store-services/store-service</module>
+        <module>store-common/store-api</module>
+        <module>store-common/store-utils</module>
+        <module>store-base/store-build-chassis</module>
+        <module>store-base/store-service-chassis</module>
     </modules>
 </project>

@@ -4,7 +4,7 @@ services:
   ## Start - Product service definition
   ### Instance 1
   product:
-    build: product-service
+    build: store-services/product-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
@@ -15,7 +15,7 @@ services:
       - rabbitmq
   ### Instance 2
   product-i1:
-    build: product-service
+    build: store-services/product-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
@@ -29,7 +29,7 @@ services:
   ## Start - Recommendation service definition
   ### Instance 1
   recommendation:
-    build: recommendation-service
+    build: store-services/recommendation-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
@@ -40,7 +40,7 @@ services:
       - rabbitmq
   ### Instance 2
   recommendation-i1:
-    build: recommendation-service
+    build: store-services/recommendation-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
@@ -54,7 +54,7 @@ services:
   ## Start - Review service definition
   ### Instance 1
   review:
-    build: review-service
+    build: store-services/review-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
@@ -66,7 +66,7 @@ services:
     restart: on-failure
   ### Instance 2
   review-i1:
-    build: review-service
+    build: store-services/review-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
@@ -80,7 +80,7 @@ services:
 
   ## Start - Store service definition
   store:
-    build: store-service
+    build: store-services/store-service
     ports:
       - "8080:8080"
     environment:

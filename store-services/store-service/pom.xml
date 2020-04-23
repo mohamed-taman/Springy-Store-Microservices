@@ -8,7 +8,7 @@
         <groupId>com.siriusxi.ms.store</groupId>
         <artifactId>store-service-chassis</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../store-service-chassis</relativePath>
+        <relativePath>../store-base/store-service-chassis</relativePath>
     </parent>
 
     <artifactId>store-service</artifactId>

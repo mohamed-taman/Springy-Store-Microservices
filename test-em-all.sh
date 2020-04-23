@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ## Author: Mohamed Taman
-## version: v4.0
+## version: v4.1
 ### Sample usage:
 #
 #   for local run
@@ -8,7 +8,7 @@
 #   with docker compose
 #     HOST=localhost PORT=8080 ./test-em-all.bash start stop
 #
-echo -e "Starting [Springy Store] full functionality [Blackbox] testing....\n"
+echo -e "Starting 'Springy Store μServices' for [Blackbox] testing....\n"
 
 : ${HOST=localhost}
 : ${PORT=8080}

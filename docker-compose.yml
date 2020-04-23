@@ -3,7 +3,7 @@ version: '3.7' ## Latest version works with Docker Engine release 18.06.0+
 services:
   ## Start - Product service definition
   product:
-    build: product-service
+    build: store-services/product-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
@@ -13,7 +13,7 @@ services:
 
   ## Start - Recommendation service definition
   recommendation:
-    build: recommendation-service
+    build: store-services/recommendation-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
@@ -23,7 +23,7 @@ services:
 
   ## Start - Review service definition
   review:
-    build: review-service
+    build: store-services/review-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
@@ -34,7 +34,7 @@ services:
 
   ## Start - Store service definition
   store:
-    build: store-service
+    build: store-services/store-service
     ports:
       - "8080:8080"
     environment:
