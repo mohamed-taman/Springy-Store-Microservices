@@ -38,43 +38,33 @@ import static reactor.core.publisher.Flux.empty;
 @Log4j2
 public class StoreIntegration implements ProductService, RecommendationService, ReviewService {
 
-  public static final String PRODUCT_ID_QUERY_PARAM = "?productId=";
-  private final WebClient webClient;
+  private final String PRODUCT_ID_QUERY_PARAM = "?productId=";
+  private final WebClient.Builder webClientBuilder;
+  private WebClient webClient;
   private final ObjectMapper mapper;
   private final MessageSources messageSources;
   private final String productServiceUrl;
   private final String recommendationServiceUrl;
   private final String reviewServiceUrl;
+
   @Autowired
   public StoreIntegration(
-          WebClient.Builder webClient,
-      ObjectMapper mapper,
+          WebClient.Builder webClientBuilder,
+          ObjectMapper mapper,
           MessageSources messageSources,
-      @Value("${app.product-service.host}") String productServiceHost,
-      @Value("${app.product-service.port}") int productServicePort,
-      @Value("${app.recommendation-service.host}") String recommendationServiceHost,
-      @Value("${app.recommendation-service.port}") int recommendationServicePort,
-      @Value("${app.review-service.host}") String reviewServiceHost,
-      @Value("${app.review-service.port}") int reviewServicePort) {
+          @Value("${app.product-service.host}") String productServiceHost,
+          @Value("${app.recommendation-service.host}") String recommendationServiceHost,
+          @Value("${app.review-service.host}") String reviewServiceHost) {
 
-    this.webClient = webClient.build();
+    this.webClientBuilder = webClientBuilder;
     this.mapper = mapper;
     this.messageSources = messageSources;
 
     var http = "http://";
 
-    productServiceUrl =
-        http.concat(productServiceHost)
-            .concat(":")
-            .concat(valueOf(productServicePort));
-    recommendationServiceUrl =
-        http.concat(recommendationServiceHost)
-            .concat(":")
-            .concat(valueOf(recommendationServicePort));
-    reviewServiceUrl =
-        http.concat(reviewServiceHost)
-            .concat(":")
-            .concat(valueOf(reviewServicePort));
+    productServiceUrl = http.concat(productServiceHost);
+    recommendationServiceUrl = http.concat(recommendationServiceHost);
+    reviewServiceUrl = http.concat(reviewServiceHost);
   }
 
   @Override
@@ -95,7 +85,7 @@ public class StoreIntegration implements ProductService, RecommendationService, 
 
     log.debug("Will call the getProduct API on URL: {}", url);
 
-    return webClient
+    return getWebClient()
             .get()
             .uri(url)
             .retrieve()
@@ -136,7 +126,7 @@ public class StoreIntegration implements ProductService, RecommendationService, 
     /* Return an empty result if something goes wrong to make it possible
        for the composite service to return partial responses
     */
-    return webClient
+    return getWebClient()
             .get()
             .uri(url)
             .retrieve()
@@ -173,7 +163,7 @@ public class StoreIntegration implements ProductService, RecommendationService, 
     /* Return an empty result if something goes wrong to make it possible
        for the composite service to return partial responses
     */
-    return webClient
+    return getWebClient()
             .get()
             .uri(url)
             .retrieve()
@@ -201,10 +191,17 @@ public class StoreIntegration implements ProductService, RecommendationService, 
     return getHealth(reviewServiceUrl);
   }
 
+  private WebClient getWebClient() {
+    if (webClient == null) {
+      webClient = webClientBuilder.build();
+    }
+    return webClient;
+  }
+
   private Mono<Health> getHealth(String url) {
     url += "/actuator/health";
     log.debug("Will call the Health API on URL: {}", url);
-    return webClient.get().uri(url).retrieve().bodyToMono(String.class)
+    return getWebClient().get().uri(url).retrieve().bodyToMono(String.class)
             .map(s -> new Health.Builder().up().build())
             .onErrorResume(ex -> Mono.just(new Health.Builder().down(ex).build()))
             .log();

@@ -8,7 +8,6 @@ import org.springframework.boot.actuate.health.ReactiveHealthContributor;
 import org.springframework.boot.actuate.health.ReactiveHealthIndicator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestTemplate;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
@@ -72,11 +71,6 @@ public class StoreServiceConfiguration {
             "Review Service", reviewHealthIndicator);
 
     return CompositeReactiveHealthContributor.fromMap(allIndicators);
-  }
-
-  @Bean
-  RestTemplate newRestClient() {
-    return new RestTemplate();
   }
 
   /**

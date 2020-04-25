@@ -10,3 +10,9 @@ spring:
       # Strongly recommend to set this property to "none" or with flyway  to "validate" in a
       # production environment! This is okay for test.
       ddl-auto: update
+
+# When running tests on a single microservice, we don't want to depend on
+# having the Eureka server up and running.
+eureka:
+  client:
+    enabled: false
