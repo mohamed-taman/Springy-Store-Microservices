@@ -1,30 +1,56 @@
 # Springy Store μServices
 
-- This project is a development of a small set of Spring Boot based Microservices projects, that implement cloud-native intuitive, design patterns and coding best practices.
+- This project is a development of a small set of **Spring Boot** and **Cloud** based Microservices projects, that implement cloud-native intuitive, Reactive Programming, Event-driven, Microservices design patterns and coding best practices.
 - The project follows [**CloudNative**](https://www.cncf.io/) recommendations and The [**twelve-factor app**](https://12factor.net/) methodology for building *software-as-a-service apps* to show how μServices should be built and deployed.
-- The project is using cutting edge technologies like Docker, Kubernetes, Elasticsearch Stack for logging and monitoring, Java SE 14, MySQL database, MongoDB, TDD, unit, integration & performance testing and Reactive Programming, and many more.
+- This project is using cutting edge technologies like Docker, Kubernetes, Elasticsearch Stack for logging and monitoring, Java SE 14, MySQL, and MongoDB databases, all components developed with TDD in mind, covering integration & performance testing, and many more.
 
 ------
-
 I am developing this project as stages, and all such stages are documented under project
- **Springy Store μServices** [wiki page](https://github.com/mohamed-taman/Springy-Store-Microservices/wiki). Each of such stage will be a release in its owen, so you can go back and
-  forward
-  between releases to see the differences and how adding things solve specific problems we face.
+ **Springy Store μServices** [wiki page](https://github.com/mohamed-taman/Springy-Store-Microservices/wiki). Each of such stage will be a release in its own, so you can go back and
+ forward between releases to see the differences and how adding things solve specific problems we face.
 
-For example; in the first stage (1st release) I just created project structure, basic services' skeleton, integration between them, and finally write integration testing as well as semi-automated testing for the whole services' functionality.
+<u>For example;</u> in the first stage (1st release) I just created project structure, basic services' skeleton, integration between them, and finally write integration testing as well as semi-automated testing for the whole services' functionality.
 
-At 1st stage the **Recommendation** and **Review** microservices generate local in-memory data
- and **Store Service** calls the other three services (*Product*, *Recommendation*, and *Review*) statically to generate client aggregate response for a specific product. Therefore, in: 
+At the 1st stage the **Recommendation** and **Review** microservices generate local in-memory data and **Store Service** calls the other three services (*Product*, *Recommendation*, and *Review*) statically to generate client aggregate response for a specific product. Therefore, in: 
 
 - The second stage I will introduce **database integration**, then in (***done***)
 - The third stage I will introduce **Dockerization** of our services and **docker-compose**, and in (***done***)
 - The fourth stage I will introduce **service discovery**, and so on.
 
+## System components Structure
+Let's explain first the system structure to understand its components:
+**Springy Store μService**  --> *Parent folder.*
+|- **config**  --> *All system configuration files*
+|- **docs**  --> *All docs and diagrams.*
+|- **store-base**
+	|- **store-build-chassis**  --> *Super Parent POM, contains all build information*
+	|- **store-cloud-chassis**  --> *Cloud services Parent POM, inherit from build contains all cloud libraries*
+	|- **store-service-chassis**  --> *Parent POM, inherits from cloud contains all microservices common libraries*
+|-**store-cloud-infra**
+	|- **eureka-server**  --> *Service discovery server*
+|-**store-common**
+	|- **store-api**  --> *API Endpoint and services definitions for all microservices*
+	|- **store-utils**  --> *Common utilities shared between all components*
+|-**store-services**
+	|- **product-service**  --> *Product Microservice*
+	|- **recommendation-service**  --> *Recommendation Microservice*
+	|- **review-service**  --> *Review Microservice*
+	|- **store-service**  --> *Store Microservice*
+|- **docker-compose.yml**  --> *contains all services landscape with RabbitMQ*
+|- **docker-compose-kafka.yml**  --> *contains all services landscape with more instances working with  Kafka with partitions*
+|- **docker-compose-partitions.yml**  *--> contains all services landscape with more instances working with  RabbitMQ with partitions*
+|- **run-em-all.sh**   *--> Run all microservices in separate mode.*
+|- **setup.sh**  *--> Install all shared POMs and shared libraries.*
+|- **stop-em-all.sh**  *--> Stop all services runs in standalone mode.*
+|- **test-em-all.sh**  *--> This will start all docker compose landscape and test them, then shutdown docker compose containers with test finishes (use switch start stop)*
+
+Now as we have learned about different system components, then let's start.
+
 ## Getting started
 
 The first stage aka (**Release v1.0**) is about creating and implementing a set of project Microservices.
 
-### Creating a Set of Cooperating Microservices
+### Creating a Set of Cooperating Microservices (Release v1.0)
 
 The following topics are going to be covered in this 1st stage (other stages topics to be documented
  in a
@@ -39,7 +65,7 @@ The following topics are going to be covered in this 1st stage (other stages top
 - Adding automated tests of microservices in isolation.
 - Adding semi-automated tests to a microservice landscape.
 
-### System Boundary - μServices Landscape (Release 4)
+### System Boundary - μServices Landscape (Release 4.5-Latest)
 
 ![System Boundary](docs/stage1/app_ms_landscape.png)
 
@@ -85,11 +111,9 @@ To build and run test cases for each service & shared modules in the project we 
 
 #### First: Build & Install Shared Dependencies
 
-> This done only for the first time or any new version of shared modules.
+> This done only for the first time or any new changes or versions of shared modules and POMs.
 
-To build and install `store-build-chassis`, `store-utils`, `store-api`, `store-chassis` libraries
-, from the root
- folder `springy-store-microservices` run the following commands:
+To build and install `store-build-chassis`, `store-utils`, `store-api`, `store-chassis` libraries, from the root folder `springy-store-microservices` run the following commands:
 
 ```bash
 mohamed.taman@DTLNV8 ~/springy-store-microservices 
@@ -99,25 +123,27 @@ mohamed.taman@DTLNV8 ~/springy-store-microservices
 Now you should expect output like this:
 
 ```bash
-Installing all Springy store core shared modules
-................................................
+Installing all Springy store core shared modules & Parent POMs
+...............................................................
 
 1- Installing [Parent Build Chassis] module...
 Done successfully.
 
-2- Installing shared [Services Utilities] module...
+2- Installing [Parent Cloud Chassis] module...
 Done successfully.
 
-3- Installing shared [Services APIs] module...
+3- Installing shared [Services Utilities] module...
 Done successfully.
 
-4- Installing [Services Parent Chassis] module...
+4- Installing shared [Services APIs] module...
+Done successfully.
+
+5- Installing [Services Parent Chassis] module...
 Done successfully.
 
 Woohoo, building & installing all project modules are finished successfully.
 The project is ready for the next step. :)
 ```
-
 #### Second: Build & Test Microservices
 Now it is time to build our **4 microservices** and run each service integration test in
  isolation by running the following commands:
@@ -130,49 +156,47 @@ mohamed.taman@DTLNV8 ~/springy-store-microservices
 All build commands and test suite for each microservice should run successfully, and the final output should be like this:
 
 ```bash
-[INFO] ---------------< com.siriusxi.ms.store:store-aggregator >---------------
-[INFO] Building Springy Store Aggregator 1.0-SNAPSHOT                     [9/9]
+---------------< com.siriusxi.ms.store:store-aggregator >---------------
+[INFO] Building Springy Store Aggregator 1.0-SNAPSHOT                   [11/11]
 [INFO] --------------------------------[ pom ]---------------------------------
 [INFO]
 [INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ store-aggregator ---
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Summary for Springy Store Aggregator 1.0-SNAPSHOT:
 [INFO]
-[INFO] Springy Store Build Chassis ........................ SUCCESS [  0.276 s]
-[INFO] Springy Store APIs ................................. SUCCESS [  3.920 s]
-[INFO] Springy Store Utils ................................ SUCCESS [  1.508 s]
-[INFO] Springy Store Chassis .............................. SUCCESS [  0.608 s]
-[INFO] Store Service ...................................... SUCCESS [  4.073 s]
-[INFO] Product Service .................................... SUCCESS [  2.710 s]
-[INFO] Review Service ..................................... SUCCESS [  2.633 s]
-[INFO] Recommendation Service ............................. SUCCESS [  2.615 s]
-[INFO] Springy Store Aggregator ........................... SUCCESS [  0.071 s]
+[INFO] Springy Store Build Chassis ........................ SUCCESS [  0.228 s]
+[INFO] Springy Store Cloud Chassis ........................ SUCCESS [  1.257 s]
+[INFO] Store APIs ......................................... SUCCESS [  4.279 s]
+[INFO] Store Utils ........................................ SUCCESS [  1.809 s]
+[INFO] Springy Store Chassis .............................. SUCCESS [  0.857 s]
+[INFO] Product Service .................................... SUCCESS [ 13.079 s]
+[INFO] Review Service ..................................... SUCCESS [  9.332 s]
+[INFO] Recommendation Service ............................. SUCCESS [  8.463 s]
+[INFO] Store Service ...................................... SUCCESS [  8.927 s]
+[INFO] Eureka Discovery Server ............................ SUCCESS [  6.536 s]
+[INFO] Springy Store Aggregator ........................... SUCCESS [  0.100 s]
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  18.900 s
-[INFO] Finished at: 2020-04-09T01:33:14+02:00
+[INFO] Total time:  55.663 s
+[INFO] Finished at: 2020-04-26T03:38:34+02:00
 [INFO] ------------------------------------------------------------------------
 ```
 
 ### Running Them All
 #### Using RabbitMQ without the use of partitions
-Now it's the time to run all of our reactive Microservices, and it's very simple just run the
- following
-`docker-compose` commands:
+Now it's the time to run all of our reactive Microservices, and it's very simple just run the following `docker-compose` commands:
 
 ```bash
 mohamed.taman@DTLNV8 ~/springy-store-microservices 
 λ docker-compose -p ssm up -d
 ```
 
-All the **services**, **databases**, and **messaging service** will run in parallel in detach
- mode
- (option `-d`), and
- command output will print to the console the following:
+All the **services**, **databases**, and **messaging service** will run in parallel in detach mode (option `-d`), and command output will print to the console the following:
 
 ```bash
 Creating network "ssm_default" with the default driver
+Creating ssm_eureka_1         ... done
 Creating ssm_mysql_1          ... done
 Creating ssm_mongodb_1        ... done
 Creating ssm_rabbitmq_1       ... done
@@ -186,23 +210,18 @@ Creating ssm_recommendation_1 ... done
 You can manually test `Store Service` APIs throughout its **Swagger** interface at the following
  URL [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html).
 #### Access RabbitMQ
-In browser point to this URL [http://localhost:5672/](http://localhost:5672/) `username: guest
-` and `password: guest`, and you can see all **topics**, **DLQs**, **partitions**, and payload.
+In browser point to this URL [http://localhost:5672/](http://localhost:5672/) `username: guest` and `password: guest`, and you can see all **topics**, **DLQs**, **partitions**, and payload.
 
-1. For running 2 instances of each service and using _RabbitMQ with two partitions per topic_, use
- the following
- `docker-compose` command:
+1. For running 2 instances of each service and using _RabbitMQ with two partitions per topic_, use the following `docker-compose` command:
      ```bash
      mohamed.taman@DTLNV8 ~/springy-store-microservices 
      λ docker-compose -p ssm -f docker-compose-partitions.yml up -d 
      ```
- 1. To use _Kafka and Zookeeper with two partitions per topic_ run the following
-  command:
-      ```bash
+ 1. To use _Kafka and Zookeeper with two partitions per topic_ run the following command:
+     ```bash
       mohamed.taman@DTLNV8 ~/springy-store-microservices 
       λ docker-compose -p ssm -f docker-compose-kafka.yml up -d
-      ```
-
+     ```
 #### Check All Services Health
 From Store front Service we can check all the core services health, when you have all the
  microservices up and running using Docker Compose,
@@ -250,7 +269,7 @@ Now it's time to test all the application functionality as one part. To do so ju
 
 ```bash
 mohamed.taman@DTLNV8 ~/springy-store-microservices 
-λ ./test-em-all.sh
+λ ./test-em-all.sh start stop
 ```
 
 The result will look like this:
@@ -305,6 +324,7 @@ Stopping ssm_mongodb_1        ... done
 Stopping ssm_store_1          ... done
 Stopping ssm_mysql_1          ... done
 Stopping ssm_rabbitmq_1       ... done
+Stopping ssm_eureka_1         ... done
 Removing ssm_recommendation_1 ... done
 Removing ssm_product_1        ... done
 Removing ssm_review_1         ... done
@@ -312,13 +332,12 @@ Removing ssm_mongodb_1        ... done
 Removing ssm_store_1          ... done
 Removing ssm_mysql_1          ... done
 Removing ssm_rabbitmq_1       ... done
+Removing ssm_eureka_1         ... done
 Removing network ssm_default
 ```
-
 ### The End
 Happy coding :)
 
 # License
 Copyright (C) 2017-2020 Mohamed Taman
-
 Licensed under the MIT License.
