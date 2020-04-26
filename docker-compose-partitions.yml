@@ -1,6 +1,7 @@
 version: '3.7' ## Latest version works with Docker Engine release 18.06.0+
 
 services:
+  # Start - Core Microservices
   ## Start - Product service definition
   ### Instance 1
   product:
@@ -94,7 +95,19 @@ services:
     depends_on:
       - rabbitmq
   ## End - Store service definition
+  # End - Core Microservices
 
+  # Start - Cloud Infrastructure
+  ## Start - Eureka Service Discovery definition
+  eureka:
+    build: store-cloud-infra/eureka-server
+    ports:
+      - "8761:8761"
+    restart: always
+  ## End - Eureka Service Discovery definition
+  # End - Cloud Infrastructure
+
+  # Start - Data and transport Infrastructure
   ## Start - mongodb database definition
   ### $ mongo
   mongodb:
@@ -143,3 +156,4 @@ services:
       retries: 10
     restart: on-failure
   ## End - RabbitMQ Messaging service
+  # End - Data and transport Infrastructure

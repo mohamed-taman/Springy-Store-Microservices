@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
 public class ServiceAddresses {
-  private final String productCompositeService;
+  private final String storeService;
   private final String productService;
   private final String reviewService;
   private final String recommendationService;

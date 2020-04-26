@@ -17,13 +17,17 @@
     </properties>
 
     <modules>
+        <module>store-base/store-build-chassis</module>
+        <module>store-base/store-cloud-chassis</module>
+        <module>store-base/store-service-chassis</module>
+        <module>store-common/store-api</module>
+        <module>store-common/store-utils</module>
         <module>store-services/product-service</module>
         <module>store-services/review-service</module>
         <module>store-services/recommendation-service</module>
         <module>store-services/store-service</module>
-        <module>store-common/store-api</module>
-        <module>store-common/store-utils</module>
-        <module>store-base/store-build-chassis</module>
-        <module>store-base/store-service-chassis</module>
+        <module>store-cloud-infra/eureka-server</module>
+
+
     </modules>
 </project>

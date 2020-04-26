@@ -1,6 +1,6 @@
 spring:
   application:
-    name: product-service
+    name: product
   data:
     mongodb:
       host: localhost
@@ -13,6 +13,12 @@ spring:
     username: guest
     password: guest
   cloud:
+    # As Spring Cloud Ribbon is in maintenance mode.
+    # It is recommended switching to BlockingLoadBalancerClient instead.
+    loadbalancer:
+      ribbon:
+        enabled: false
+    # Event-driven messages Stream config
     stream:
       defaultBinder: rabbit
       default:
@@ -67,6 +73,19 @@ management:
     health:
       show-details: always
 
+# Service discovery configs
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    initial-instance-info-replication-interval-seconds: 5
+    registry-fetch-interval-seconds: 5
+  instance:
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 5
+
 # This is a docker specific profile properties
 # Also profiles could be separated in its owen file
 # with file name format of "application-docker.yaml"
@@ -88,3 +107,8 @@ spring:
 
 server:
   port: 8080
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka:8761/eureka/

@@ -1,8 +1,14 @@
 spring:
   application:
     name: store-service
-
   cloud:
+    # As Spring Cloud Ribbon is in maintenance mode.
+    # It is recommended switching to BlockingLoadBalancerClient instead.
+    loadbalancer:
+      ribbon:
+        enabled: false
+    # Massaging provider configurations
+    ## Event-driven messages Stream config
     stream:
       defaultBinder: rabbit
       default:
@@ -24,22 +30,40 @@ spring:
         binder:
           brokers: 127.0.0.1
           defaultBrokerPort: 9092
-
   rabbitmq:
     host: 127.0.0.1
     port: 5672
     username: guest
     password: guest
 
+# Service discovery configs
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    initial-instance-info-replication-interval-seconds: 5
+    registry-fetch-interval-seconds: 5
+  instance:
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 5
+
+ribbon.server-list-refresh-interval: 5000
+ribbon.NFLoadBalancerPingInterval: 5
+
+# Server configs
 server:
   port: 9080
 
+# Logging configs
 logging:
   level:
     web: DEBUG
     root: INFO
     com.siriusxi.ms.store: DEBUG
 
+# Application health and information management
 management:
   info:
     git:
@@ -57,14 +81,11 @@ management:
 # Custom configurations
 app:
   product-service:
-    host: localhost
-    port: 9081
+    host: product
   recommendation-service:
-    host: localhost
-    port: 9082
+    host: recommendation
   review-service:
-    host: localhost
-    port: 9083
+    host: review
 
 # Swagger properties
 api:
@@ -141,13 +162,7 @@ spring:
 server:
   port: 8080
 
-app:
-  product-service:
-    host: product
-    port: 8080
-  recommendation-service:
-    host: recommendation
-    port: 8080
-  review-service:
-    host: review
-    port: 8080
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka:8761/eureka/

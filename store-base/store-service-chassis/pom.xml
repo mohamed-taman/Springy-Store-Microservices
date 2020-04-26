@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.siriusxi.ms.store</groupId>
-        <artifactId>store-build-chassis</artifactId>
+        <artifactId>store-cloud-chassis</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../store-build-chassis</relativePath>
+        <relativePath>../store-cloud-chassis</relativePath>
     </parent>
 
     <artifactId>store-service-chassis</artifactId>
@@ -16,30 +16,7 @@
     <description>Parent pom project for Springy μServices</description>
     <packaging>pom</packaging>
 
-    <properties>
-        <!--  Dependencies versions properties  -->
-        <maven.plugin.dockerfile.version>1.4.13</maven.plugin.dockerfile.version>
-    </properties>
-
     <dependencies>
-        <!-- Start - Development dependencies -->
-        <!-- Start - Developer utilities tools   -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
-        <!-- End - Developer utilities tools -->
-        <!-- Start - Spring Configs processor   -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <!-- End - Spring Configs processor   -->
-        <!-- End - Development dependencies -->
-
         <!-- Start - Core spring dependencies -->
         <!-- Start - Providing some useful infos about the service through REST API -->
         <dependency>
@@ -47,6 +24,7 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <!-- End - Providing some useful infos about the service through REST API -->
+        <!-- Start - Cloud dependencies -->
         <!-- Start - Spring Stream processing using "RabbitMQ massaging" -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -59,26 +37,16 @@
             <artifactId>spring-cloud-starter-stream-kafka</artifactId>
         </dependency>
         <!-- End - Spring Stream processing using "Kafka" -->
+        <!-- Start - Spring cloud Eureka service discovery client -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <!-- End - Spring cloud Eureka service discovery client -->
+        <!-- End - Cloud dependencies  -->
         <!-- End - Core spring dependencies -->
 
         <!-- Start - Testing dependencies -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-library</artifactId>
-            <scope>test</scope>
-        </dependency>
-
         <!-- Start - Spring reactor testing library -->
         <dependency>
             <groupId>io.projectreactor</groupId>
@@ -118,180 +86,4 @@
         <!-- End - POJO <-> Entity conversion made easy -->
         <!-- End - Other dependencies -->
     </dependencies>
-
-    <build>
-        <pluginManagement>
-            <plugins>
-                <!-- Start - Of product dockerization -->
-                <plugin>
-                    <groupId>com.spotify</groupId>
-                    <artifactId>dockerfile-maven-plugin</artifactId>
-                    <version>${maven.plugin.dockerfile.version}</version>
-                    <configuration>
-                        <dockerfile>Dockerfile</dockerfile>
-                        <repository>${docker.repo.image.prefix}/${project.artifactId}</repository>
-                        <useMavenSettingsForAuth>true</useMavenSettingsForAuth>
-                        <buildArgs>
-                            <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
-                            <IMAGE_VERSION>${project.version}</IMAGE_VERSION>
-                            <IMAGE_NAME>${project.name}</IMAGE_NAME>
-                            <MAINTAINER>${maintainer.name} (${maintainer.email})</MAINTAINER>
-                        </buildArgs>
-                    </configuration>
-                </plugin>
-                <!-- End - Of product dockerization -->
-            </plugins>
-        </pluginManagement>
-
-        <plugins>
-            <!-- Start - reading external properties -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>properties-maven-plugin</artifactId>
-                <version>${maven.plugin.properties.version}</version>
-                <executions>
-                    <execution>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>read-project-properties</goal>
-                        </goals>
-                        <configuration>
-                            <!--To continue working if file is messing when set to true -->
-                            <quiet>false</quiet>
-                            <files>
-                                <file>${project.config.file.location}</file>
-                            </files>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- End - reading external properties -->
-
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <!-- Make final jar, a layered jar -->
-                    <layers>
-                        <enabled>true</enabled>
-                    </layers>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <!--
-                                To generate build information to be included via
-                                http(s)://<hostname>:<port>/actuator/info
-                             -->
-                            <goal>build-info</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <!--
-                     It automatically creates the versioning information during a build
-                     so that you are able to verify the versioning information when
-                     an application is deployed
-                -->
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>get-the-git-infos</id>
-                        <goals>
-                            <goal>revision</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>validate-the-git-infos</id>
-                        <goals>
-                            <goal>validateRevision</goal>
-                        </goals>
-                        <phase>package</phase>
-                    </execution>
-                </executions>
-                <configuration>
-                    <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
-                    <prefix>git</prefix>
-                    <verbose>false</verbose>
-                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
-                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties
-                    </generateGitPropertiesFilename>
-                    <!--
-                         Very important to make sure that the format is set to "properties"
-                         (which is the default value if format tag is omitted)
-                         instead of "JSON" in order to work with spring actuator
-                    -->
-                    <format>properties</format>
-                    <!--<format>json</format>-->
-                    <gitDescribe>
-                        <skip>false</skip>
-                        <always>false</always>
-                        <dirty>-dirty</dirty>
-                    </gitDescribe>
-                    <validationProperties>
-                        <!-- verify that the current repository is not dirty -->
-                        <validationProperty>
-                            <name>validating git dirty</name>
-                            <!--<value>${git.dirty}</value>-->
-                            <value>false</value>
-                            <shouldMatchTo>false</shouldMatchTo>
-                        </validationProperty>
-                    </validationProperties>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-    <!-- Project profiles definition -->
-    <profiles>
-        <profile>
-            <id>docker-build</id>
-            <activation>
-                <file>
-                    <exists>${basedir}/Dockerfile</exists>
-                </file>
-            </activation>
-            <properties>
-                <maven.install.skip>true</maven.install.skip>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.spotify</groupId>
-                        <artifactId>dockerfile-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>build-image</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                                <configuration>
-                                    <tag>${docker.image.default.tag}</tag>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>tag-image</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>tag</goal>
-                                </goals>
-                                <configuration>
-                                    <tag>${project.version}</tag>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>push-image</id>
-                                <phase>deploy</phase>
-                                <goals>
-                                    <goal>push</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>

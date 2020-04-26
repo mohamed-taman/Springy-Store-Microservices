@@ -19,7 +19,7 @@
 
     <properties>
         <java.version>14</java.version>
-        <spring.cloud.version>Hoxton.RELEASE</spring.cloud.version>
+        <spring.cloud.version>Hoxton.SR4</spring.cloud.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -31,6 +31,7 @@
         <maven.failsafe.plugin.version>3.0.0-M4</maven.failsafe.plugin.version>
         <maven.plugin.properties.version>1.0.0</maven.plugin.properties.version>
         <maven.plugin.version.version>2.7</maven.plugin.version.version>
+        <maven.plugin.dockerfile.version>1.4.13</maven.plugin.dockerfile.version>
         <springfox.swagger.version>3.0.0-SNAPSHOT</springfox.swagger.version>
         <org.mapstruct.version>1.3.1.Final</org.mapstruct.version>
         <org.lombok.version>1.18.12</org.lombok.version>
@@ -61,21 +62,22 @@
     </dependencyManagement>
     <!-- General and common dependencies for all services and libraries -->
     <dependencies>
-
-        <!-- Start - POJO creation made easy -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <!-- End - POJO creation made easy -->
-
-        <!-- Start - Typical spring reactive web framework -->
+        <!-- Start - Development dependencies -->
+        <!-- Start - Developer utilities tools   -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
         </dependency>
-        <!-- End - Typical spring reactive web framework -->
+        <!-- End - Developer utilities tools -->
+        <!-- Start - Spring Configs processor   -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!-- End - Spring Configs processor   -->
         <!-- Start - Spring tool to check the old keys to be migrated to new ones -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -83,6 +85,21 @@
             <scope>runtime</scope>
         </dependency>
         <!-- End - Spring tool to check the old keys to be migrated to new ones -->
+        <!-- Start - POJO creation made easy -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!-- End - POJO creation made easy -->
+        <!-- End - Development dependencies -->
+
+        <!-- Start - Typical spring reactive web framework -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+        <!-- End - Typical spring reactive web framework -->
     </dependencies>
 
     <build>

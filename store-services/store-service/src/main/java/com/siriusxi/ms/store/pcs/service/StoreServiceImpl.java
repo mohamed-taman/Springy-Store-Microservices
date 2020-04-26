@@ -155,9 +155,9 @@ public class StoreServiceImpl implements StoreService {
     // 4. Create info regarding the involved microservices addresses
     String productAddress = product.getServiceAddress();
     String reviewAddress =
-        (reviews != null && reviews.size() > 0) ? reviews.get(0).getServiceAddress() : "";
+        (reviews != null && ! reviews.isEmpty()) ? reviews.get(0).getServiceAddress() : "";
     String recommendationAddress =
-        (recommendations != null && recommendations.size() > 0)
+        (recommendations != null && ! recommendations.isEmpty())
             ? recommendations.get(0).getServiceAddress()
             : "";
     ServiceAddresses serviceAddresses =
