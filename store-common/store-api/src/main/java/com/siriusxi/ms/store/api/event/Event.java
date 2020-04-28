@@ -1,8 +1,5 @@
 package com.siriusxi.ms.store.api.event;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,8 +19,6 @@ public class Event<K, T> {
   private Event.Type eventType;
   private K key;
   private T data;
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSS")
-  @JsonSerialize(using = LocalDateTimeSerializer.class)
   private LocalDateTime eventCreatedAt;
 
   public Event(Type eventType, K key, T data) {
