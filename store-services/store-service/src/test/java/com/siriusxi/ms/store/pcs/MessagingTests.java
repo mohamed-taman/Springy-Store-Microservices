@@ -66,9 +66,9 @@ class MessagingTests {
     Event<Integer, Product> expectedEvent =
         new Event<>(
             CREATE,
-            composite.getProductId(),
+            composite.productId(),
             new Product(
-                composite.getProductId(), composite.getName(), composite.getWeight(), null));
+                composite.productId(), composite.name(), composite.weight(), null));
     assertThat(queueProducts, is(receivesPayloadThat(sameEventExceptCreatedAt(expectedEvent))));
 
     // Assert none recommendations and review events
@@ -96,25 +96,25 @@ class MessagingTests {
     Event<Integer, Product> expectedProductEvent =
         new Event<>(
             CREATE,
-            composite.getProductId(),
+            composite.productId(),
             new Product(
-                composite.getProductId(), composite.getName(), composite.getWeight(), null));
+                composite.productId(), composite.name(), composite.weight(), null));
     assertThat(queueProducts, receivesPayloadThat(sameEventExceptCreatedAt(expectedProductEvent)));
 
     // Assert one create recommendation event queued up
     assertEquals(1, queueRecommendations.size());
 
-    RecommendationSummary rec = composite.getRecommendations().get(0);
+    RecommendationSummary rec = composite.recommendations().get(0);
     Event<Integer, Recommendation> expectedRecommendationEvent =
         new Event<>(
             CREATE,
-            composite.getProductId(),
+            composite.productId(),
             new Recommendation(
-                composite.getProductId(),
-                rec.getRecommendationId(),
-                rec.getAuthor(),
-                rec.getRate(),
-                rec.getContent(),
+                composite.productId(),
+                rec.recommendationId(),
+                rec.author(),
+                rec.rate(),
+                rec.content(),
                 null));
     assertThat(
         queueRecommendations,
@@ -123,17 +123,17 @@ class MessagingTests {
     // Assert one create review event queued up
     assertEquals(1, queueReviews.size());
 
-    ReviewSummary rev = composite.getReviews().get(0);
+    ReviewSummary rev = composite.reviews().get(0);
     Event<Integer, Review> expectedReviewEvent =
         new Event<>(
             CREATE,
-            composite.getProductId(),
+            composite.productId(),
             new Review(
-                composite.getProductId(),
-                rev.getReviewId(),
-                rev.getAuthor(),
-                rev.getSubject(),
-                rev.getContent(),
+                composite.productId(),
+                rev.reviewId(),
+                rev.author(),
+                rev.subject(),
+                rev.content(),
                 null));
 
     assertThat(queueReviews, receivesPayloadThat(sameEventExceptCreatedAt(expectedReviewEvent)));
