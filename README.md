@@ -19,9 +19,32 @@ At the 1st stage the **Recommendation** and **Review** microservices generate lo
 
 ## System components Structure
 Let's explain first the system structure to understand its components:
-
-![Project Structure](docs/stage1/springy_store_project_structure.png)
-
+```
+Springy Store μService --> Parent folder. 
+|- config --> All system configuration files 
+|- docs --> All docs and diagrams. 
+|- store-base 
+  |- store-build-chassis --> Super Parent POM, contains all build information 
+  |- store-cloud-chassis --> Cloud services Parent POM, inherit from build contains all cloud libraries 
+  |- store-service-chassis --> Parent POM, inherits from cloud contains all microservices common libraries 
+|-store-cloud-infra 
+  |- eureka-server --> Service discovery server 
+|-store-common 
+  |- store-api --> API Endpoint and services definitions for all microservices 
+  |- store-utils --> Common utilities shared between all components 
+|-store-services 
+  |- product-service --> Product Microservice 
+  |- recommendation-service --> Recommendation Microservice 
+  |- review-service --> Review Microservice 
+  |- store-service --> Store Microservice 
+|- docker-compose.yml --> contains all services landscape with RabbitMQ 
+|- docker-compose-kafka.yml --> contains all services landscape with more instances working with Kafka with partitions 
+|- docker-compose-partitions.yml --> contains all services landscape with more instances working with RabbitMQ with partitions 
+|- run-em-all.sh --> Run all microservices in separate mode. 
+|- setup.sh --> Install all shared POMs and shared libraries. 
+|- stop-em-all.sh --> Stop all services runs in standalone mode. 
+|- test-em-all.sh --> This will start all docker compose landscape and test them, then shutdown docker compose containers with test finishes (use switch start stop)
+```
 Now as we have learned about different system components, then let's start.
 
 ## Getting started
