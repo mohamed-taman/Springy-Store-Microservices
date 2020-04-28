@@ -38,6 +38,22 @@ import static reactor.core.publisher.Flux.empty;
 @Log4j2
 public class StoreIntegration implements ProductService, RecommendationService, ReviewService {
 
+  public interface MessageSources {
+
+    String OUTPUT_PRODUCTS = "output-products";
+    String OUTPUT_RECOMMENDATIONS = "output-recommendations";
+    String OUTPUT_REVIEWS = "output-reviews";
+
+    @Output(OUTPUT_PRODUCTS)
+    MessageChannel outputProducts();
+
+    @Output(OUTPUT_RECOMMENDATIONS)
+    MessageChannel outputRecommendations();
+
+    @Output(OUTPUT_REVIEWS)
+    MessageChannel outputReviews();
+  }
+
   private final String PRODUCT_ID_QUERY_PARAM = "?productId=";
   private final WebClient.Builder webClientBuilder;
   private WebClient webClient;
@@ -229,21 +245,5 @@ public class StoreIntegration implements ProductService, RecommendationService, 
     } catch (IOException ioException) {
       return ex.getMessage();
     }
-  }
-
-  public interface MessageSources {
-
-    String OUTPUT_PRODUCTS = "output-products";
-    String OUTPUT_RECOMMENDATIONS = "output-recommendations";
-    String OUTPUT_REVIEWS = "output-reviews";
-
-    @Output(OUTPUT_PRODUCTS)
-    MessageChannel outputProducts();
-
-    @Output(OUTPUT_RECOMMENDATIONS)
-    MessageChannel outputRecommendations();
-
-    @Output(OUTPUT_REVIEWS)
-    MessageChannel outputReviews();
   }
 }

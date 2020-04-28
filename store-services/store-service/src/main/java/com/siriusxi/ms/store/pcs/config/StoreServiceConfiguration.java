@@ -57,7 +57,13 @@ public class StoreServiceConfiguration {
     this.integration = integration;
   }
 
-  @Bean(name = "Core System Microservices")
+  /**
+   * This method is to check all the services health status, and store service health will be only
+   * in up health state if and only if all of the core services and dependencies are up and running.
+   *
+   * @return ReactiveHealthContributor information about all the core microservices.
+   */
+  @Bean(name = "Core Microservices")
   ReactiveHealthContributor coreServices() {
 
     ReactiveHealthIndicator productHealthIndicator = integration::getProductHealth;
