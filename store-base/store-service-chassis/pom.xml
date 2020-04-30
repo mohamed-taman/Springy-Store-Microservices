@@ -17,14 +17,6 @@
     <packaging>pom</packaging>
 
     <dependencies>
-        <!-- Start - Core spring dependencies -->
-        <!-- Start - Providing some useful infos about the service through REST API -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <!-- End - Providing some useful infos about the service through REST API -->
-        <!-- Start - Cloud dependencies -->
         <!-- Start - Spring Stream processing using "RabbitMQ massaging" -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

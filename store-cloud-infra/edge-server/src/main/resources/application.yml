@@ -1,0 +1,63 @@
+spring:
+  application.name: gateway
+
+  # As Spring Cloud Ribbon is in maintenance mode.
+  # It is recommended switching to BlockingLoadBalancerClient instead.
+  cloud:
+    loadbalancer.ribbon.enabled: false
+    gateway.routes:
+      - id: host_route_200
+        uri: http://httpstat.us
+        predicates:
+          - Host=i.feel.lucky:8080
+          - Path=/headerrouting/**
+        filters:
+          - SetPath=/200
+
+      - id: host_route_418
+        uri: http://httpstat.us
+        predicates:
+          - Host=im.a.teapot:8080
+          - Path=/headerrouting/**
+        filters:
+          - SetPath=/418
+
+      - id: host_route_501
+        uri: http://httpstat.us
+        predicates:
+          - Path=/headerrouting/**
+        filters:
+          - SetPath=/501
+
+app.eureka-server: localhost
+
+eureka:
+  client:
+    healthcheck.enabled: true
+    service-Url.defaultZone: http://${app.eureka-server}:8761/eureka/
+    initial-instance-info-replication-interval-seconds: 5
+    registry-fetch-interval-seconds: 5
+  instance:
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 5
+
+ribbon:
+  server-list-refresh-interval: 5000
+  NF-load-balancer-ping-interval: 5
+
+management:
+  info.git.enabled: true
+  endpoint:
+    health.show-details: "ALWAYS"
+  endpoints:
+    web.exposure.include: "*"
+
+logging.level:
+    root: INFO
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: INFO
+
+---
+spring.profiles: docker
+
+app.eureka-server: eureka

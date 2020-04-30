@@ -1,21 +1,14 @@
 spring:
-  application:
-    name: eureka-server
+  application.name: eureka-server
 
   # As Spring Cloud Ribbon is in maintenance mode.
   # It is recommended switching to BlockingLoadBalancerClient instead.
-  cloud:
-    loadbalancer:
-      ribbon:
-        enabled: false
+  cloud.loadbalancer.ribbon.enabled: false
 
-server:
-  port: 8761
+server.port: 8761
 
-logging:
-  level:
-    com:
-      netflix:
+logging.level:
+    com.netflix:
         eureka: OFF
         discovery: OFF
 
@@ -29,8 +22,7 @@ eureka:
     # for development set it to false in order to not register itself to its peer.
     Register-with-eureka: false #Do you register yourself with Eureka Server?
     Fetch-registry: false #Do not get registration information through eureka
-    service-url:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+    service-url.defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
   server:
     # Make the number of renewals required to prevent an emergency tiny (probably 0)
     renewal-percent-threshold: 0.49
@@ -62,7 +54,5 @@ eureka:
     wait-time-in-ms-when-sync-empty: 0
 
 management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+  endpoints.web.exposure.include: "*"
+  info.git.enabled: true

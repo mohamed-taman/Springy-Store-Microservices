@@ -53,6 +53,16 @@ services:
       - "8761:8761"
     restart: on-failure
   ## End - Eureka Service Discovery definition
+
+  ## Start - Edge Server definition
+  gateway:
+    build: store-cloud-infra/edge-server
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    restart: on-failure
+  ## End - Edge Server definition
   # End - Cloud Infrastructure
 
   # Start - Data and transport Infrastructure

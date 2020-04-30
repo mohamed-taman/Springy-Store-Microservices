@@ -1,31 +1,27 @@
+# Server configs
+server.port: 9080
+
 spring:
-  application:
-    name: store-service
+  application.name: store
   cloud:
     # As Spring Cloud Ribbon is in maintenance mode.
     # It is recommended switching to BlockingLoadBalancerClient instead.
-    loadbalancer:
-      ribbon:
-        enabled: false
+    loadbalancer.ribbon.enabled: false
     # Massaging provider configurations
     ## Event-driven messages Stream config
     stream:
       defaultBinder: rabbit
-      default:
-        contentType: application/json
+      default.contentType: application/json
       bindings:
         output-products:
           destination: products
-          producer:
-            required-groups: auditGroup
+          producer.required-groups: auditGroup
         output-recommendations:
           destination: recommendations
-          producer:
-            required-groups: auditGroup
+          producer.required-groups: auditGroup
         output-reviews:
           destination: reviews
-          producer:
-            required-groups: auditGroup
+          producer.required-groups: auditGroup
       kafka:
         binder:
           brokers: 127.0.0.1
@@ -39,22 +35,17 @@ spring:
 # Service discovery configs
 eureka:
   client:
-    healthcheck:
-      enabled: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
+    healthcheck.enabled: true
+    service-url.defaultZone: http://${app.eureka-server}:8761/eureka/
     initial-instance-info-replication-interval-seconds: 5
     registry-fetch-interval-seconds: 5
   instance:
     lease-renewal-interval-in-seconds: 5
     lease-expiration-duration-in-seconds: 5
 
-ribbon.server-list-refresh-interval: 5000
-ribbon.NFLoadBalancerPingInterval: 5
-
-# Server configs
-server:
-  port: 9080
+ribbon:
+  server-list-refresh-interval: 5000
+  NF-load-balancer-ping-interval: 5
 
 # Logging configs
 logging:
@@ -65,27 +56,20 @@ logging:
 
 # Application health and information management
 management:
-  info:
-    git:
-      enabled: true
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+  info.git:
+    enabled: true
+    mode: full
+  endpoints.web.exposure.include: "*"
   endpoint:
-    shutdown:
-      enabled: true
-    health:
-      show-details: "ALWAYS"
+    shutdown.enabled: true
+    health.show-details: "ALWAYS"
 
 # Custom configurations
 app:
-  product-service:
-    host: product
-  recommendation-service:
-    host: recommendation
-  review-service:
-    host: review
+  eureka-server: localhost
+  product-service.host: product
+  recommendation-service.host: recommendation
+  review-service.host: review
 
 # Swagger properties
 api:
@@ -149,10 +133,8 @@ api:
 ---
 spring:
   profiles: docker
-  jmx:
-    enabled: false
-  rabbitmq:
-    host: rabbitmq
+  jmx.enabled: false
+  rabbitmq.host: rabbitmq
   cloud:
     stream:
       kafka:
@@ -162,7 +144,5 @@ spring:
 server:
   port: 8080
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://eureka:8761/eureka/
+app:
+  eureka-server: eureka
