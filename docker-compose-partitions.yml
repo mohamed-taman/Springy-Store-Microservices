@@ -82,8 +82,6 @@ services:
   ## Start - Store service definition
   store:
     build: store-services/store-service
-    ports:
-      - "8080:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_CLOUD_STREAM_BINDINGS_OUTPUT-PRODUCTS_PRODUCER_PARTITION-KEY-EXPRESSION=payload.key
@@ -101,8 +99,6 @@ services:
   ## Start - Eureka Service Discovery definition
   eureka:
     build: store-cloud-infra/eureka-server
-    ports:
-      - "8761:8761"
     restart: always
   ## End - Eureka Service Discovery definition
 
@@ -113,6 +109,8 @@ services:
       - "8080:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - eureka
     restart: on-failure
   ## End - Edge Server definition
   # End - Cloud Infrastructure

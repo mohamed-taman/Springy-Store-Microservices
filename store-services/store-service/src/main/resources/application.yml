@@ -34,14 +34,15 @@ spring:
 
 # Service discovery configs
 eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 5
+    prefer-ip-address: true
   client:
     healthcheck.enabled: true
     service-url.defaultZone: http://${app.eureka-server}:8761/eureka/
     initial-instance-info-replication-interval-seconds: 5
     registry-fetch-interval-seconds: 5
-  instance:
-    lease-renewal-interval-in-seconds: 5
-    lease-expiration-duration-in-seconds: 5
 
 ribbon:
   server-list-refresh-interval: 5000
@@ -140,6 +141,10 @@ spring:
       kafka:
         binder:
           brokers: kafka
+
+eureka:
+  instance:
+    prefer-ip-address: false
 
 server:
   port: 8080

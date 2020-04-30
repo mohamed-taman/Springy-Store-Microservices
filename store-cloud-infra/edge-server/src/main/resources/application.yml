@@ -5,41 +5,46 @@ spring:
   # It is recommended switching to BlockingLoadBalancerClient instead.
   cloud:
     loadbalancer.ribbon.enabled: false
+    # Route definitions of the system
     gateway.routes:
-      - id: host_route_200
-        uri: http://httpstat.us
+      - id: store-products
+        # lb:// is used to direct Spring Cloud Gateway to use the client-side load balancer
+        # to look up the destination in the discovery service.
+        uri: lb://store
         predicates:
-          - Host=i.feel.lucky:8080
-          - Path=/headerrouting/**
-        filters:
-          - SetPath=/200
+          - Path=/store/**
 
-      - id: host_route_418
-        uri: http://httpstat.us
+      - id: eureka-api
+        uri: http://${app.eureka-server}:8761
         predicates:
-          - Host=im.a.teapot:8080
-          - Path=/headerrouting/**
+          - Path=/eureka/api/{segment}
         filters:
-          - SetPath=/418
+          - SetPath=/eureka/{segment}
 
-      - id: host_route_501
-        uri: http://httpstat.us
+      - id: eureka-web-start
+        uri: http://${app.eureka-server}:8761
         predicates:
-          - Path=/headerrouting/**
+          - Path=/eureka/web
         filters:
-          - SetPath=/501
+          - SetPath=/
+
+      - id: eureka-web-other
+        uri: http://${app.eureka-server}:8761
+        predicates:
+          - Path=/eureka/**
 
 app.eureka-server: localhost
 
 eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 5
+    prefer-ip-address: true
   client:
     healthcheck.enabled: true
     service-Url.defaultZone: http://${app.eureka-server}:8761/eureka/
     initial-instance-info-replication-interval-seconds: 5
     registry-fetch-interval-seconds: 5
-  instance:
-    lease-renewal-interval-in-seconds: 5
-    lease-expiration-duration-in-seconds: 5
 
 ribbon:
   server-list-refresh-interval: 5000
@@ -59,5 +64,9 @@ logging.level:
 
 ---
 spring.profiles: docker
+
+eureka:
+  instance:
+    prefer-ip-address: false
 
 app.eureka-server: eureka

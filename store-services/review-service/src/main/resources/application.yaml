@@ -88,14 +88,15 @@ management:
 
 # Service discovery configs
 eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 5
+    prefer-ip-address: true
   client:
     healthcheck.enabled: true
     service-url.defaultZone: http://${app.eureka-server}:8761/eureka/
     initial-instance-info-replication-interval-seconds: 5
     registry-fetch-interval-seconds: 5
-  instance:
-    lease-renewal-interval-in-seconds: 5
-    lease-expiration-duration-in-seconds: 5
 
 # This is a docker specific profile properties
 # Also profiles could be separated in its owen file
@@ -108,6 +109,10 @@ spring:
     url: "jdbc:mysql://${app.database.host}/${app.database.schema}"
 
 server.port: 8080
+
+eureka:
+  instance:
+    prefer-ip-address: false
 
 app:
   eureka-server: eureka
