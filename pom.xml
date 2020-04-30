@@ -27,6 +27,7 @@
         <module>store-services/recommendation-service</module>
         <module>store-services/store-service</module>
         <module>store-cloud-infra/eureka-server</module>
+        <module>store-cloud-infra/edge-server</module>
 
 
     </modules>

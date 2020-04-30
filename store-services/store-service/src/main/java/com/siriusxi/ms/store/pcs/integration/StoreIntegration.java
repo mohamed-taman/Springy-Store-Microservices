@@ -14,7 +14,6 @@ import com.siriusxi.ms.store.util.http.HttpErrorInfo;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.actuate.health.Health;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.messaging.MessageChannel;
@@ -40,12 +39,12 @@ public class StoreIntegration implements ProductService, RecommendationService, 
 
   private final String PRODUCT_ID_QUERY_PARAM = "?productId=";
   private final WebClient.Builder webClientBuilder;
-  private WebClient webClient;
   private final ObjectMapper mapper;
   private final MessageSources messageSources;
   private final String productServiceUrl;
   private final String recommendationServiceUrl;
   private final String reviewServiceUrl;
+  private WebClient webClient;
 
   @Autowired
   public StoreIntegration(
@@ -179,32 +178,11 @@ public class StoreIntegration implements ProductService, RecommendationService, 
             .send(withPayload(new Event<>(DELETE, productId, null)).build());
   }
 
-  public Mono<Health> getProductHealth() {
-    return getHealth(productServiceUrl);
-  }
-
-  public Mono<Health> getRecommendationHealth() {
-    return getHealth(recommendationServiceUrl);
-  }
-
-  public Mono<Health> getReviewHealth() {
-    return getHealth(reviewServiceUrl);
-  }
-
   private WebClient getWebClient() {
     if (webClient == null) {
       webClient = webClientBuilder.build();
     }
     return webClient;
-  }
-
-  private Mono<Health> getHealth(String url) {
-    url += "/actuator/health";
-    log.debug("Will call the Health API on URL: {}", url);
-    return getWebClient().get().uri(url).retrieve().bodyToMono(String.class)
-            .map(s -> new Health.Builder().up().build())
-            .onErrorResume(ex -> Mono.just(new Health.Builder().down(ex).build()))
-            .log();
   }
 
   private Throwable handleException(Throwable ex) {

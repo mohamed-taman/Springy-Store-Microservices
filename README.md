@@ -28,7 +28,8 @@ Springy Store μService --> Parent folder.
   |- store-cloud-chassis --> Cloud services Parent POM, inherit from build contains all cloud libraries 
   |- store-service-chassis --> Parent POM, inherits from cloud contains all microservices common libraries 
 |-store-cloud-infra 
-  |- eureka-server --> Service discovery server 
+  |- eureka-server --> Service discovery server
+  |- edge-server --> API Gateway server 
 |-store-common 
   |- store-api --> API Endpoint and services definitions for all microservices 
   |- store-utils --> Common utilities shared between all components 
@@ -66,7 +67,7 @@ The following topics are going to be covered in this 1st stage (other stages top
 - Adding automated tests of microservices in isolation.
 - Adding semi-automated tests to a microservice landscape.
 
-### System Boundary - μServices Landscape (Release 4.5-Latest)
+### System Boundary - μServices Landscape (Release 4.8-Latest)
 
 ![System Boundary](docs/stage1/app_ms_landscape.png)
 
@@ -158,7 +159,7 @@ All build commands and test suite for each microservice should run successfully,
 
 ```bash
 ---------------< com.siriusxi.ms.store:store-aggregator >---------------
-[INFO] Building Springy Store Aggregator 1.0-SNAPSHOT                   [11/11]
+[INFO] Building Springy Store Aggregator 1.0-SNAPSHOT                   [12/12]
 [INFO] --------------------------------[ pom ]---------------------------------
 [INFO]
 [INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ store-aggregator ---
@@ -175,6 +176,7 @@ All build commands and test suite for each microservice should run successfully,
 [INFO] Recommendation Service ............................. SUCCESS [  8.463 s]
 [INFO] Store Service ...................................... SUCCESS [  8.927 s]
 [INFO] Eureka Discovery Server ............................ SUCCESS [  6.536 s]
+[INFO] Edge Server ........................................ SUCCESS [ 32.108 s]
 [INFO] Springy Store Aggregator ........................... SUCCESS [  0.100 s]
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
@@ -198,6 +200,7 @@ All the **services**, **databases**, and **messaging service** will run in paral
 ```bash
 Creating network "ssm_default" with the default driver
 Creating ssm_eureka_1         ... done
+Creating ssm_gateway_1        ... done
 Creating ssm_mysql_1          ... done
 Creating ssm_mongodb_1        ... done
 Creating ssm_rabbitmq_1       ... done
@@ -235,7 +238,7 @@ This will result in the following response:
 {
    "status":"UP",
     "components":{
-      "Core System Microservices":{
+      "System Microservices":{
          "status":"UP",
          "components":{
             "Product Service":{
@@ -278,7 +281,7 @@ The result will look like this:
 ```bash
 Starting [Springy Store] full functionality testing....
 
-Start: Sun, Apr 12, 2020 2:34:19 PM
+Start: Sun, Apr 30, 2020 2:34:19 PM
 HOST=localhost
 PORT=8080
 Wait for: curl http://localhost:8080/actuator/health ... Ok
@@ -302,13 +305,13 @@ Test OK (HTTP Code: 422, {"httpStatus":"UNPROCESSABLE_ENTITY","message":"Invalid
 Test OK (actual value: "Invalid productId: -1")
 Test OK (HTTP Code: 400, {"timestamp":"2020-04-12T12:34:26.471+00:00","path":"/store/api/v1/products/invalidProductId","status":400,"error":"Bad Request","message":"Type mismatch.","requestId":"044dcdf2-13"})
 Test OK (actual value: "Type mismatch.")
-End: Sun, Apr 12, 2020 2:34:26 PM
+End: Sun, Apr 30, 2020 2:34:26 PM
 ```
 
 ### Closing The Story
 
-Finally, to close the story, we will need to shut down Microservices manually service by service
-, hahaha just kidding, run the following script to shut down them all:
+Finally, to close the story, we need to shut down Microservices manually service by service
+, hahaha just kidding, run the following command to shut them all:
 
 ```bash
 mohamed.taman@DTLNV8 ~/springy-store-microservices 
@@ -326,6 +329,7 @@ Stopping ssm_store_1          ... done
 Stopping ssm_mysql_1          ... done
 Stopping ssm_rabbitmq_1       ... done
 Stopping ssm_eureka_1         ... done
+Stopping ssm_gateway_1        ... done
 Removing ssm_recommendation_1 ... done
 Removing ssm_product_1        ... done
 Removing ssm_review_1         ... done
@@ -334,11 +338,11 @@ Removing ssm_store_1          ... done
 Removing ssm_mysql_1          ... done
 Removing ssm_rabbitmq_1       ... done
 Removing ssm_eureka_1         ... done
+Removing ssm_gateway_1        ... done
 Removing network ssm_default
 ```
 ### The End
 Happy coding :)
 
 # License
-Copyright (C) 2017-2020 Mohamed Taman
-Licensed under the MIT License.
+Copyright (C) 2017-2020 Mohamed Taman, Licensed under the MIT License.

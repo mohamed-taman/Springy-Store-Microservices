@@ -1,54 +1,46 @@
 spring:
-  application:
-    name: review
+  application.name: review
   jpa:
     show-sql: true
     open-in-view: false
     database: MYSQL
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
-    hibernate:
+    properties.hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
       # Strongly recommend to set this property to "none" or with flyway  to "validate" in a
       # production environment!
-      ddl-auto: none
+    hibernate.ddl-auto: none
   datasource:
     ## You often do not need to specify the driver-class-name,
     ## since Spring Boot can deduce it for most databases from the url.
     #driver-class-name: com.mysql.cj.jdbc.Driver
     platform: mysql
-    url: "jdbc:mysql://localhost/review-db?useSSL=false&serverTimezone=UTC"
+    url: "jdbc:mysql://${app.database.host}/review-db?useSSL=false&serverTimezone=UTC"
     username: user
     password: pwd
     hikari:
-      initializationFailTimeout: 60000
+      initialization-fail-timeout: 60000
       connection-test-query: SELECT 1
       maximum-pool-size: 10
   flyway:
     #Enable or disable flyway migrations
     enabled: true
-    url: "jdbc:mysql://localhost/mysql?useSSL=false&serverTimezone=UTC"
+    url: "jdbc:mysql://${app.database.host}/${app.database.schema}?useSSL=false&serverTimezone=UTC"
     schemas: review-db
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
   rabbitmq:
-    host: 127.0.0.1
+    host: ${app.messaging.rabbitmq.host}
     port: 5672
     username: guest
     password: guest
   cloud:
     # As Spring Cloud Ribbon is in maintenance mode.
     # It is recommended switching to BlockingLoadBalancerClient instead.
-    loadbalancer:
-      ribbon:
-        enabled: false
+    loadbalancer.ribbon.enabled: false
     # Event-driven messages Stream config
     stream:
       defaultBinder: rabbit
-      default:
-        contentType: application/json
-      bindings:
-        input:
+      default.contentType: application/json
+      bindings.input:
           destination: reviews
           group: reviewsGroup
           consumer:
@@ -56,25 +48,27 @@ spring:
             backOffInitialInterval: 500
             backOffMaxInterval: 1000
             backOffMultiplier: 2.0
-      rabbit:
-        bindings:
-          input:
-            consumer:
-              autoBindDlq: true
-              republishToDlq: true
+      rabbit.bindings.input.consumer:
+        autoBindDlq: true
+        republishToDlq: true
       kafka:
-        bindings:
-          input:
-            consumer:
-              enableDlq: true
+        bindings.input.consumer.enableDlq: true
         binder:
-          brokers: 127.0.0.1
+          brokers: ${app.messaging.kafka.broker}
           defaultBrokerPort: 9092
-server:
-  port: 9083
 
-logging:
-  level:
+app:
+  eureka-server: localhost
+  database:
+    host: localhost
+    schema: mysql
+  messaging:
+    rabbitmq.host: 127.0.0.1
+    kafka.broker: 127.0.0.1
+
+server.port: 9083
+
+logging.level:
     web: DEBUG
     root: INFO
     com.siriusxi.ms.store: DEBUG
@@ -84,31 +78,25 @@ logging:
         type.descriptor.sql.BasicBinder: TRACE
 
 management:
-  info:
-    git:
-      mode: full
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+  info.git:
+    mode: full
+    enabled: true
+  endpoints.web.exposure.include: "*"
   endpoint:
-    shutdown:
-      enabled: true
-    health:
-      show-details: always
+    shutdown.enabled: true
+    health.show-details: always
 
 # Service discovery configs
 eureka:
-  client:
-    healthcheck:
-      enabled: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-    initial-instance-info-replication-interval-seconds: 5
-    registry-fetch-interval-seconds: 5
   instance:
     lease-renewal-interval-in-seconds: 5
     lease-expiration-duration-in-seconds: 5
+    prefer-ip-address: true
+  client:
+    healthcheck.enabled: true
+    service-url.defaultZone: http://${app.eureka-server}:8761/eureka/
+    initial-instance-info-replication-interval-seconds: 5
+    registry-fetch-interval-seconds: 5
 
 # This is a docker specific profile properties
 # Also profiles could be separated in its owen file
@@ -116,25 +104,21 @@ eureka:
 ---
 spring:
   profiles: docker
-  jmx:
-    enabled: false
+  jmx.enabled: false
   datasource:
-    url: "jdbc:mysql://mysql/review-db"
+    url: "jdbc:mysql://${app.database.host}/${app.database.schema}"
 
-  flyway:
-    url: "jdbc:mysql://mysql/review-db?useSSL=false&serverTimezone=UTC"
-  rabbitmq:
-    host: rabbitmq
-  cloud:
-    stream:
-      kafka:
-        binder:
-          brokers: kafka
-
-server:
-  port: 8080
+server.port: 8080
 
 eureka:
-  client:
-    service-url:
-      defaultZone: http://eureka:8761/eureka/
+  instance:
+    prefer-ip-address: false
+
+app:
+  eureka-server: eureka
+  database:
+    host: mysql
+    schema: review-db
+  messaging:
+    rabbitmq.host: rabbitmq
+    kafka.broker: kafka

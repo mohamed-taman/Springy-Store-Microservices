@@ -1,0 +1,72 @@
+spring:
+  application.name: gateway
+
+  # As Spring Cloud Ribbon is in maintenance mode.
+  # It is recommended switching to BlockingLoadBalancerClient instead.
+  cloud:
+    loadbalancer.ribbon.enabled: false
+    # Route definitions of the system
+    gateway.routes:
+      - id: store-products
+        # lb:// is used to direct Spring Cloud Gateway to use the client-side load balancer
+        # to look up the destination in the discovery service.
+        uri: lb://store
+        predicates:
+          - Path=/store/**
+
+      - id: eureka-api
+        uri: http://${app.eureka-server}:8761
+        predicates:
+          - Path=/eureka/api/{segment}
+        filters:
+          - SetPath=/eureka/{segment}
+
+      - id: eureka-web-start
+        uri: http://${app.eureka-server}:8761
+        predicates:
+          - Path=/eureka/web
+        filters:
+          - SetPath=/
+
+      - id: eureka-web-other
+        uri: http://${app.eureka-server}:8761
+        predicates:
+          - Path=/eureka/**
+
+app.eureka-server: localhost
+
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 5
+    prefer-ip-address: true
+  client:
+    healthcheck.enabled: true
+    service-Url.defaultZone: http://${app.eureka-server}:8761/eureka/
+    initial-instance-info-replication-interval-seconds: 5
+    registry-fetch-interval-seconds: 5
+
+ribbon:
+  server-list-refresh-interval: 5000
+  NF-load-balancer-ping-interval: 5
+
+management:
+  info.git.enabled: true
+  endpoint:
+    health.show-details: "ALWAYS"
+  endpoints:
+    web.exposure.include: "*"
+
+logging.level:
+    root: INFO
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: INFO
+
+---
+spring.profiles: docker
+
+eureka:
+  instance:
+    prefer-ip-address: false
+
+app.eureka-server: eureka

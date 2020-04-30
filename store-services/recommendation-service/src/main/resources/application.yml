@@ -1,28 +1,28 @@
 spring:
-  application:
-    name: recommendation
+  application.name: recommendation
+
   data:
     mongodb:
-      host: localhost
+      host: ${app.database.host}
       port: 27017
       database: recommendation-db
       auto-index-creation: true
+
   rabbitmq:
-    host: 127.0.0.1
+    host: ${app.messaging.rabbitmq.host}
     port: 5672
     username: guest
     password: guest
+
   cloud:
     # As Spring Cloud Ribbon is in maintenance mode.
     # It is recommended switching to BlockingLoadBalancerClient instead.
-    loadbalancer:
-      ribbon:
-        enabled: false
+    loadbalancer.ribbon.enabled: false
+
     # Event-driven messages Stream config
     stream:
       defaultBinder: rabbit
-      default:
-        contentType: application/json
+      default.contentType: application/json
       bindings:
         input:
           destination: recommendations
@@ -33,25 +33,19 @@ spring:
             backOffMaxInterval: 1000
             backOffMultiplier: 2.0
       rabbit:
-        bindings:
-          input:
-            consumer:
-              autoBindDlq: true
-              republishToDlq: true
+        bindings.input.consumer:
+          autoBindDlq: true
+          republishToDlq: true
       kafka:
-        bindings:
-          input:
-            consumer:
-              enableDlq: true
+        bindings.input.consumer.enableDlq: true
         binder:
-          brokers: 127.0.0.1
+          brokers: ${app.messaging.kafka.broker}
           defaultBrokerPort: 9092
 
 server:
   port: 9082
 
-logging:
-  level:
+logging.level:
     web: DEBUG
     root: INFO
     com.siriusxi.ms.store: DEBUG
@@ -60,31 +54,33 @@ logging:
       mongodb: debug
 
 management:
-  info:
-    git:
+  info.git:
       mode: full
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    shutdown:
       enabled: true
-    health:
-      show-details: always
+  endpoints.web.exposure.include: "*"
+  endpoint:
+    shutdown.enabled: true
+    health.show-details: always
+
+app:
+  eureka-server: localhost
+  database:
+    host: localhost
+  messaging:
+    rabbitmq.host: 127.0.0.1
+    kafka.broker: 127.0.0.1
 
 # Service discovery configs
 eureka:
-  client:
-    healthcheck:
-      enabled: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-    initial-instance-info-replication-interval-seconds: 5
-    registry-fetch-interval-seconds: 5
   instance:
     lease-renewal-interval-in-seconds: 5
     lease-expiration-duration-in-seconds: 5
+    prefer-ip-address: true
+  client:
+    healthcheck.enabled: true
+    service-url.defaultZone: http://${app.eureka-server}:8761/eureka/
+    initial-instance-info-replication-interval-seconds: 5
+    registry-fetch-interval-seconds: 5
 
 # This is a docker specific profile properties
 # Also profiles could be separated in its owen file
@@ -92,23 +88,19 @@ eureka:
 ---
 spring:
   profiles: docker
-  jmx:
-    enabled: false
-  data:
-    mongodb:
-      host: mongodb
-  rabbitmq:
-    host: rabbitmq
-  cloud:
-    stream:
-      kafka:
-        binder:
-          brokers: kafka
+  jmx.enabled: false
 
 server:
   port: 8080
 
 eureka:
-  client:
-    service-url:
-      defaultZone: http://eureka:8761/eureka/
+  instance:
+    prefer-ip-address: false
+
+app:
+  eureka-server: eureka
+  database:
+    host: mongodb
+  messaging:
+    rabbitmq.host: rabbitmq
+    kafka.broker: kafka
