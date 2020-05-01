@@ -47,6 +47,13 @@
 			<scope>test</scope>
 		</dependency>
 		<!-- End - Testing dependencies -->
+		<!-- Start - High-performance caching library for Java used	by new Spring Cloud
+		LoadBalancer -->
+		<dependency>
+			<groupId>com.github.ben-manes.caffeine</groupId>
+			<artifactId>caffeine</artifactId>
+		</dependency>
+		<!-- End - High-performance caching library for Java caffeine -->
 	</dependencies>
 
 	<build>
