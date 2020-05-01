@@ -6,43 +6,44 @@ spring:
   cloud:
     loadbalancer.ribbon.enabled: false
     # Route definitions of the system
-    gateway.routes:
-      - id: store-products
-        # lb:// is used to direct Spring Cloud Gateway to use the client-side load balancer
-        # to look up the destination in the discovery service.
-        uri: lb://store
-        predicates:
-          - Path=/store/**
+    gateway:
+      discovery.locator.enabled: true
+      routes:
+        - id: store-products
+          # lb:// is used to direct Spring Cloud Gateway to use the client-side load balancer
+          # to look up the destination in the discovery service.
+          uri: lb://store
+          predicates:
+            - Path=/store/**
 
-      - id: eureka-api
-        uri: http://${app.eureka-server}:8761
-        predicates:
-          - Path=/eureka/api/{segment}
-        filters:
-          - SetPath=/eureka/{segment}
+        - id: eureka-api
+          uri: http://${eureka.instance.hostname}:8761
+          predicates:
+            - Path=/eureka/api/{segment}
+          filters:
+            - SetPath=/eureka/{segment}
 
-      - id: eureka-web-start
-        uri: http://${app.eureka-server}:8761
-        predicates:
-          - Path=/eureka/web
-        filters:
-          - SetPath=/
+        - id: eureka-web-start
+          uri: http://${eureka.instance.hostname}:8761
+          predicates:
+            - Path=/eureka/web
+          filters:
+            - SetPath=/
 
-      - id: eureka-web-other
-        uri: http://${app.eureka-server}:8761
-        predicates:
-          - Path=/eureka/**
-
-app.eureka-server: localhost
+        - id: eureka-web-other
+          uri: http://${eureka.instance.hostname}:8761
+          predicates:
+            - Path=/eureka/**
 
 eureka:
   instance:
+    hostname: localhost
     lease-renewal-interval-in-seconds: 5
     lease-expiration-duration-in-seconds: 5
     prefer-ip-address: true
   client:
     healthcheck.enabled: true
-    service-Url.defaultZone: http://${app.eureka-server}:8761/eureka/
+    service-Url.defaultZone: http://${eureka.instance.hostname}:8761/eureka/
     initial-instance-info-replication-interval-seconds: 5
     registry-fetch-interval-seconds: 5
 
@@ -67,6 +68,5 @@ spring.profiles: docker
 
 eureka:
   instance:
+    hostname: eureka
     prefer-ip-address: false
-
-app.eureka-server: eureka

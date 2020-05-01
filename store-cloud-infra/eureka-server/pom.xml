@@ -23,12 +23,5 @@
 			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
 		</dependency>
 		<!-- End - Spring cloud Eureka service discovery server -->
-		<!-- Start - High-performance caching library for Java used	by new Spring Cloud
-		LoadBalancer -->
-		<dependency>
-			<groupId>com.github.ben-manes.caffeine</groupId>
-			<artifactId>caffeine</artifactId>
-		</dependency>
-		<!-- End - High-performance caching library for Java caffeine -->
 	</dependencies>
 </project>
