@@ -6,7 +6,7 @@
 		<groupId>com.siriusxi.ms.store</groupId>
 		<artifactId>store-build-chassis</artifactId>
 		<version>1.0-SNAPSHOT</version>
-		<relativePath>../store-build-chassis</relativePath>
+		<relativePath>../../store-build-chassis/pom.xml</relativePath>
 	</parent>
 
 	<artifactId>store-cloud-chassis</artifactId>
@@ -37,8 +37,13 @@
 			</exclusions>
 		</dependency>
 		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.junit.platform</groupId>
-			<artifactId>junit-platform-suite-api</artifactId>
+			<artifactId>junit-platform-runner</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

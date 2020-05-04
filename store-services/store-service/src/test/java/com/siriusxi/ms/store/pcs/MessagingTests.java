@@ -33,8 +33,8 @@ import static org.springframework.cloud.stream.test.matcher.MessageQueueMatcher.
 import static org.springframework.http.HttpStatus.OK;
 
 @SpringBootTest(
-        webEnvironment = RANDOM_PORT,
-        properties = {"eureka.client.enabled: false"})
+    webEnvironment = RANDOM_PORT,
+    properties = {"eureka.client.enabled: false"})
 class MessagingTests {
 
   public static final String BASE_URL = "/store/api/v1/products/";
@@ -67,8 +67,7 @@ class MessagingTests {
         new Event<>(
             CREATE,
             composite.productId(),
-            new Product(
-                composite.productId(), composite.name(), composite.weight(), null));
+            new Product(composite.productId(), composite.name(), composite.weight(), null));
     assertThat(queueProducts, is(receivesPayloadThat(sameEventExceptCreatedAt(expectedEvent))));
 
     // Assert none recommendations and review events
@@ -97,8 +96,7 @@ class MessagingTests {
         new Event<>(
             CREATE,
             composite.productId(),
-            new Product(
-                composite.productId(), composite.name(), composite.weight(), null));
+            new Product(composite.productId(), composite.name(), composite.weight(), null));
     assertThat(queueProducts, receivesPayloadThat(sameEventExceptCreatedAt(expectedProductEvent)));
 
     // Assert one create recommendation event queued up
@@ -176,13 +174,16 @@ class MessagingTests {
         .uri(BASE_URL)
         .body(Mono.just(compositeProduct), ProductAggregate.class)
         .exchange()
-        .expectStatus().isEqualTo(OK);
+        .expectStatus()
+        .isEqualTo(OK);
   }
 
   private void deleteAndVerifyProduct(int productId) {
-    client.delete()
-            .uri(BASE_URL.concat(valueOf(productId)))
-            .exchange()
-            .expectStatus().isEqualTo(OK);
+    client
+        .delete()
+        .uri(BASE_URL.concat(valueOf(productId)))
+        .exchange()
+        .expectStatus()
+        .isEqualTo(OK);
   }
 }

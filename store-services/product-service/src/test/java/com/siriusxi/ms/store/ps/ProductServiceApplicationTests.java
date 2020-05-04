@@ -80,8 +80,8 @@ class ProductServiceApplicationTests {
       sendCreateProductEvent(productId);
       fail("Expected a MessagingException here!");
     } catch (MessagingException me) {
-      if (me.getCause() instanceof InvalidInputException iie)	{
-        assertEquals("Duplicate key, Product Id: " + productId, iie.getMessage());
+      if (me.getCause() instanceof InvalidInputException iie){
+        assertEquals("Duplicate key, Product Id: ".concat(String.valueOf(productId)), iie.getMessage());
       } else {
         fail("Expected a InvalidInputException as the root cause!");
       }
@@ -102,9 +102,9 @@ class ProductServiceApplicationTests {
 
   @Test
   public void getProductInvalidParameterString() {
-
-    getAndVerifyProduct(BASE_URI + "/no-integer", BAD_REQUEST)
-        .jsonPath("$.path").isEqualTo(BASE_URI + "no-integer")
+    var uri = BASE_URI.concat("no-integer");
+    getAndVerifyProduct(uri, BAD_REQUEST)
+        .jsonPath("$.path").isEqualTo(uri)
         .jsonPath("$.message").isEqualTo("Type mismatch.");
   }
 
@@ -112,10 +112,11 @@ class ProductServiceApplicationTests {
   public void getProductNotFound() {
 
     int productIdNotFound = 13;
+
     getAndVerifyProduct(productIdNotFound, NOT_FOUND)
-        .jsonPath("$.path").isEqualTo(BASE_URI + productIdNotFound)
+        .jsonPath("$.path").isEqualTo(BASE_URI.concat(String.valueOf(productIdNotFound)))
         .jsonPath("$.message")
-            .isEqualTo("No product found for productId: " + productIdNotFound);
+            .isEqualTo("No product found for productId: ".concat(String.valueOf(productIdNotFound)));
   }
 
   @Test
@@ -124,13 +125,13 @@ class ProductServiceApplicationTests {
     int productIdInvalid = -1;
 
     getAndVerifyProduct(productIdInvalid, UNPROCESSABLE_ENTITY)
-        .jsonPath("$.path").isEqualTo(BASE_URI + productIdInvalid)
-        .jsonPath("$.message").isEqualTo("Invalid productId: " + productIdInvalid);
+        .jsonPath("$.path").isEqualTo(BASE_URI.concat(String.valueOf(productIdInvalid)))
+        .jsonPath("$.message").isEqualTo("Invalid productId: ".concat(String.valueOf(productIdInvalid)));
   }
 
   private WebTestClient.BodyContentSpec getAndVerifyProduct(
       int productId, HttpStatus expectedStatus) {
-    return getAndVerifyProduct(BASE_URI + productId, expectedStatus);
+    return getAndVerifyProduct(BASE_URI.concat(String.valueOf(productId)), expectedStatus);
   }
 
   private WebTestClient.BodyContentSpec getAndVerifyProduct(
@@ -146,7 +147,10 @@ class ProductServiceApplicationTests {
   }
 
   private void sendCreateProductEvent(int productId) {
-    Product product = new Product(productId, "Name " + productId, productId, "SA");
+    var product = new Product(productId,
+            "Name ".concat(String.valueOf(productId)),
+            productId,
+            "SA");
     Event<Integer, Product> event = new Event<>(CREATE, productId, product);
     input.send(new GenericMessage<>(event));
   }
