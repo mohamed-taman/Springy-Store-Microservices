@@ -5,7 +5,12 @@ spring:
   # It is recommended switching to BlockingLoadBalancerClient instead.
   cloud.loadbalancer.ribbon.enabled: false
 
-server.port: 8761
+server:
+  port: 8761
+  ## Should be included to show message, if not error message will be empty
+  error:
+    include-message: always
+    include-binding-errors: always
 
 logging.level:
     com.netflix:

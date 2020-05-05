@@ -5,8 +5,8 @@ spring:
     open-in-view: false
     database: MYSQL
     properties.hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
-      # Strongly recommend to set this property to "none" or with flyway  to "validate" in a
-      # production environment!
+    # Strongly recommend to set this property to "none" or with flyway  to "validate" in a
+    # production environment!
     hibernate.ddl-auto: none
   datasource:
     ## You often do not need to specify the driver-class-name,
@@ -41,13 +41,13 @@ spring:
       defaultBinder: rabbit
       default.contentType: application/json
       bindings.input:
-          destination: reviews
-          group: reviewsGroup
-          consumer:
-            maxAttempts: 3
-            backOffInitialInterval: 500
-            backOffMaxInterval: 1000
-            backOffMultiplier: 2.0
+        destination: reviews
+        group: reviewsGroup
+        consumer:
+          maxAttempts: 3
+          backOffInitialInterval: 500
+          backOffMaxInterval: 1000
+          backOffMultiplier: 2.0
       rabbit.bindings.input.consumer:
         autoBindDlq: true
         republishToDlq: true
@@ -66,16 +66,20 @@ app:
     rabbitmq.host: 127.0.0.1
     kafka.broker: 127.0.0.1
 
-server.port: 9083
+server:
+  port: 9083
+  error:
+    include-message: always
+    include-binding-errors: always
 
 logging.level:
-    web: DEBUG
-    root: INFO
-    com.siriusxi.ms.store: DEBUG
-    org:
-      hibernate:
-        SQL: DEBUG
-        type.descriptor.sql.BasicBinder: TRACE
+  web: DEBUG
+  root: INFO
+  com.siriusxi.ms.store: DEBUG
+  org:
+    hibernate:
+      SQL: DEBUG
+      type.descriptor.sql.BasicBinder: TRACE
 
 management:
   info.git:
@@ -108,7 +112,8 @@ spring:
   datasource:
     url: "jdbc:mysql://${app.database.host}/${app.database.schema}"
 
-server.port: 8080
+server:
+  port: 8080
 
 eureka:
   instance:

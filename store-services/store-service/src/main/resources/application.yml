@@ -1,5 +1,9 @@
 # Server configs
-server.port: 9080
+server:
+  port: 9080
+  error:
+    include-message: always
+    include-binding-errors: always
 
 spring:
   application.name: store
