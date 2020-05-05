@@ -45,6 +45,9 @@ spring:
 
 server:
   port: 9081
+  error:
+    include-message: always
+    include-binding-errors: always
 
 logging.level:
     web: DEBUG

@@ -9,7 +9,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @SpringBootTest(
     webEnvironment = RANDOM_PORT,
     properties = {"eureka.client.enabled: false"})
-class EdgeServerApplicationTests {
+class EdgeServerTests {
 
   @Test
   void contextLoads() {

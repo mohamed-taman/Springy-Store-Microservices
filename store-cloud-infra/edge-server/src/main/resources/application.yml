@@ -35,6 +35,11 @@ spring:
           predicates:
             - Path=/eureka/**
 
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+
 eureka:
   instance:
     hostname: localhost
