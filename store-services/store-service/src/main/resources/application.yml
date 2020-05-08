@@ -36,6 +36,9 @@ spring:
     username: guest
     password: guest
 
+  security.oauth2.resourceserver:
+    jwt.jwk-set-uri: ${app.auth-server}
+
 # Service discovery configs
 eureka:
   instance:
@@ -44,7 +47,8 @@ eureka:
     prefer-ip-address: true
   client:
     healthcheck.enabled: true
-    service-url.defaultZone: http://${app.eureka-server}:8761/eureka/
+    service-url:
+      defaultZone: http://${app.eureka.user}:${app.eureka.pass}@${app.eureka.host}:8761/eureka/
     initial-instance-info-replication-interval-seconds: 5
     registry-fetch-interval-seconds: 5
 
@@ -58,6 +62,7 @@ logging:
     web: DEBUG
     root: INFO
     com.siriusxi.ms.store: DEBUG
+    org.springframework.web.server.adapter.HttpWebHandlerAdapter: TRACE
 
 # Application health and information management
 management:
@@ -71,7 +76,11 @@ management:
 
 # Custom configurations
 app:
-  eureka-server: localhost
+  eureka:
+    host: localhost
+    user: mt
+    pass: p
+  auth-server: http://localhost:9999/.well-known/jwks.json
   product-service.host: product
   recommendation-service.host: recommendation
   review-service.host: review
@@ -146,12 +155,26 @@ spring:
         binder:
           brokers: kafka
 
-eureka:
-  instance:
-    prefer-ip-address: false
+app:
+  eureka:
+    host: eureka
+  auth-server: http://auth-server:9999/.well-known/jwks.json
 
 server:
   port: 8080
 
+---
+spring:
+  profiles: external-OAuth-Provider
+  jmx.enabled: false
+  rabbitmq.host: rabbitmq
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: kafka
+
 app:
-  eureka-server: eureka
+  eureka:
+    host: eureka
+  auth-server: https://dev-taman.eu.auth0.com/.well-known/jwks.json

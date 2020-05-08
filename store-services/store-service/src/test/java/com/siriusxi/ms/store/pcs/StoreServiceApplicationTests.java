@@ -25,7 +25,16 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @SpringBootTest(
     webEnvironment = RANDOM_PORT,
-    properties = {"eureka.client.enabled: false"})
+    /*
+     In this Spring integration test class,
+     configure TestSecurityConfig to override the
+     existing security configuration.
+    */
+    classes = {StoreServiceApplication.class, TestSecurityConfig.class},
+    properties = {
+      "spring.main.allow-bean-definition-overriding=true",
+      "eureka.client.enabled=false"
+    })
 class StoreServiceApplicationTests {
 
   public static final String BASE_URL = "/store/api/v1/products/";

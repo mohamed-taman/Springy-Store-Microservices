@@ -23,5 +23,11 @@
 			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
 		</dependency>
 		<!-- End - Spring cloud Eureka service discovery server -->
+		<!-- Start - Security dependency -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<!-- End - Security dependency -->
 	</dependencies>
 </project>

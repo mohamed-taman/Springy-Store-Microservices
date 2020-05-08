@@ -41,13 +41,15 @@ public class GatewayConfiguration {
         () -> getServicesHealth("http://recommendation");
     ReactiveHealthIndicator reviewHealthIndicator = () -> getServicesHealth("http://review");
     ReactiveHealthIndicator storeHealthIndicator = () -> getServicesHealth("http://store");
+    ReactiveHealthIndicator authHealthIndicator = () -> getServicesHealth("http://auth-server");
 
     Map<String, ReactiveHealthContributor> allIndicators =
         Map.of(
             "Product Service", productHealthIndicator,
             "Recommendation Service", recommendationHealthIndicator,
             "Review Service", reviewHealthIndicator,
-            "Store Service", storeHealthIndicator);
+            "Store Service", storeHealthIndicator,
+                "Authorization Server", authHealthIndicator );
 
     return CompositeReactiveHealthContributor.fromMap(allIndicators);
   }

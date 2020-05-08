@@ -17,6 +17,12 @@ logging.level:
         eureka: debug
         discovery: debug
 
+# Define Security
+app:
+  eureka:
+    username: mt
+    password: p
+
 eureka:
   environment: Development
   datacenter: On Premise
@@ -60,4 +66,6 @@ eureka:
 
 management:
   endpoints.web.exposure.include: "*"
-  info.git.enabled: true
+  info.git:
+    enabled: true
+    mode: full
