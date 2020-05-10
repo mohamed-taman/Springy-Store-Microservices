@@ -48,7 +48,7 @@ COPY --from=builder temp/snapshot-dependencies/ ./
 COPY --from=builder temp/spring-boot-loader/ ./
 COPY --from=builder temp/application/ ./
 
-# Expose current server to port 8080
+# Expose current server to port 8761
 EXPOSE 8761
 
 ARG JAVA_OPTS=""

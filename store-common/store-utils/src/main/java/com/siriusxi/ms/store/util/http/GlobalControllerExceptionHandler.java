@@ -17,8 +17,8 @@ import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
  * The class Global controller exception handler is a generic and central point for all
  * microservices that handles all services exceptions.
  *
- * It act as filter so it is pluggable component just added to microservice context automatically,
- * when you add <code>ComponentScan</code> on your application.
+ * <p>It act as filter so it is pluggable component just added to microservice context
+ * automatically, when you add <code>ComponentScan</code> on your application.
  *
  * @see org.springframework.context.annotation.ComponentScan
  * @author mohamed.taman

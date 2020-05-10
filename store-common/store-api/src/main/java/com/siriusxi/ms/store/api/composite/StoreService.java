@@ -23,8 +23,9 @@ public interface StoreService {
    * @see ProductAggregate
    * @param body product to save.
    * @since v0.1
+   * @return void
    */
-  void createProduct(ProductAggregate body);
+  Mono<Void> createProduct(ProductAggregate body);
 
   /**
    * Get the aggregate product with its reviews and recommendations and services involved in the
@@ -45,6 +46,7 @@ public interface StoreService {
    * @implNote This method should be idempotent and always return 200 OK status.
    * @param id to be deleted.
    * @since v0.1
+   * @return void
    */
-  void deleteProduct(int id);
+  Mono<Void> deleteProduct(int id);
 }

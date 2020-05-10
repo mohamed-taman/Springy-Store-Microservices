@@ -66,7 +66,10 @@ management:
     health.show-details: always
 
 app:
-  eureka-server: localhost
+  eureka:
+    host: localhost
+    user: mt
+    pass: p
   database:
     host: localhost
   messaging:
@@ -81,7 +84,8 @@ eureka:
     prefer-ip-address: true
   client:
     healthcheck.enabled: true
-    service-url.defaultZone: http://${app.eureka-server}:8761/eureka/
+    service-url:
+      defaultZone: http://${app.eureka.user}:${app.eureka.pass}@${app.eureka.host}:8761/eureka/
     initial-instance-info-replication-interval-seconds: 5
     registry-fetch-interval-seconds: 5
 
@@ -96,12 +100,9 @@ spring:
 server:
   port: 8080
 
-eureka:
-  instance:
-    prefer-ip-address: false
-
 app:
-  eureka-server: eureka
+  eureka:
+    host: eureka
   database:
     host: mongodb
   messaging:

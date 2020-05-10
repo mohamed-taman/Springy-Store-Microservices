@@ -59,3 +59,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Special files
+test-em-all-external-auth.sh

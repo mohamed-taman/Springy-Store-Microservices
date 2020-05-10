@@ -37,6 +37,7 @@ services:
   store:
     build: store-services/store-service
     environment:
+      # - SPRING_PROFILES_ACTIVE=external-OAuth-Provider
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - rabbitmq
@@ -54,7 +55,23 @@ services:
   gateway:
     build: store-cloud-infra/edge-server
     ports:
-      - "8080:8080"
+      - "8443:8443"
+    environment:
+      # - SPRING_PROFILES_ACTIVE=external-OAuth-Provider
+      - SPRING_PROFILES_ACTIVE=docker
+      # dynamically change certificate at run time
+      - SERVER_SSL_KEY_STORE=file:/keystore/edge.p12
+      - SERVER_SSL_KEY_STORE_PASSWORD=password
+    volumes:
+      - $PWD/config/keystore:/keystore
+    depends_on:
+      - eureka
+    restart: on-failure
+  ## End - Edge Server definition
+
+  ## Start - Edge Server definition
+  auth-server:
+    build: store-cloud-infra/authorization-server
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:

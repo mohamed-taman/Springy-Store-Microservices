@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.siriusxi.ms.store</groupId>
+        <artifactId>store-cloud-chassis</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../../store-base/store-cloud-chassis/pom.xml</relativePath>
+    </parent>
+
+    <groupId>com.siriusxi.cloud.infra</groupId>
+    <artifactId>auth-server</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>Authorization Server</name>
+    <description>OAuth2 Authorization Server, based on Spring boot.</description>
+    <packaging>jar</packaging>
+
+    <properties>
+        <spring.security.jwt.jose.version>5.0.0.M5</spring.security.jwt.jose.version>
+    </properties>
+
+    <dependencies>
+        <!-- Start - To register API Gateway server with Eureka Discovery Server -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <!-- End - To register API Gateway server with Eureka Discovery Server -->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security.oauth.boot</groupId>
+            <artifactId>spring-security-oauth2-autoconfigure</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-jwt-jose</artifactId>
+            <version>${spring.security.jwt.jose.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

@@ -8,8 +8,39 @@
     <artifactId>store-aggregator</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>Springy Store Aggregator</name>
-    <description>Aggregator pom project for Springy μServices</description>
+    <description>Aggregator pom project for all Springy Store μServices</description>
     <packaging>pom</packaging>
+
+    <!-- Start - Springy Store Project Owner -->
+    <developers>
+        <developer>
+            <id>0001</id>
+            <name>Mohamed Taman</name>
+            <email>mohamed.taman@gmail.com</email>
+            <roles>
+                <role>
+                    Sr. Enterprise Architect
+                </role>
+                <role>
+                    Lead Software Architect
+                </role>
+            </roles>
+        </developer>
+    </developers>
+    <!-- End - Springy Store Project Owner -->
+    <!-- Start - Springy Store source repository -->
+    <scm>
+        <connection>https://github.com/mohamed-taman/Springy-Store-Microservices.git</connection>
+        <developerConnection>git@github.com:mohamed-taman/Springy-Store-Microservices.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+    <!-- End - Springy Store source repository -->
+    <!-- Start - Springy Store issue management -->
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/mohamed-taman/Springy-Store-Microservices/issues</url>
+    </issueManagement>
+    <!-- End - Springy Store issue management -->
 
     <properties>
         <maven.install.skip>true</maven.install.skip>
@@ -28,7 +59,6 @@
         <module>store-services/store-service</module>
         <module>store-cloud-infra/eureka-server</module>
         <module>store-cloud-infra/edge-server</module>
-
-
+        <module>store-cloud-infra/authorization-server</module>
     </modules>
 </project>

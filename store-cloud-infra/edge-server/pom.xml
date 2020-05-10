@@ -29,13 +29,28 @@
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
 		<!-- End - To register API Gateway server with Eureka Discovery Server -->
-		<!-- Start - Javax.validation is required to in order to test to work -->
+		<!-- Start - Javax.validation is required, in order to test cases to work -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<!-- End - Javax.validation is required to in order to test to work -->
+		<!-- End - Javax.validation is required, in order to test cases to work -->
+		<!-- Start - Security dependency -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<!-- End - Security dependency -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-oauth2-resource-server</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-oauth2-jose</artifactId>
+		</dependency>
+
 	</dependencies>
 
 </project>

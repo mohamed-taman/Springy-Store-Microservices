@@ -65,6 +65,7 @@ public interface StoreEndpoint extends StoreService {
    *
    * @param body of composite product elements definition.
    * @since v3.0 codename Storm.
+   * @return
    */
   @ApiOperation(
       value = "${api.product-composite.create-composite-product.description}",
@@ -87,7 +88,7 @@ public interface StoreEndpoint extends StoreService {
   @PostMapping(
           value = "products",
           consumes = APPLICATION_JSON_VALUE)
-  void createProduct(@RequestBody ProductAggregate body);
+  Mono<Void> createProduct(@RequestBody ProductAggregate body);
 
   /**
    * Sample usage:
@@ -96,6 +97,7 @@ public interface StoreEndpoint extends StoreService {
    *
    * @param id is the product id to delete it.
    * @since v3.0 codename Storm.
+   * @return
    */
   @ApiOperation(
       value = "${api.product-composite.delete-composite-product.description}",
@@ -116,5 +118,5 @@ public interface StoreEndpoint extends StoreService {
                 """)
       })
   @DeleteMapping("products/{id}")
-  void deleteProduct(@PathVariable int id);
+  Mono<Void> deleteProduct(@PathVariable int id);
 }
