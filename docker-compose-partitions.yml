@@ -133,7 +133,7 @@ services:
   ## Start - mongodb database definition
   ### $ mongo
   mongodb:
-    image: mongo:4.2.5-bionic
+    image: mongo:4.2.6-bionic
     ports:
       - "27017-27019:27017-27019"
     healthcheck:
@@ -148,7 +148,7 @@ services:
   ## Start - MySql database definition
   ### $ mysql -uroot -h127.0.0.1 -p
   mysql:
-    image: mysql:8.0.19
+    image: mysql:8.0.20
     ports:
       - "3306:3306"
     environment:
