@@ -1,4 +1,4 @@
-# Springy Store μServices
+# Springy Store μServices ![Latest Version](https://img.shields.io/badge/latest-5.1-blue.svg) [![Latest Release](https://img.shields.io/badge/Codename-Refresher-yellow.svg)](https://github.com/mohamed-taman/Springy-Store-Microservices/releases)
 
 - This project is a development of a small set of **Spring Boot** and **Cloud** based Microservices projects that implement cloud-native intuitive, Reactive Programming, Event-driven, Microservices design patterns, and coding best practices.
 - The project follows [**CloudNative**](https://www.cncf.io/) recommendations and The [**twelve-factor app**](https://12factor.net/) methodology for building *software-as-a-service apps* to show how μServices should be developed and deployed.
