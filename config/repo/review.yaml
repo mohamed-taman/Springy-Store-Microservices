@@ -1,5 +1,4 @@
 spring:
-  application.name: review
   jpa:
     show-sql: true
     open-in-view: false
@@ -27,15 +26,7 @@ spring:
     schemas: review-db
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
-  rabbitmq:
-    host: ${app.messaging.rabbitmq.host}
-    port: 5672
-    username: guest
-    password: guest
   cloud:
-    # As Spring Cloud Ribbon is in maintenance mode.
-    # It is recommended switching to BlockingLoadBalancerClient instead.
-    loadbalancer.ribbon.enabled: false
     # Event-driven messages Stream config
     stream:
       defaultBinder: rabbit
@@ -58,53 +49,17 @@ spring:
           defaultBrokerPort: 9092
 
 app:
-  eureka:
-    host: localhost
-    user: mt
-    pass: p
   database:
-    host: localhost
     schema: mysql
-  messaging:
-    rabbitmq.host: 127.0.0.1
-    kafka.broker: 127.0.0.1
 
 server:
   port: 9083
-  error:
-    include-message: always
-    include-binding-errors: always
 
 logging.level:
-  web: DEBUG
-  root: INFO
-  com.siriusxi.ms.store: DEBUG
   org:
     hibernate:
       SQL: DEBUG
       type.descriptor.sql.BasicBinder: TRACE
-
-management:
-  info.git:
-    mode: full
-    enabled: true
-  endpoints.web.exposure.include: "*"
-  endpoint:
-    shutdown.enabled: true
-    health.show-details: always
-
-# Service discovery configs
-eureka:
-  instance:
-    lease-renewal-interval-in-seconds: 5
-    lease-expiration-duration-in-seconds: 5
-    prefer-ip-address: true
-  client:
-    healthcheck.enabled: true
-    service-url:
-      defaultZone: http://${app.eureka.user}:${app.eureka.pass}@${app.eureka.host}:8761/eureka/
-    initial-instance-info-replication-interval-seconds: 5
-    registry-fetch-interval-seconds: 5
 
 # This is a docker specific profile properties
 # Also profiles could be separated in its owen file
@@ -112,7 +67,6 @@ eureka:
 ---
 spring:
   profiles: docker
-  jmx.enabled: false
   datasource:
     url: "jdbc:mysql://${app.database.host}/${app.database.schema}"
 
@@ -120,11 +74,6 @@ server:
   port: 8080
 
 app:
-  eureka:
-    host: eureka
   database:
     host: mysql
     schema: review-db
-  messaging:
-    rabbitmq.host: rabbitmq
-    kafka.broker: kafka

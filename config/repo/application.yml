@@ -1,0 +1,80 @@
+# Server configs
+server:
+  ## Should be included to show message, if not error message will be empty
+  error:
+    include-message: always
+    include-binding-errors: always
+
+# Custom configurations
+app:
+  eureka:
+    host: localhost
+    user: mt
+    pass: p
+    # pass: '{cipher}a672bc1a5c86b877ade72bca188ac4b6d33e7a91c3b524cbd86c8f031d1344c8'
+  database:
+    host: localhost
+  messaging:
+    rabbitmq.host: 127.0.0.1
+    kafka.broker: 127.0.0.1
+
+spring:
+  cloud:
+    # As Spring Cloud Ribbon is in maintenance mode.
+    # It is recommended switching to BlockingLoadBalancerClient instead.
+    loadbalancer.ribbon.enabled: false
+  # Massaging provider configurations
+  rabbitmq:
+    host: ${app.messaging.rabbitmq.host}
+    port: 5672
+    username: guest
+    password: guest
+    #password: '{cipher}702b8ae88ce0d606c42cd89dd20c43be1100951373416f5eb6f2ab57b0288665'
+
+# Service discovery configs
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 5
+    prefer-ip-address: true
+  client:
+    healthcheck.enabled: true
+    service-url:
+      defaultZone: http://${app.eureka.user}:${app.eureka.pass}@${app.eureka.host}:8761/eureka/
+    initial-instance-info-replication-interval-seconds: 5
+    registry-fetch-interval-seconds: 5
+
+ribbon:
+  server-list-refresh-interval: 5000
+  NF-load-balancer-ping-interval: 5
+
+# Application health and information management
+management:
+  info.git:
+    mode: full
+    enabled: true
+  endpoints.web.exposure.include: "*"
+  endpoint:
+    shutdown.enabled: true
+    health.show-details: always
+
+logging.level:
+  web: DEBUG
+  root: INFO
+  com.siriusxi.ms.store: DEBUG
+  com.siriusxi.cloud.infra: DEBUG
+
+# This is a docker specific profile properties
+# Also profiles could be separated in its owen file
+# with file name format of "application-docker.yaml"
+---
+spring:
+  profiles: docker
+  jmx.enabled: false
+
+app:
+  eureka:
+    host: eureka
+  messaging:
+    rabbitmq.host: rabbitmq
+    kafka.broker: kafka

@@ -41,8 +41,9 @@ import static org.springframework.http.HttpStatus.OK;
     */
     classes = {StoreServiceApplication.class, TestSecurityConfig.class},
     properties = {
-      "spring.main.allow-bean-definition-overriding=true",
-      "eureka.client.enabled=false"
+            "spring.main.allow-bean-definition-overriding: true",
+            "eureka.client.enabled: false",
+            "spring.cloud.config.enabled: false"
     })
 class MessagingTests {
 
