@@ -26,7 +26,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
     webEnvironment = RANDOM_PORT,
     properties = {
             "spring.data.mongodb.port: 0",
-            "eureka.client.enabled: false"})
+            "eureka.client.enabled: false",
+            "spring.cloud.config.enabled: false",
+            "spring.data.mongodb.auto-index-creation: true",
+            "app.database.host: localhost",
+            "server.error.include-message: always"})
 class ProductServiceApplicationTests {
 
   private final String BASE_URI = "/products/";

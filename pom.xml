@@ -60,5 +60,6 @@
         <module>store-cloud-infra/eureka-server</module>
         <module>store-cloud-infra/edge-server</module>
         <module>store-cloud-infra/authorization-server</module>
+        <module>store-cloud-infra/config-server</module>
     </modules>
 </project>

@@ -14,9 +14,9 @@ COPY ${JAR_FILE} application.jar
 RUN java -Djarmode=layertools -jar --enable-preview application.jar extract
 
 # Workaround to avoid Copy command failure when directory is not exists.
-RUN test ! -d ./snapshot-dependencies \
-&& mkdir snapshot-dependencies \
-&& echo "Directory [snapshot-dependencies] created."
+RUN if test ! -d ./snapshot-dependencies; \
+then mkdir snapshot-dependencies && echo "Directory [snapshot-deps] created."; \
+else echo "Directory [snapshot-deps] already exists."; fi
 
 #### End of builder stage
 
@@ -24,7 +24,6 @@ RUN test ! -d ./snapshot-dependencies \
 # ------------------------
 # Build image based on JDK 14 base image, based on latest debian buster OS
 FROM openjdk:14.0.1-jdk-slim-buster
-VOLUME /tmp
 
 # Set image information, but could be set to different location from command line
 ARG IMAGE_VERSION="1.0-SNAPSHOT"
@@ -48,7 +47,7 @@ COPY --from=builder temp/snapshot-dependencies/ ./
 COPY --from=builder temp/spring-boot-loader/ ./
 COPY --from=builder temp/application/ ./
 
-# Expose current server to port 8761
+# Expose current server to port 8443 secure port
 EXPOSE 8443
 
 ARG JAVA_OPTS=""

@@ -1,3 +1,7 @@
+server:
+  error:
+    include-message: always
+
 spring:
   flyway:
     enabled: false

@@ -1,16 +1,9 @@
 # Server configs
 server:
   port: 9080
-  error:
-    include-message: always
-    include-binding-errors: always
 
 spring:
-  application.name: store
   cloud:
-    # As Spring Cloud Ribbon is in maintenance mode.
-    # It is recommended switching to BlockingLoadBalancerClient instead.
-    loadbalancer.ribbon.enabled: false
     # Massaging provider configurations
     ## Event-driven messages Stream config
     stream:
@@ -28,58 +21,19 @@ spring:
           producer.required-groups: auditGroup
       kafka:
         binder:
-          brokers: 127.0.0.1
+          brokers: ${app.messaging.kafka.broker}
           defaultBrokerPort: 9092
-  rabbitmq:
-    host: 127.0.0.1
-    port: 5672
-    username: guest
-    password: guest
 
   security.oauth2.resourceserver:
     jwt.jwk-set-uri: ${app.auth-server}
 
-# Service discovery configs
-eureka:
-  instance:
-    lease-renewal-interval-in-seconds: 5
-    lease-expiration-duration-in-seconds: 5
-    prefer-ip-address: true
-  client:
-    healthcheck.enabled: true
-    service-url:
-      defaultZone: http://${app.eureka.user}:${app.eureka.pass}@${app.eureka.host}:8761/eureka/
-    initial-instance-info-replication-interval-seconds: 5
-    registry-fetch-interval-seconds: 5
-
-ribbon:
-  server-list-refresh-interval: 5000
-  NF-load-balancer-ping-interval: 5
-
 # Logging configs
 logging:
   level:
-    web: DEBUG
-    root: INFO
-    com.siriusxi.ms.store: DEBUG
     org.springframework.web.server.adapter.HttpWebHandlerAdapter: TRACE
-
-# Application health and information management
-management:
-  info.git:
-    enabled: true
-    mode: full
-  endpoints.web.exposure.include: "*"
-  endpoint:
-    shutdown.enabled: true
-    health.show-details: "ALWAYS"
 
 # Custom configurations
 app:
-  eureka:
-    host: localhost
-    user: mt
-    pass: p
   auth-server: http://localhost:9999/.well-known/jwks.json
   product-service.host: product
   recommendation-service.host: recommendation
@@ -147,17 +101,8 @@ api:
 ---
 spring:
   profiles: docker
-  jmx.enabled: false
-  rabbitmq.host: rabbitmq
-  cloud:
-    stream:
-      kafka:
-        binder:
-          brokers: kafka
 
 app:
-  eureka:
-    host: eureka
   auth-server: http://auth-server:9999/.well-known/jwks.json
 
 server:
@@ -166,15 +111,6 @@ server:
 ---
 spring:
   profiles: external-OAuth-Provider
-  jmx.enabled: false
-  rabbitmq.host: rabbitmq
-  cloud:
-    stream:
-      kafka:
-        binder:
-          brokers: kafka
 
 app:
-  eureka:
-    host: eureka
   auth-server: https://dev-taman.eu.auth0.com/.well-known/jwks.json

@@ -1,27 +1,10 @@
-spring:
-  application.name: eureka-server
-
-  # As Spring Cloud Ribbon is in maintenance mode.
-  # It is recommended switching to BlockingLoadBalancerClient instead.
-  cloud.loadbalancer.ribbon.enabled: false
-
 server:
   port: 8761
-  ## Should be included to show message, if not error message will be empty
-  error:
-    include-message: always
-    include-binding-errors: always
 
 logging.level:
     com.netflix:
-        eureka: debug
-        discovery: debug
-
-# Define Security
-app:
-  eureka:
-    username: mt
-    password: p
+        eureka: DEBUG
+        discovery: DEBUG
 
 eureka:
   environment: Development
@@ -63,9 +46,3 @@ eureka:
     # Given in milliseconds.
     eviction-interval-timer-in-ms:  2000
     wait-time-in-ms-when-sync-empty: 0
-
-management:
-  endpoints.web.exposure.include: "*"
-  info.git:
-    enabled: true
-    mode: full
