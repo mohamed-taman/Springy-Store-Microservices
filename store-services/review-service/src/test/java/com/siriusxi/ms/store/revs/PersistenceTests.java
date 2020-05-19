@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.transaction.annotation.Propagation.NOT_SUPPORTED;
 
-@DataJpaTest
+@DataJpaTest(properties = {"spring.cloud.config.enabled: false"})
 @Transactional(propagation = NOT_SUPPORTED)
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

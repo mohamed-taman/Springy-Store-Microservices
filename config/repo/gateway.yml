@@ -1,11 +1,9 @@
 spring:
-  application.name: gateway
   security.oauth2.resourceserver.jwt:
     jwk-set-uri: ${app.auth-server}
   # As Spring Cloud Ribbon is in maintenance mode.
   # It is recommended switching to BlockingLoadBalancerClient instead.
   cloud:
-    loadbalancer.ribbon.enabled: false
     # Route definitions of the system
     gateway:
       discovery.locator.enabled: true
@@ -41,6 +39,13 @@ spring:
           predicates:
             - Path=/eureka/**
 
+        - id: config-server
+          uri: http://${app.config-server.host}:${app.config-server.port}
+          predicates:
+            - Path=/config/**
+          filters:
+            - RewritePath=/config/(?<segment>.*), /$\{segment}
+
         # Testing URLs
         - id: host_route_200
           uri: http://httpstat.us
@@ -72,46 +77,15 @@ server:
     key-store: classpath:keystore/test.p12
     key-store-password: testtest
     key-alias: localhost
-  error:
-    include-message: always
-    include-binding-errors: always
 
 # Define Security
 app:
   eureka:
-    host: localhost
     port: 8761
-    user: mt
-    pass: p
   auth-server: http://localhost:9999/.well-known/jwks.json
 
-eureka:
-  instance:
-    lease-renewal-interval-in-seconds: 5
-    lease-expiration-duration-in-seconds: 5
-    prefer-ip-address: true
-  client:
-    healthcheck.enabled: true
-    service-Url:
-      defaultZone: http://${app.eureka.user}:${app.eureka.pass}@${app.eureka.host}:${app.eureka.port}/eureka/
-    initial-instance-info-replication-interval-seconds: 5
-    registry-fetch-interval-seconds: 5
-
-ribbon:
-  server-list-refresh-interval: 5000
-  NF-load-balancer-ping-interval: 5
-
-management:
-  info.git:
-    enabled: true
-    mode: full
-  endpoint:
-    health.show-details: "ALWAYS"
-  endpoints:
-    web.exposure.include: "*"
 
 logging.level:
-    root: INFO
     org.springframework.cloud.gateway: TRACE
     org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: INFO
     org.springframework.web.server.adapter.HttpWebHandlerAdapter: TRACE
@@ -120,14 +94,10 @@ logging.level:
 spring.profiles: docker
 
 app:
-  eureka:
-    host: eureka
   auth-server: http://auth-server:9999/.well-known/jwks.json
 
 ---
 spring.profiles: external-OAuth-Provider
 
 app:
-  eureka:
-    host: eureka
   auth-server: https://dev-taman.eu.auth0.com/.well-known/jwks.json

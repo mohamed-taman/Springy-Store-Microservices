@@ -1,4 +1,4 @@
-version: '3.7' ## Latest version works with Docker Engine release 18.06.0+
+version: '3.8' ## Latest version works with Docker Engine release 18.06.0+
 
 services:
   # Start - Core Microservices
@@ -13,9 +13,14 @@ services:
       - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
       - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCECOUNT=2
       - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCEINDEX=0
+      # config server credentials
+      - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
+      - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
     depends_on:
+      - config-server
       - mongodb
       - kafka
+    restart: on-failure
   ### Instance 2
   product-i1:
     build: store-services/product-service
@@ -26,9 +31,14 @@ services:
       - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
       - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCECOUNT=2
       - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCEINDEX=1
+      # config server credentials
+      - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
+      - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
     depends_on:
+      - config-server
       - mongodb
       - kafka
+    restart: on-failure
   ## End - Product service definition
 
   ## Start - Recommendation service definition
@@ -42,9 +52,14 @@ services:
       - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
       - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCECOUNT=2
       - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCEINDEX=0
+      # config server credentials
+      - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
+      - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
     depends_on:
+      - config-server
       - mongodb
       - kafka
+    restart: on-failure
   ### Instance 2
   recommendation-i1:
     build: store-services/recommendation-service
@@ -55,9 +70,14 @@ services:
       - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
       - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCECOUNT=2
       - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCEINDEX=1
+      # config server credentials
+      - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
+      - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
     depends_on:
+      - config-server
       - mongodb
       - kafka
+    restart: on-failure
   ## End - Recommendation service definition
 
   ## Start - Review service definition
@@ -71,7 +91,11 @@ services:
       - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
       - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCECOUNT=2
       - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCEINDEX=0
+      # config server credentials
+      - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
+      - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
     depends_on:
+      - config-server
       - mysql
       - kafka
     restart: on-failure
@@ -85,7 +109,11 @@ services:
       - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
       - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCECOUNT=2
       - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCEINDEX=1
+      # config server credentials
+      - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
+      - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
     depends_on:
+      - config-server
       - mysql
       - kafka
     restart: on-failure
@@ -104,8 +132,13 @@ services:
       - SPRING_CLOUD_STREAM_BINDINGS_OUTPUT-RECOMMENDATIONS_PRODUCER_PARTITION-COUNT=2
       - SPRING_CLOUD_STREAM_BINDINGS_OUTPUT-REVIEWS_PRODUCER_PARTITION-KEY-EXPRESSION=payload.key
       - SPRING_CLOUD_STREAM_BINDINGS_OUTPUT-REVIEWS_PRODUCER_PARTITION-COUNT=2
+      # config server credentials
+      - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
+      - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
     depends_on:
+      - config-server
       - kafka
+    restart: on-failure
   ## End - Store service definition
   # End - Core Microservices
 
@@ -113,6 +146,13 @@ services:
   ## Start - Eureka Service Discovery definition
   eureka:
     build: store-cloud-infra/eureka-server
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      # config server credentials
+      - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
+      - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
+    depends_on:
+      - config-server
     restart: on-failure
   ## End - Eureka Service Discovery definition
 
@@ -125,22 +165,44 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
       - SERVER_SSL_KEY_STORE=file:/keystore/edge.p12
       - SERVER_SSL_KEY_STORE_PASSWORD=password
+      # config server credentials
+      - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
+      - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
     volumes:
       - $PWD/config/keystore:/keystore
     depends_on:
+      - config-server
       - eureka
+      - auth-server
     restart: on-failure
   ## End - Edge Server definition
 
-  ## Start - Edge Server definition
+  ## Start - Auth Server definition
   auth-server:
     build: store-cloud-infra/authorization-server
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+      # config server credentials
+      - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
+      - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
     depends_on:
+      - config-server
       - eureka
     restart: on-failure
-  ## End - Edge Server definition
+  ## End - Auth Server definition
+
+  ## Start - Config Server definition
+  config-server:
+    build: store-cloud-infra/config-server
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker,native
+      - ENCRYPT_KEY=${CONFIG_SERVER_ENCRYPT_KEY}
+      - SPRING_SECURITY_USER_NAME=${CONFIG_SERVER_USR}
+      - SPRING_SECURITY_USER_PASSWORD=${CONFIG_SERVER_PWD}
+    volumes:
+      - $PWD/config/repo:/config/repo
+    restart: on-failure
+  ## End - Config Server definition
   # End - Cloud Infrastructure
 
   # Start - Data and transport Infrastructure

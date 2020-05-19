@@ -29,28 +29,22 @@ public class SecurityConfig {
      when checked for authority using Spring Security.
     */
     http.authorizeExchange()
-        .pathMatchers("/actuator/**")
-        .permitAll()
-        .pathMatchers(POST, baseUri)
-        .hasAuthority("SCOPE_product:write")
-        .pathMatchers(DELETE, baseUri)
-        .hasAuthority("SCOPE_product:write")
-        .pathMatchers(GET, baseUri)
-        .hasAuthority("SCOPE_product:read")
-
+          .pathMatchers("/actuator/**").permitAll()
+          .pathMatchers(POST, baseUri).hasAuthority("SCOPE_product:write")
+          .pathMatchers(DELETE, baseUri).hasAuthority("SCOPE_product:write")
+          .pathMatchers(GET, baseUri).hasAuthority("SCOPE_product:read")
         // Ensures that the user is authenticated before being allowed access to all other URLs
-        .anyExchange()
-        .authenticated()
+        .anyExchange().authenticated()
         .and()
         /*
          1. specifies that authentication and authorization will be based on
          a JWT-encoded OAuth 2.0 access token
 
          2. The endpoint of the authorization server's jwk-set endpoint has been
-         registered in the configuration file, application.yml
+         registered in the configuration file, store.yml
         */
         .oauth2ResourceServer()
-        .jwt();
+          .jwt();
 
     return http.build();
   }
