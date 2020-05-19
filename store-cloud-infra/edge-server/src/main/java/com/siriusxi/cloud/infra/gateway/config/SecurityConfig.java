@@ -18,18 +18,18 @@ public class SecurityConfig {
 
     @Bean
     SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http)  {
-        http
-                .csrf().disable()
-                .authorizeExchange()
-                .pathMatchers("/headerrouting/**").permitAll()
-                .pathMatchers("/actuator/**").permitAll()
-                .pathMatchers("/eureka/**").permitAll()
-                .pathMatchers("/oauth/**").permitAll()
-                .anyExchange().authenticated()
-                .and()
-                .oauth2ResourceServer()
-                .jwt();
-        return http.build();
+    http.csrf().disable()
+        .authorizeExchange()
+            .pathMatchers("/headerrouting/**").permitAll()
+            .pathMatchers("/actuator/**").permitAll()
+            .pathMatchers("/eureka/**").permitAll()
+            .pathMatchers("/oauth/**").permitAll()
+            .anyExchange().authenticated()
+        .and()
+            .oauth2ResourceServer()
+            .jwt();
+
+    return http.build();
     }
 
 }

@@ -66,46 +66,45 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         .inMemory()
         // Client that can only get products
         .withClient("reader")
-        .authorizedGrantTypes(grantTypes)
-        .redirectUris(redirectUris)
-        .secret(secret)
-        .scopes("product:read")
-        .accessTokenValiditySeconds(600_000_000)
+          .authorizedGrantTypes(grantTypes)
+          .redirectUris(redirectUris)
+          .secret(secret)
+          .scopes("product:read")
+          .accessTokenValiditySeconds(600_000_000)
         .and()
         // Client that can get and add products
         .withClient("writer")
-        .authorizedGrantTypes(grantTypes)
-        .redirectUris(redirectUris)
-        .secret(secret)
-        .scopes("product:read", "product:write")
-        .accessTokenValiditySeconds(600_000_000)
+          .authorizedGrantTypes(grantTypes)
+          .redirectUris(redirectUris)
+          .secret(secret)
+          .scopes("product:read", "product:write")
+          .accessTokenValiditySeconds(600_000_000)
         .and()
         // With just password client
         .withClient("noscopes")
-        .authorizedGrantTypes(grantTypes)
-        .redirectUris(redirectUris)
-        .secret(secret)
-        .scopes("none")
-        .accessTokenValiditySeconds(600_000_000);
+          .authorizedGrantTypes(grantTypes)
+          .redirectUris(redirectUris)
+          .secret(secret)
+          .scopes("none")
+          .accessTokenValiditySeconds(600_000_000);
   }
 
   @Override
   public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
 
-    endpoints.authenticationManager(this.authenticationManager).tokenStore(tokenStore());
+    endpoints
+            .authenticationManager(this.authenticationManager)
+            .tokenStore(tokenStore());
 
     if (this.jwtEnabled) {
-      endpoints.accessTokenConverter(accessTokenConverter());
+      endpoints
+              .accessTokenConverter(accessTokenConverter());
     }
   }
 
   @Bean
   public TokenStore tokenStore() {
-    if (this.jwtEnabled) {
-      return new JwtTokenStore(accessTokenConverter());
-    } else {
-      return new InMemoryTokenStore();
-    }
+    return this.jwtEnabled ? new JwtTokenStore(accessTokenConverter()) : new InMemoryTokenStore();
   }
 
   @Bean

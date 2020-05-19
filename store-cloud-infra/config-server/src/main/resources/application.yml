@@ -1,0 +1,34 @@
+server:
+    port: 8888
+    error:
+        include-message: always
+        include-binding-errors: always
+
+spring:
+    profiles:
+        active: native
+    application:
+        name: config-server
+    cloud:
+        config:
+            server:
+                native:
+                    searchLocations: file:@parent.basedir@/../config/repo
+    security:
+        user:
+            name: dev-usr
+            password: dev-pwd
+# WARNING: Exposing all management endpoints over http should only
+#          be used during development, must be locked down in production!
+management:
+    endpoint.health.show-details: "ALWAYS"
+    endpoints.web.exposure.include: "*"
+
+logging:
+    level:
+        root: info
+---
+spring:
+    profiles: docker
+    cloud:
+        config.server.native.searchLocations: file:/config/repo

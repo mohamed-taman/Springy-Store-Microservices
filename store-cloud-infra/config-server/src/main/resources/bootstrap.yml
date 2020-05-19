@@ -1,0 +1,3 @@
+# for encryption key feature
+encrypt:
+  key: my-very-secure-encrypt-key

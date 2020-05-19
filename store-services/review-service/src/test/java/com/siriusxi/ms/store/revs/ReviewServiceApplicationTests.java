@@ -26,7 +26,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @SpringBootTest(
     webEnvironment = RANDOM_PORT,
-    properties = {"spring.datasource.url=jdbc:h2:mem:review-db"})
+    properties = {"spring.datasource.url=jdbc:h2:mem:review-db",
+                  "spring.cloud.config.enabled: false"})
 @ActiveProfiles("test")
 class ReviewServiceApplicationTests {
 

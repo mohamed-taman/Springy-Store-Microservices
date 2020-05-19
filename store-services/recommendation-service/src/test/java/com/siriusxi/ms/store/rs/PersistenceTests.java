@@ -16,7 +16,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataMongoTest
+@DataMongoTest(properties = {
+        "spring.cloud.config.enabled: false",
+        "spring.data.mongodb.auto-index-creation: true",
+        "app.database.host: localhost"})
 class PersistenceTests {
 
   @Autowired private RecommendationRepository repository;

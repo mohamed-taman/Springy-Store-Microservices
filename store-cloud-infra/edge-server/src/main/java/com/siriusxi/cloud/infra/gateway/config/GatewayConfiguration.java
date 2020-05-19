@@ -43,28 +43,32 @@ public class GatewayConfiguration {
     ReactiveHealthIndicator storeHealthIndicator = () -> getServicesHealth("http://store");
     ReactiveHealthIndicator authHealthIndicator = () -> getServicesHealth("http://auth-server");
 
-    Map<String, ReactiveHealthContributor> allIndicators =
+    Map<String, ReactiveHealthContributor> healthIndicators =
         Map.of(
             "Product Service", productHealthIndicator,
             "Recommendation Service", recommendationHealthIndicator,
             "Review Service", reviewHealthIndicator,
             "Store Service", storeHealthIndicator,
-                "Authorization Server", authHealthIndicator );
+            "Authorization Server", authHealthIndicator);
 
-    return CompositeReactiveHealthContributor.fromMap(allIndicators);
+    return CompositeReactiveHealthContributor.fromMap(healthIndicators);
   }
 
   private Mono<Health> getServicesHealth(String url) {
     url += "/actuator/health";
+
     log.debug("Will call the Health API on URL: {}", url);
+
     return getWebClient()
-        .get()
-        .uri(url)
-        .retrieve()
-        .bodyToMono(String.class)
-        .map(s -> new Health.Builder().up().build())
-        .onErrorResume(ex -> Mono.just(new Health.Builder().down(ex).build()))
-        .log();
+            .get().uri(url)
+            .retrieve().bodyToMono(String.class)
+            .map(s -> new Health.Builder()
+                    .up()
+                    .build())
+            .onErrorResume(ex -> Mono.just(new Health.Builder()
+                    .down(ex)
+                    .build()))
+            .log();
   }
 
   private WebClient getWebClient() {

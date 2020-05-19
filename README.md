@@ -31,6 +31,7 @@ Springy Store μService --> Parent folder.
   |- authorization-server --> Authorization server
   |- edge-server --> API Gateway server
   |- eureka-server --> Service discovery server
+  |- config-server --> Centralized Configuration server
 |-store-common 
   |- store-api --> API Endpoint and services definitions for all microservices 
   |- store-utils --> Common utilities shared between all components 
@@ -66,7 +67,7 @@ The following topics are going to be covered in this 1st stage (other stages top
 - Adding automated tests of microservices in isolation.
 - Adding semi-automated tests to a microservice landscape.
 
-### System Boundary - μServices Landscape (Release 5.0-Latest)
+### System Boundary - μServices Landscape (Release 5.5-Latest)
 
 ![System Boundary](docs/diagram/app_ms_landscape.png)
 
@@ -114,7 +115,8 @@ To build and run the test cases for each service & shared modules in the project
 
 > This done only for the first time or any new changes or versions of shared modules and POMs.
 
-To build and install `store-build-chassis`, `store-utils`, `store-api`, `store-chassis` libraries, from the root folder `springy-store-microservices` run the following commands:
+To build and install `store-build-chassis`, `store-utils`, `store-api`, `store-services-chassis`, and `store-cloud-chassis` libraries, from the root folder `springy-store-microservices` run the
+ following commands:
 
 ```bash
 mohamed.taman@DTLNV8 ~/springy-store-microservices 
@@ -146,7 +148,7 @@ Woohoo, building & installing all project modules are finished successfully.
 The project is ready for the next step. :)
 ```
 #### Second: Build & Test Microservices
-Now it is time to build our **4 microservices** and run each service integration test in
+Now it is the time to build our **4 microservices** and run each service integration test in
  isolation by running the following commands:
 
 ```bash
@@ -177,6 +179,7 @@ All build commands and test suite for each microservice should run successfully,
 [INFO] Eureka Discovery Server ............................ SUCCESS [  6.536 s]
 [INFO] Edge Server ........................................ SUCCESS [ 32.108 s]
 [INFO] Authorization Server ............................... SUCCESS [  1.616 s]
+[INFO] Configuration Server ............................... SUCCESS [  1.216 s]
 [INFO] Springy Store Aggregator ........................... SUCCESS [  0.100 s]
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
@@ -200,6 +203,7 @@ All the **services**, **databases**, and **messaging service** will run in paral
 ```bash
 Creating network "ssm_default" with the default driver
 Creating ssm_eureka_1         ... done
+Creating ssm_config-server_1  ... done
 Creating ssm_gateway_1        ... done
 Creating ssm_auth-server_1    ... done
 Creating ssm_mysql_1          ... done
@@ -330,6 +334,7 @@ Stopping ssm_mysql_1          ... done
 Stopping ssm_rabbitmq_1       ... done
 Stopping ssm_eureka_1         ... done
 Stopping ssm_gateway_1        ... done
+Stopping ssm_config-server_1  ... done
 Removing ssm_recommendation_1 ... done
 Removing ssm_product_1        ... done
 Removing ssm_review_1         ... done
@@ -340,6 +345,7 @@ Removing ssm_mysql_1          ... done
 Removing ssm_rabbitmq_1       ... done
 Removing ssm_eureka_1         ... done
 Removing ssm_gateway_1        ... done
+Removing ssm_config-server_1  ... done
 Removing network ssm_default
 ```
 ### The End

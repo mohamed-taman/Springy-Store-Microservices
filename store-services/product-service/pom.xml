@@ -24,7 +24,6 @@
             <artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
         </dependency>
         <!-- End - Data technology layer -->
-
         <!-- Start - Data technology test layer -->
         <dependency>
             <groupId>de.flapdoodle.embed</groupId>
