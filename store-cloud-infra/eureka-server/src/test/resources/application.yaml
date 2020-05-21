@@ -1,5 +1,0 @@
-# Define Security
-app:
-  eureka:
-    username: mt
-    password: p

@@ -13,13 +13,19 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 @SpringBootTest(
     webEnvironment = RANDOM_PORT,
-    properties = {"spring.cloud.config.enabled: false"})
+    properties = {
+      "spring.cloud.config.enabled: false",
+      "eureka.client.register-with-eureka: false",
+      "eureka.client.fetch-registry: false",
+      "app.eureka.user: mt",
+      "app.eureka.pass: p"
+    })
 class EurekaDiscoveryServerTests {
 
-  @Value("${app.eureka.username}")
+  @Value("${app.eureka.user}")
   private String username;
 
-  @Value("${app.eureka.password}")
+  @Value("${app.eureka.pass}")
   private String password;
 
   private TestRestTemplate testRestTemplate;
@@ -32,20 +38,19 @@ class EurekaDiscoveryServerTests {
   @Test
   public void catalogLoads() {
 
-		String expectedResponseBody =
-				"{\"applications\":{\"versions__delta\":\"1\"," +
-				"\"apps__hashcode\":\"\",\"application\":[]}}";
-		ResponseEntity<String> entity = testRestTemplate.getForEntity("/eureka/apps", String.class);
-		assertEquals(HttpStatus.OK, entity.getStatusCode());
-		assertEquals(expectedResponseBody, entity.getBody());
-	}
+    String expectedResponseBody =
+        "{\"applications\":{\"versions__delta\":\"1\","
+            + "\"apps__hashcode\":\"\",\"application\":[]}}";
+    ResponseEntity<String> entity = testRestTemplate.getForEntity("/eureka/apps", String.class);
+    assertEquals(HttpStatus.OK, entity.getStatusCode());
+    assertEquals(expectedResponseBody, entity.getBody());
+  }
 
-	@Test
-	public void healthy() {
-		String expectedResponseBody = "{\"status\":\"UP\"}";
-		ResponseEntity<String> entity = testRestTemplate.getForEntity("/actuator/health", String.class);
-		assertEquals(HttpStatus.OK, entity.getStatusCode());
-		assertEquals(expectedResponseBody, entity.getBody());
-	}
-
+  @Test
+  public void healthy() {
+    String expectedResponseBody = "{\"status\":\"UP\"}";
+    ResponseEntity<String> entity = testRestTemplate.getForEntity("/actuator/health", String.class);
+    assertEquals(HttpStatus.OK, entity.getStatusCode());
+    assertEquals(expectedResponseBody, entity.getBody());
+  }
 }
