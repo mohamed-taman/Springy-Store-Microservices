@@ -14,8 +14,8 @@ eureka:
     hostname: localhost #eurekaInstance Name
   client:
     # for development set it to false in order to not register itself to its peer.
-    Register-with-eureka: false #Do you register yourself with Eureka Server?
-    Fetch-registry: false #Do not get registration information through eureka
+    register-with-eureka: false #Do you register yourself with Eureka Server?
+    fetch-registry: false #Do not get registration information through eureka
     service-url.defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
   server:
     # Make the number of renewals required to prevent an emergency tiny (probably 0)
