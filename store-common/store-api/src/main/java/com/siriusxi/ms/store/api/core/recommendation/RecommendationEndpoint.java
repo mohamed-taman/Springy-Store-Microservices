@@ -30,5 +30,6 @@ public interface RecommendationEndpoint extends RecommendationService {
    * @since v3.0 codename Storm
    */
   @GetMapping(produces = APPLICATION_JSON_VALUE)
+  @Override
   Flux<Recommendation> getRecommendations(@RequestParam("productId") int productId);
 }

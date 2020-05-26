@@ -92,7 +92,7 @@ services:
       - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
       - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
     volumes:
-      - $PWD/config/keystore:/keystore
+      - ./config/keystore:/keystore
     depends_on:
       - config-server
       - eureka
@@ -123,7 +123,7 @@ services:
       - SPRING_SECURITY_USER_NAME=${CONFIG_SERVER_USR}
       - SPRING_SECURITY_USER_PASSWORD=${CONFIG_SERVER_PWD}
     volumes:
-      - $PWD/config/repo:/config/repo
+      - ./config/repo:/config/repo
     restart: on-failure
   ## End - Config Server definition
   # End - Cloud Infrastructure

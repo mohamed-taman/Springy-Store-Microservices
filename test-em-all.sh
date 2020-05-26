@@ -163,7 +163,6 @@ function setupTestData() {
 ]}'
     recreateComposite "$PROD_ID_NO_REVS" "$body"
 
-
     body="{\"productId\":$PROD_ID_REVS_RECS"
     body+=\
 ',"name":"product name C","weight":300, "recommendations":[
@@ -177,6 +176,70 @@ function setupTestData() {
     ]}'
 
     recreateComposite 1 "$body"
+}
+
+function testCircuitBreaker() {
+
+    echo "Start Circuit Breaker tests!"
+
+    EXEC="docker run --rm -it --network=ssm_default alpine"
+
+    # First, use the health - endpoint to verify that the circuit breaker is closed
+    assertEqual "CLOSED" "$(${EXEC} wget store:8080/actuator/health -qO - | \
+     jq -r .components.productCircuitBreaker.details.state)"
+
+    # Open the circuit breaker by running three slow calls in a row,
+    # i.e. that cause a timeout exception
+    # Also, verify that we get 500 back and a timeout related error message
+    for ((n=0; n<3; n++))
+    do
+        assertCurl 500 "curl -k https://${HOST}:${PORT}${BASE_URL}/$PROD_ID_REVS_RECS?delay=3 $AUTH -s"
+        message=$(echo ${RESPONSE} | jq -r .message)
+        assertEqual "Did not observe any item or terminal signal within 2000ms" "${message:0:57}"
+    done
+
+    # Verify that the circuit breaker now is open by running the slow call again, verify it gets 200 back, i.e. fail fast works, and a response from the fallback method.
+    assertCurl 200 "curl -k https://${HOST}:${PORT}${BASE_URL}/$PROD_ID_REVS_RECS?delay=3 $AUTH -s"
+    assertEqual "Fallback product2" "$(echo "$RESPONSE" | jq -r .name)"
+
+    # Also, verify that the circuit breaker is open by running a normal call, verify it also gets 200 back and a response from the fallback method.
+    assertCurl 200 "curl -k https://${HOST}:${PORT}${BASE_URL}/$PROD_ID_REVS_RECS $AUTH -s"
+    assertEqual "Fallback product2" "$(echo "$RESPONSE" | jq -r .name)"
+
+    # Verify that a 404 (Not Found) error is returned for a non existing productId ($PROD_ID_NOT_FOUND) from the fallback method.
+    assertCurl 404 "curl -k https://${HOST}:${PORT}${BASE_URL}/$PROD_ID_NOT_FOUND $AUTH -s"
+    assertEqual "Product Id: $PROD_ID_NOT_FOUND not found in fallback cache!" "$(echo ${RESPONSE} | jq -r .message)"
+
+    # Wait for the circuit breaker to transition to the half open state (i.e. max 10 sec)
+    echo "Will sleep for 10 sec waiting for the CB to go Half Open..."
+    sleep 10
+
+    # Verify that the circuit breaker is in half open state
+    assertEqual "HALF_OPEN" "$(${EXEC} wget store:8080/actuator/health -qO - | \
+     jq -r .components.productCircuitBreaker.details.state)"
+
+    # Close the circuit breaker by running three normal calls in a row
+    # Also, verify that we get 200 back and a response based on information in the product database
+    for ((n=0; n<3; n++))
+    do
+        assertCurl 200 "curl -k https://${HOST}:${PORT}${BASE_URL}/$PROD_ID_REVS_RECS $AUTH -s"
+        assertEqual "product name C" "$(echo "$RESPONSE" | jq -r .name)"
+    done
+
+    # Verify that the circuit breaker is in closed state again
+    assertEqual "CLOSED" "$(${EXEC} wget store:8080/actuator/health -qO - | \
+    jq -r .components.productCircuitBreaker.details.state)"
+
+    # Verify that the expected state transitions happened in the circuit breaker
+    assertEqual "CLOSED_TO_OPEN"      "$(${EXEC} wget \
+    store:8080/actuator/circuitbreakerevents/product/STATE_TRANSITION -qO - | \
+    jq -r .circuitBreakerEvents[-3].stateTransition)"
+    assertEqual "OPEN_TO_HALF_OPEN"   "$(${EXEC} wget \
+    store:8080/actuator/circuitbreakerevents/product/STATE_TRANSITION -qO - | \
+    jq -r .circuitBreakerEvents[-2].stateTransition)"
+    assertEqual "HALF_OPEN_TO_CLOSED" "$(${EXEC} wget \
+    store:8080/actuator/circuitbreakerevents/product/STATE_TRANSITION -qO - | \
+    jq -r .circuitBreakerEvents[-1].stateTransition)"
 }
 
 set -e
@@ -248,6 +311,8 @@ READER_AUTH="-H \"Authorization: Bearer $READER_ACCESS_TOKEN\""
 
 assertCurl 200 "curl -k https://$HOST:$PORT${BASE_URL}/$PROD_ID_REVS_RECS $READER_AUTH -s"
 assertCurl 403 "curl -k https://$HOST:$PORT${BASE_URL}/$PROD_ID_REVS_RECS $READER_AUTH -X DELETE -s"
+
+testCircuitBreaker
 
 echo "End, all tests OK:" `date`
 

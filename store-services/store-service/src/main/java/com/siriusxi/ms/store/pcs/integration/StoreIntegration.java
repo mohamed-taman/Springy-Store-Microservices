@@ -11,6 +11,8 @@ import com.siriusxi.ms.store.api.event.Event;
 import com.siriusxi.ms.store.util.exceptions.InvalidInputException;
 import com.siriusxi.ms.store.util.exceptions.NotFoundException;
 import com.siriusxi.ms.store.util.http.HttpErrorInfo;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,10 +22,12 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
+import java.time.Duration;
 
 import static com.siriusxi.ms.store.api.event.Event.Type.CREATE;
 import static com.siriusxi.ms.store.api.event.Event.Type.DELETE;
@@ -44,6 +48,7 @@ public class StoreIntegration implements ProductService, RecommendationService, 
   private final String productServiceUrl;
   private final String recommendationServiceUrl;
   private final String reviewServiceUrl;
+  private final int productServiceTimeoutSec;
   private WebClient webClient;
 
   @Autowired
@@ -53,11 +58,13 @@ public class StoreIntegration implements ProductService, RecommendationService, 
           MessageSources messageSources,
           @Value("${app.product-service.host}") String productServiceHost,
           @Value("${app.recommendation-service.host}") String recommendationServiceHost,
-          @Value("${app.review-service.host}") String reviewServiceHost) {
+          @Value("${app.review-service.host}") String reviewServiceHost,
+          @Value("${app.product-service.timeoutSec}") int productServiceTimeoutSec) {
 
     this.webClientBuilder = webClientBuilder;
     this.mapper = mapper;
     this.messageSources = messageSources;
+    this.productServiceTimeoutSec = productServiceTimeoutSec;
 
     var http = "http://";
 
@@ -75,22 +82,24 @@ public class StoreIntegration implements ProductService, RecommendationService, 
     return body;
   }
 
+  @Retry(name = "product")
+  @CircuitBreaker(name = "product")
   @Override
-  public Mono<Product> getProduct(int productId) {
+  public Mono<Product> getProduct(int productId, int delay, int faultPercent) {
 
-    var url = productServiceUrl
-            .concat("/products/")
-            .concat(valueOf(productId));
+  var url = UriComponentsBuilder
+          .fromUriString(productServiceUrl
+          .concat("/products/")
+          .concat("{productId}?delay={delay}&faultPercent={faultPercent}"))
+          .build(productId, delay, faultPercent);
 
     log.debug("Will call the getProduct API on URL: {}", url);
 
     return getWebClient()
-            .get()
-            .uri(url)
-            .retrieve()
-            .bodyToMono(Product.class)
-            .log()
-            .onErrorMap(WebClientResponseException.class, this::handleException);
+            .get().uri(url)
+            .retrieve().bodyToMono(Product.class)
+            .onErrorMap(WebClientResponseException.class, this::handleException)
+            .timeout(Duration.ofSeconds(productServiceTimeoutSec));
   }
 
   @Override

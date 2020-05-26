@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
  * </ol>
  *
  * @author mohamed.taman
- * @version v0.2
+ * @version v5.8
  * @since v0.1
  */
 public interface StoreService {
@@ -34,10 +34,14 @@ public interface StoreService {
    *
    * @see ProductAggregate
    * @param id is the product id that you are looking for.
+   * @param delay Causes the getProduct API on the product microservice to delay its response.
+   * @param faultPercent Causes the getProduct API on the product microservice to throw an
+   *                     exception randomly with the probability specified by the query parameter,
+   *                     from 0 to 100%.
    * @return the product, if found, else null.
    * @since v0.1
    */
-  Mono<ProductAggregate> getProduct(int id);
+  Mono<ProductAggregate> getProduct(int id, int delay, int faultPercent);
 
   /**
    * Delete the product and all its relate reviews and recommendations from their repositories.

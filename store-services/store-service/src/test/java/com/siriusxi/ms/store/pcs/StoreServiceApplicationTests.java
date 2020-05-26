@@ -18,6 +18,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import static java.util.Collections.singletonList;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpStatus.*;
@@ -51,7 +53,7 @@ class StoreServiceApplicationTests {
   @BeforeEach
   void setUp() {
 
-    when(storeIntegration.getProduct(PRODUCT_ID_OK))
+    when(storeIntegration.getProduct(eq(PRODUCT_ID_OK), anyInt(), anyInt()))
         .thenReturn(Mono.just(new Product(PRODUCT_ID_OK, "name", 1, "mock-address")));
 
     when(storeIntegration.getRecommendations(PRODUCT_ID_OK))
@@ -66,10 +68,10 @@ class StoreServiceApplicationTests {
                 singletonList(
                     new Review(PRODUCT_ID_OK, 1, "author", "subject", "content", "mock address"))));
 
-    when(storeIntegration.getProduct(PRODUCT_ID_NOT_FOUND))
+    when(storeIntegration.getProduct(eq(PRODUCT_ID_NOT_FOUND), anyInt(), anyInt()))
         .thenThrow(new NotFoundException("NOT FOUND: " + PRODUCT_ID_NOT_FOUND));
 
-    when(storeIntegration.getProduct(PRODUCT_ID_INVALID))
+    when(storeIntegration.getProduct(eq(PRODUCT_ID_INVALID), anyInt(), anyInt()))
         .thenThrow(new InvalidInputException("INVALID: " + PRODUCT_ID_INVALID));
   }
 
