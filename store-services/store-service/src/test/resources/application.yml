@@ -1,5 +1,7 @@
 app:
-  product-service.host: product
+  product-service:
+    host: product
+    timeoutSec: 2
   recommendation-service.host: recommendation
   review-service.host: review
 

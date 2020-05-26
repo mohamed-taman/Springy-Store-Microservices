@@ -24,17 +24,17 @@ public class StoreController implements StoreEndpoint {
   /**
    * {@inheritDoc}
    *
-   * @return
+   * @return final product.
    */
   @Override
-  public Mono<ProductAggregate> getProduct(int id) {
-    return storeService.getProduct(id);
+  public Mono<ProductAggregate> getProduct(int id, int delay, int faultPercent) {
+    return storeService.getProduct(id, delay, faultPercent);
   }
 
   /**
    * {@inheritDoc}
    *
-   * @return
+   * @return nothing.
    */
   @Override
   public Mono<Void> createProduct(ProductAggregate body) {
@@ -44,7 +44,7 @@ public class StoreController implements StoreEndpoint {
   /**
    * {@inheritDoc}
    *
-   * @return
+   * @return nothing.
    */
   @Override
   public Mono<Void> deleteProduct(int id) {

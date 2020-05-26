@@ -31,5 +31,6 @@ public interface ReviewEndpoint extends ReviewService {
    * @since v3.0 codename Storm
    */
   @GetMapping(produces = APPLICATION_JSON_VALUE)
+  @Override
   Flux<Review> getReviews(@RequestParam("productId") int productId);
 }
