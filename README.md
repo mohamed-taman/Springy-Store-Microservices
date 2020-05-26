@@ -1,4 +1,4 @@
-# Springy Store μServices ![GitHub release (latest by date)](https://img.shields.io/github/v/release/mohamed-taman/Springy-Store-Microservices) [![Release Codename](https://img.shields.io/badge/codename-Stargazer-yellow.svg)](https://github.com/mohamed-taman/Springy-Store-Microservices/releases)
+# Springy Store μServices ![GitHub release (latest by date)](https://img.shields.io/github/v/release/mohamed-taman/Springy-Store-Microservices) [![Release Codename](https://img.shields.io/badge/codename-Spike-yellow.svg)](https://github.com/mohamed-taman/Springy-Store-Microservices/releases)
 [![Twitter Follow](https://img.shields.io/twitter/follow/_tamanm?label=follow%20me&style=social)](https://twitter.com/_tamanm)
 
 - This project is a development of a small set of **Spring Boot** and **Cloud** based Microservices projects that implement cloud-native intuitive, Reactive Programming, Event-driven, Microservices design patterns, and coding best practices.
@@ -281,7 +281,7 @@ The result will look like this:
 ```bash
 Starting 'Springy Store μServices' for [Blackbox] testing...
 
-Start Tests: Fri, May 8, 2020 12:26:28 PM
+Start Tests: Tue, May 26, 2020 2:09:36 AM
 HOST=localhost
 PORT=8443
 Restarting the test environment...
@@ -311,7 +311,33 @@ Test OK (actual value: "Type mismatch.")
 Test OK (HTTP Code: 401, )
 Test OK (HTTP Code: 200)
 Test OK (HTTP Code: 403, )
-End, all tests OK: Fri, May 8, 2020 12:29:21 PM
+Start Circuit Breaker tests!
+Test OK (actual value: CLOSED)
+Test OK (HTTP Code: 500, {"timestamp":"2020-05-26T00:09:48.784+00:00","path":"/store/api/v1/products/2","status":500,"error":"Internal Server Error","message":"Did not observe any item or terminal signal within 2000ms in 'onErrorResume' (and no fallback has been configured)","requestId":"4aa9f5e8-119"})
+Test OK (actual value: Did not observe any item or terminal signal within 2000ms)
+Test OK (HTTP Code: 500, {"timestamp":"2020-05-26T00:09:51.033+00:00","path":"/store/api/v1/products/2","status":500,"error":"Internal Server Error","message":"Did not observe any item or terminal signal within 2000ms in 'onErrorResume' (and no fallback has been configured)","requestId":"4aa9f5e8-120"})
+Test OK (actual value: Did not observe any item or terminal signal within 2000ms)
+Test OK (HTTP Code: 500, {"timestamp":"2020-05-26T00:09:53.276+00:00","path":"/store/api/v1/products/2","status":500,"error":"Internal Server Error","message":"Did not observe any item or terminal signal within 2000ms in 'onErrorResume' (and no fallback has been configured)","requestId":"4aa9f5e8-121"})
+Test OK (actual value: Did not observe any item or terminal signal within 2000ms)
+Test OK (HTTP Code: 200)
+Test OK (actual value: Fallback product2)
+Test OK (HTTP Code: 200)
+Test OK (actual value: Fallback product2)
+Test OK (HTTP Code: 404, {"httpStatus":"NOT_FOUND","message":"Product Id: 14 not found in fallback cache!","path":"/store/api/v1/products/14","timestamp":"2020-05-26@00:09:53.998+0000"})
+Test OK (actual value: Product Id: 14 not found in fallback cache!)
+Will sleep for 10 sec waiting for the CB to go Half Open...
+Test OK (actual value: HALF_OPEN)
+Test OK (HTTP Code: 200)
+Test OK (actual value: product name C)
+Test OK (HTTP Code: 200)
+Test OK (actual value: product name C)
+Test OK (HTTP Code: 200)
+Test OK (actual value: product name C)
+Test OK (actual value: CLOSED)
+Test OK (actual value: CLOSED_TO_OPEN)
+Test OK (actual value: OPEN_TO_HALF_OPEN)
+Test OK (actual value: HALF_OPEN_TO_CLOSED)
+End, all tests OK: Tue, May 26, 2020 2:10:09 AM
 ```
 ### Closing The Story
 
