@@ -35,7 +35,9 @@ logging:
 # Custom configurations
 app:
   auth-server: http://localhost:9999/.well-known/jwks.json
-  product-service.host: product
+  product-service:
+    host: product
+    timeoutSec: 2
   recommendation-service.host: recommendation
   review-service.host: review
 
@@ -93,6 +95,48 @@ api:
         Entities for product information, recommendations and reviews related to the specificed productId will be deleted.
         The implementation of the delete method is idempotent, i.e. it can be called several times with the same response.
         This means that a delete request of a non existing product will return <b>200 Ok</b>.
+
+# Circuit breaker & Retry configurations
+resilience4j.circuitbreaker:
+  backends:
+    product:
+      registerHealthIndicator: true
+      # meaning that if three or more of the last five calls are faults,
+      # then the circuit will open.
+      ringBufferSizeInClosedState: 5
+      failureRateThreshold: 50
+      # meaning that the circuit breaker will keep the circuit open for 10 seconds
+      # and then transition to the half-open state.
+      waitInterval: 10000
+      automaticTransitionFromOpenToHalfOpenEnabled: true
+      # meaning that the circuit breaker will decide whether the circuit shall be opened or
+      # closed based on the three first calls after the circuit has transitioned to the
+      # half-open state. Since the failureRateThreshold parameters are set to 50%, the circuit
+      # will be open again if two or all three calls fail. Otherwise, the circuit will be closed.
+      ringBufferSizeInHalfOpenState: 3
+      recordExceptions:
+        - org.springframework.web.client.HttpServerErrorException
+        - java.util.concurrent.TimeoutException
+        - java.io.IOException
+      # meaning that our two business exceptions will not be
+      # counted as faults in the circuit breaker.
+      ignoreExceptions:
+        - com.siriusxi.ms.store.util.exceptions.InvalidInputException
+        - com.siriusxi.ms.store.util.exceptions.NotFoundException
+
+resilience4j.retry:
+  backends:
+    product:
+      # Number of retries before giving up, including the first call,
+      # a maximum of two retry attempts.
+      maxRetryAttempts: 3
+      # Wait time before the next retry attempt, We will wait one second between retries.
+      waitDuration: 1000 # 1 second
+      # A list of exceptions that shall trigger a retry,
+      # We will only trigger retries on InternalServerError exceptions,
+      # that is, when HTTP requests respond with a 500 status code
+      retryExceptions:
+        - org.springframework.web.reactive.function.client.WebClientResponseException$InternalServerError
 
 # -----------------------------------------------
 # This is a docker specific profile properties

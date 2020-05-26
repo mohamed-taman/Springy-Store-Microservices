@@ -19,7 +19,7 @@
 
     <properties>
         <java.version>14</java.version>
-        <spring.cloud.version>2020.0.0-M1</spring.cloud.version>
+        <spring.cloud.version>2020-1.M1</spring.cloud.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 

@@ -17,6 +17,10 @@
     <description>Store Product Composite Service Spring Boot based project</description>
     <packaging>jar</packaging>
 
+    <properties>
+        <resilience4j.version>0.14.1</resilience4j.version>
+    </properties>
+
     <dependencies>
         <!-- Start - API documentation dependencies -->
         <dependency>
@@ -39,7 +43,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-        <!-- End - Security dependency -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-resource-server</artifactId>
@@ -48,5 +51,28 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-jose</artifactId>
         </dependency>
+        <!-- End - Security dependency -->
+        <!-- Start - Circuit Breaker & Retry support dependency -->
+        <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-spring-boot2</artifactId>
+            <version>${resilience4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-reactor</artifactId>
+            <version>${resilience4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-circuitbreaker</artifactId>
+            <version>${resilience4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-micrometer</artifactId>
+            <version>${resilience4j.version}</version>
+        </dependency>
+        <!-- End - Circuit Breaker & Retry support dependency -->
     </dependencies>
 </project>
