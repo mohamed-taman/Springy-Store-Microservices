@@ -9,14 +9,20 @@ server:
 app:
   eureka:
     host: localhost
+    port: 8761
     user: mt
     pass: p
     # pass: '{cipher}a672bc1a5c86b877ade72bca188ac4b6d33e7a91c3b524cbd86c8f031d1344c8'
   database:
-    host: localhost
+    mongo:
+      host: localhost
+      port: 27017
   messaging:
     rabbitmq.host: 127.0.0.1
     kafka.broker: 127.0.0.1
+  auth-server:
+    host: localhost
+    port: 9999
 
 spring:
   cloud:
@@ -24,13 +30,20 @@ spring:
     # It is recommended switching to BlockingLoadBalancerClient instead.
     loadbalancer.ribbon.enabled: false
   # Massaging provider configurations
+    stream.kafka.binder:
+      brokers: ${app.messaging.kafka.broker}
+      defaultBrokerPort: 9092
   rabbitmq:
     host: ${app.messaging.rabbitmq.host}
     port: 5672
     username: guest
     password: guest
     #password: '{cipher}702b8ae88ce0d606c42cd89dd20c43be1100951373416f5eb6f2ab57b0288665'
-
+  # Distributed Tracking configs
+  zipkin.sender.type: rabbit
+  sleuth:
+    traceId128: true
+    sampler.probability: 1.0
 # Service discovery configs
 eureka:
   instance:
@@ -40,7 +53,7 @@ eureka:
   client:
     healthcheck.enabled: true
     service-url:
-      defaultZone: http://${app.eureka.user}:${app.eureka.pass}@${app.eureka.host}:8761/eureka/
+      defaultZone: http://${app.eureka.user}:${app.eureka.pass}@${app.eureka.host}:${app.eureka.port}/eureka/
     initial-instance-info-replication-interval-seconds: 5
     registry-fetch-interval-seconds: 5
 
@@ -59,22 +72,41 @@ management:
     health.show-details: always
 
 logging.level:
-  web: DEBUG
-  root: INFO
-  com.siriusxi.ms.store: DEBUG
-  com.siriusxi.cloud.infra: DEBUG
+    org:
+      springframework:
+        web: DEBUG
+    web: DEBUG
+    root: INFO
+    com.siriusxi.ms.store: DEBUG
+    com.siriusxi.cloud.infra: DEBUG
 
 # This is a docker specific profile properties
 # Also profiles could be separated in its owen file
 # with file name format of "application-docker.yaml"
+# docker profile
 ---
 spring:
   profiles: docker
   jmx.enabled: false
 
 app:
+  database:
+    mongo:
+      host: mongodb
   eureka:
     host: eureka
   messaging:
     rabbitmq.host: rabbitmq
     kafka.broker: kafka
+  auth-server:
+    host: auth-server
+
+# Kafka profile
+---
+spring:
+  profiles: kafka
+  cloud.stream.defaultBinder: kafka
+  zipkin.sender.type: kafka
+  kafka.bootstrap-servers: kafka:9092
+
+management.health.rabbit.enabled: false

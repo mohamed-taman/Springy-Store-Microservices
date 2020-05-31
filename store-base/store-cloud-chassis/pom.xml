@@ -25,6 +25,33 @@
         </dependency>
         <!-- End - Providing some useful infos about the service through REST API -->
         <!-- Start - Cloud dependencies -->
+        <!-- Start - Spring Stream processing using "RabbitMQ massaging" -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+        </dependency>
+        <!-- End - Spring Stream processing using "RabbitMQ massaging" -->
+        <!-- Start - Spring Stream processing using "Kafka" -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-stream-kafka</artifactId>
+        </dependency>
+        <!-- End - Spring Stream processing using "Kafka" -->
+        <!-- Start - Spring Cloud Distributed Tracking with "Sleuth" -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-sleuth</artifactId>
+        </dependency>
+        <!-- End - Spring Cloud Distributed Tracking with "Sleuth" -->
+        <!-- Start - Spring Cloud Distributed Tracking with "Zipkin" -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+        </dependency>
+        <!-- End - Spring Cloud Distributed Tracking with "Zipkin" -->
+
+
+        <!-- End - Cloud dependencies -->
         <!-- Start - Testing dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

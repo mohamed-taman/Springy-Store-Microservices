@@ -7,10 +7,7 @@ services:
   product:
     build: store-services/product-service
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCECOUNT=2
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCEINDEX=0
+      - SPRING_PROFILES_ACTIVE=docker,streaming_partitioned,streaming_instance_0
       # config server credentials
       - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
       - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
@@ -23,10 +20,7 @@ services:
   product-i1:
     build: store-services/product-service
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCECOUNT=2
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCEINDEX=1
+      - SPRING_PROFILES_ACTIVE=docker,streaming_partitioned,streaming_instance_1
       # config server credentials
       - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
       - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
@@ -42,10 +36,7 @@ services:
   recommendation:
     build: store-services/recommendation-service
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCECOUNT=2
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCEINDEX=0
+      - SPRING_PROFILES_ACTIVE=docker,streaming_partitioned,streaming_instance_0
       # config server credentials
       - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
       - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
@@ -58,10 +49,7 @@ services:
   recommendation-i1:
     build: store-services/recommendation-service
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCECOUNT=2
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCEINDEX=1
+      - SPRING_PROFILES_ACTIVE=docker,streaming_partitioned,streaming_instance_1
       # config server credentials
       - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
       - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
@@ -77,10 +65,7 @@ services:
   review:
     build: store-services/review-service
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCECOUNT=2
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCEINDEX=0
+      - SPRING_PROFILES_ACTIVE=docker,streaming_partitioned,streaming_instance_0
       # config server credentials
       - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
       - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
@@ -93,10 +78,7 @@ services:
   review-i1:
     build: store-services/review-service
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCECOUNT=2
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCEINDEX=1
+      - SPRING_PROFILES_ACTIVE=docker,streaming_partitioned,streaming_instance_1
       # config server credentials
       - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
       - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
@@ -111,13 +93,7 @@ services:
   store:
     build: store-services/store-service
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_CLOUD_STREAM_BINDINGS_OUTPUT-PRODUCTS_PRODUCER_PARTITION-KEY-EXPRESSION=payload.key
-      - SPRING_CLOUD_STREAM_BINDINGS_OUTPUT-PRODUCTS_PRODUCER_PARTITION-COUNT=2
-      - SPRING_CLOUD_STREAM_BINDINGS_OUTPUT-RECOMMENDATIONS_PRODUCER_PARTITION-KEY-EXPRESSION=payload.key
-      - SPRING_CLOUD_STREAM_BINDINGS_OUTPUT-RECOMMENDATIONS_PRODUCER_PARTITION-COUNT=2
-      - SPRING_CLOUD_STREAM_BINDINGS_OUTPUT-REVIEWS_PRODUCER_PARTITION-KEY-EXPRESSION=payload.key
-      - SPRING_CLOUD_STREAM_BINDINGS_OUTPUT-REVIEWS_PRODUCER_PARTITION-COUNT=2
+      - SPRING_PROFILES_ACTIVE=docker,streaming_partitioned
       # config server credentials
       - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
       - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
@@ -239,4 +215,17 @@ services:
       retries: 10
     restart: on-failure
   ## End - RabbitMQ Messaging service
+
+  ## Start - Zipkin Distributed Tracking visualizer
+  zipkin:
+    image: openzipkin/zipkin:2.21.3
+    environment:
+      - STORAGE_TYPE=mem
+      - RABBIT_ADDRESSES=rabbitmq
+    ports:
+      - 9411:9411
+    depends_on:
+      - rabbitmq
+    restart: on-failure
+  ## Start - Zipkin Distributed Tracking visualizer
   # End - Data and transport Infrastructure

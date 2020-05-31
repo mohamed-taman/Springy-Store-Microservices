@@ -1,6 +1,9 @@
 CONFIG_SERVER_USR: dev-usr
 CONFIG_SERVER_PWD: dev-pwd
 
+server:
+  port: 9999
+
 spring:
   application.name: auth-server
   cloud.config:

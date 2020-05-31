@@ -1,4 +1,4 @@
-# Springy Store μServices ![GitHub release (latest by date)](https://img.shields.io/github/v/release/mohamed-taman/Springy-Store-Microservices) [![Release Codename](https://img.shields.io/badge/codename-Spike-yellow.svg)](https://github.com/mohamed-taman/Springy-Store-Microservices/releases)
+# Springy Store μServices ![GitHub release (latest by date)](https://img.shields.io/github/v/release/mohamed-taman/Springy-Store-Microservices) [![Release Codename](https://img.shields.io/badge/codename-Tracker-yellow.svg)](https://github.com/mohamed-taman/Springy-Store-Microservices/releases)
 [![Twitter Follow](https://img.shields.io/twitter/follow/_tamanm?label=follow%20me&style=social)](https://twitter.com/_tamanm)
 
 - This project is a development of a small set of **Spring Boot** and **Cloud** based Microservices projects that implement cloud-native intuitive, Reactive Programming, Event-driven, Microservices design patterns, and coding best practices.
@@ -209,6 +209,7 @@ Creating ssm_auth-server_1    ... done
 Creating ssm_mysql_1          ... done
 Creating ssm_mongodb_1        ... done
 Creating ssm_rabbitmq_1       ... done
+Creating ssm_zipkin_1         ... done
 Creating ssm_store_1          ... done
 Creating ssm_review_1         ... done
 Creating ssm_product_1        ... done
@@ -238,7 +239,7 @@ In browser point to this URL [http://localhost:5672/](http://localhost:5672/) `u
       λ docker-compose -p ssm -f docker-compose-kafka.yml up -d
      ```
 #### Check All Services Health
-From Storefront Service we can check all the core services health when you have all the
+From Store front Service we can check all the core services health when you have all the
  microservices up and running using Docker Compose,
 ```bash
 mohamed.taman@DTLNV8 ~/springy-store-microservices 
@@ -273,15 +274,19 @@ Now it's time to test all the application functionality as one part. To do so ju
 
 ```bash
 mohamed.taman@DTLNV8 ~/springy-store-microservices 
-λ ./test-em-all.sh start stop
+λ ./test-em-all.sh start
 ```
+> You can use `stop` switch with `start`, that will 
+>1. start docker, 
+>2. run the tests, 
+>3. stop the docker instances.
 
 The result will look like this:
 
 ```bash
 Starting 'Springy Store μServices' for [Blackbox] testing...
 
-Start Tests: Tue, May 26, 2020 2:09:36 AM
+Start Tests: Tue, May 31, 2020 2:09:36 AM
 HOST=localhost
 PORT=8443
 Restarting the test environment...
@@ -337,8 +342,13 @@ Test OK (actual value: CLOSED)
 Test OK (actual value: CLOSED_TO_OPEN)
 Test OK (actual value: OPEN_TO_HALF_OPEN)
 Test OK (actual value: HALF_OPEN_TO_CLOSED)
-End, all tests OK: Tue, May 26, 2020 2:10:09 AM
+End, all tests OK: Tue, May 31, 2020 2:10:09 AM
 ```
+### Tracking the services with Zipkin
+Now, you can now track Microservices interactions throughout Zipkin UI from the following link:
+[http://localhost:9411/zipkin/](http://localhost:9411/zipkin/)
+![Zipkin UI](docs/diagram/zipkin.png)
+
 ### Closing The Story
 
 Finally, to close the story, we need to shut down Microservices manually service by service, hahaha just kidding, run the following command to shut them all:
@@ -361,6 +371,7 @@ Stopping ssm_rabbitmq_1       ... done
 Stopping ssm_eureka_1         ... done
 Stopping ssm_gateway_1        ... done
 Stopping ssm_config-server_1  ... done
+Stopping ssm_zipkin_1         ... done
 Removing ssm_recommendation_1 ... done
 Removing ssm_product_1        ... done
 Removing ssm_review_1         ... done
@@ -372,6 +383,7 @@ Removing ssm_rabbitmq_1       ... done
 Removing ssm_eureka_1         ... done
 Removing ssm_gateway_1        ... done
 Removing ssm_config-server_1  ... done
+Removing ssm_zipkin_1         ... done
 Removing network ssm_default
 ```
 ### The End

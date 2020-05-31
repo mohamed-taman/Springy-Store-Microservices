@@ -12,7 +12,7 @@ spring:
     ## since Spring Boot can deduce it for most databases from the url.
     #driver-class-name: com.mysql.cj.jdbc.Driver
     platform: mysql
-    url: "jdbc:mysql://${app.database.host}/review-db?useSSL=false&serverTimezone=UTC"
+    url: "jdbc:mysql://${app.database.mysql.host}/review-db?useSSL=false&serverTimezone=UTC"
     username: user
     password: pwd
     hikari:
@@ -22,7 +22,7 @@ spring:
   flyway:
     #Enable or disable flyway migrations
     enabled: true
-    url: "jdbc:mysql://${app.database.host}/${app.database.schema}?useSSL=false&serverTimezone=UTC"
+    url: "jdbc:mysql://${app.database.mysql.host}/${app.database.mysql.schema}?useSSL=false&serverTimezone=UTC"
     schemas: review-db
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
@@ -44,13 +44,12 @@ spring:
         republishToDlq: true
       kafka:
         bindings.input.consumer.enableDlq: true
-        binder:
-          brokers: ${app.messaging.kafka.broker}
-          defaultBrokerPort: 9092
 
 app:
   database:
-    schema: mysql
+    mysql:
+      host: localhost
+      schema: mysql
 
 server:
   port: 9083
@@ -68,12 +67,30 @@ logging.level:
 spring:
   profiles: docker
   datasource:
-    url: "jdbc:mysql://${app.database.host}/${app.database.schema}"
+    url: "jdbc:mysql://${app.database.mysql.host}/${app.database.mysql.schema}"
 
 server:
   port: 8080
 
 app:
   database:
-    host: mysql
-    schema: review-db
+    mysql:
+      host: mysql
+      schema: review-db
+
+---
+spring:
+  profiles: streaming_partitioned
+  cloud.stream.bindings.input.consumer:
+    partitioned: true
+    instanceCount: 2
+
+---
+spring:
+  profiles: streaming_instance_0
+  cloud.stream.bindings.input.consumer.instanceIndex: 0
+
+---
+spring:
+  profiles: streaming_instance_1
+  cloud.stream.bindings.input.consumer.instanceIndex: 1

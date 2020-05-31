@@ -19,13 +19,9 @@ spring:
         output-reviews:
           destination: reviews
           producer.required-groups: auditGroup
-      kafka:
-        binder:
-          brokers: ${app.messaging.kafka.broker}
-          defaultBrokerPort: 9092
 
   security.oauth2.resourceserver:
-    jwt.jwk-set-uri: ${app.auth-server}
+    jwt.jwk-set-uri: http://${app.auth-server.host}:${app.auth-server.port}/.well-known/jwks.json
 
 # Logging configs
 logging:
@@ -34,7 +30,6 @@ logging:
 
 # Custom configurations
 app:
-  auth-server: http://localhost:9999/.well-known/jwks.json
   product-service:
     host: product
     timeoutSec: 2
@@ -143,18 +138,26 @@ resilience4j.retry:
 # Also profiles could be separated in its owen file
 # with file name format of "application-docker.yaml"
 ---
-spring:
-  profiles: docker
+spring.profiles: docker
 
-app:
-  auth-server: http://auth-server:9999/.well-known/jwks.json
-
-server:
-  port: 8080
+server.port: 8080
 
 ---
 spring:
   profiles: external-OAuth-Provider
+  security.oauth2.resourceserver:
+    jwt.jwk-set-uri: https://dev-taman.eu.auth0.com/.well-known/jwks.json
 
-app:
-  auth-server: https://dev-taman.eu.auth0.com/.well-known/jwks.json
+---
+spring:
+  profiles: streaming_partitioned
+  cloud.stream.bindings:
+    output-products.producer:
+      partition-key-expression: payload.key
+      partition-count: 2
+    output-recommendations.producer:
+      partition-key-expression: payload.key
+      partition-count: 2
+    output-reviews.producer:
+      partition-key-expression: payload.key
+      partition-count: 2
