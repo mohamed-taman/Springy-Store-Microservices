@@ -17,6 +17,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
       "spring.cloud.config.enabled: false",
       "eureka.client.register-with-eureka: false",
       "eureka.client.fetch-registry: false",
+      "management.health.rabbit.enabled=false",
       "app.eureka.user: mt",
       "app.eureka.pass: p"
     })

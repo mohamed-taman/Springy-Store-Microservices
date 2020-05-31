@@ -7,12 +7,7 @@ services:
   product:
     build: store-services/product-service
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - MANAGEMENT_HEALTH_RABBIT_ENABLED=false
-      - SPRING_CLOUD_STREAM_DEFAULTBINDER=kafka
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCECOUNT=2
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCEINDEX=0
+      - SPRING_PROFILES_ACTIVE=docker,streaming_partitioned,streaming_instance_0,kafka
       # config server credentials
       - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
       - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
@@ -25,12 +20,7 @@ services:
   product-i1:
     build: store-services/product-service
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - MANAGEMENT_HEALTH_RABBIT_ENABLED=false
-      - SPRING_CLOUD_STREAM_DEFAULTBINDER=kafka
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCECOUNT=2
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCEINDEX=1
+      - SPRING_PROFILES_ACTIVE=docker,streaming_partitioned,streaming_instance_1,kafka
       # config server credentials
       - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
       - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
@@ -46,12 +36,7 @@ services:
   recommendation:
     build: store-services/recommendation-service
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - MANAGEMENT_HEALTH_RABBIT_ENABLED=false
-      - SPRING_CLOUD_STREAM_DEFAULTBINDER=kafka
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCECOUNT=2
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCEINDEX=0
+      - SPRING_PROFILES_ACTIVE=docker,streaming_partitioned,streaming_instance_0,kafka
       # config server credentials
       - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
       - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
@@ -64,12 +49,7 @@ services:
   recommendation-i1:
     build: store-services/recommendation-service
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - MANAGEMENT_HEALTH_RABBIT_ENABLED=false
-      - SPRING_CLOUD_STREAM_DEFAULTBINDER=kafka
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCECOUNT=2
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCEINDEX=1
+      - SPRING_PROFILES_ACTIVE=docker,streaming_partitioned,streaming_instance_1,kafka
       # config server credentials
       - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
       - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
@@ -85,12 +65,7 @@ services:
   review:
     build: store-services/review-service
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - MANAGEMENT_HEALTH_RABBIT_ENABLED=false
-      - SPRING_CLOUD_STREAM_DEFAULTBINDER=kafka
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCECOUNT=2
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCEINDEX=0
+      - SPRING_PROFILES_ACTIVE=docker,streaming_partitioned,streaming_instance_0,kafka
       # config server credentials
       - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
       - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
@@ -103,12 +78,7 @@ services:
   review-i1:
     build: store-services/review-service
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - MANAGEMENT_HEALTH_RABBIT_ENABLED=false
-      - SPRING_CLOUD_STREAM_DEFAULTBINDER=kafka
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_PARTITIONED=true
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCECOUNT=2
-      - SPRING_CLOUD_STREAM_BINDINGS_INPUT_CONSUMER_INSTANCEINDEX=1
+      - SPRING_PROFILES_ACTIVE=docker,streaming_partitioned,streaming_instance_1,kafka
       # config server credentials
       - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
       - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
@@ -123,15 +93,7 @@ services:
   store:
     build: store-services/store-service
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - MANAGEMENT_HEALTH_RABBIT_ENABLED=false
-      - SPRING_CLOUD_STREAM_DEFAULTBINDER=kafka
-      - SPRING_CLOUD_STREAM_BINDINGS_OUTPUT-PRODUCTS_PRODUCER_PARTITION-KEY-EXPRESSION=payload.key
-      - SPRING_CLOUD_STREAM_BINDINGS_OUTPUT-PRODUCTS_PRODUCER_PARTITION-COUNT=2
-      - SPRING_CLOUD_STREAM_BINDINGS_OUTPUT-RECOMMENDATIONS_PRODUCER_PARTITION-KEY-EXPRESSION=payload.key
-      - SPRING_CLOUD_STREAM_BINDINGS_OUTPUT-RECOMMENDATIONS_PRODUCER_PARTITION-COUNT=2
-      - SPRING_CLOUD_STREAM_BINDINGS_OUTPUT-REVIEWS_PRODUCER_PARTITION-KEY-EXPRESSION=payload.key
-      - SPRING_CLOUD_STREAM_BINDINGS_OUTPUT-REVIEWS_PRODUCER_PARTITION-COUNT=2
+      - SPRING_PROFILES_ACTIVE=docker,streaming_partitioned,kafka
       # config server credentials
       - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
       - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
@@ -147,7 +109,7 @@ services:
   eureka:
     build: store-cloud-infra/eureka-server
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_PROFILES_ACTIVE=docker,kafka
       # config server credentials
       - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
       - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
@@ -162,7 +124,7 @@ services:
     ports:
       - "8443:8443"
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_PROFILES_ACTIVE=docker,kafka
       - SERVER_SSL_KEY_STORE=file:/keystore/edge.p12
       - SERVER_SSL_KEY_STORE_PASSWORD=password
       # config server credentials
@@ -181,7 +143,7 @@ services:
   auth-server:
     build: store-cloud-infra/authorization-server
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_PROFILES_ACTIVE=docker,kafka
       # config server credentials
       - CONFIG_SERVER_USR=${CONFIG_SERVER_USR}
       - CONFIG_SERVER_PWD=${CONFIG_SERVER_PWD}
@@ -264,4 +226,17 @@ services:
       - KAFKA_ADVERTISED_HOST_NAME=zookeeper
     restart: on-failure
   ## End - Zookeeper cluster management service
+
+  ## Start - Zipkin Distributed Tracking visualizer
+  zipkin:
+    image: openzipkin/zipkin:2.21.3
+    environment:
+      - STORAGE_TYPE=mem
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    ports:
+      - 9411:9411
+    depends_on:
+      - kafka
+    restart: on-failure
+  ## Start - Zipkin Distributed Tracking visualizer
   # End - Data and transport Infrastructure

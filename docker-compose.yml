@@ -177,4 +177,17 @@ services:
       retries: 10
     restart: on-failure
   ## End - RabbitMQ Messaging service
+
+  ## Start - Zipkin Distributed Tracking visualizer
+  zipkin:
+    image: openzipkin/zipkin:2.21.3
+    environment:
+      - STORAGE_TYPE=mem
+      - RABBIT_ADDRESSES=rabbitmq
+    ports:
+      - 9411:9411
+    depends_on:
+    - rabbitmq
+    restart: on-failure
+  ## Start - Zipkin Distributed Tracking visualizer
   # End - Data and transport Infrastructure

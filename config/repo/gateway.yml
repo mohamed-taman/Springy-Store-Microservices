@@ -1,6 +1,6 @@
 spring:
   security.oauth2.resourceserver.jwt:
-    jwk-set-uri: ${app.auth-server}
+    jwk-set-uri: http://${app.auth-server.host}:${app.auth-server.port}/.well-known/jwks.json
   # As Spring Cloud Ribbon is in maintenance mode.
   # It is recommended switching to BlockingLoadBalancerClient instead.
   cloud:
@@ -78,26 +78,13 @@ server:
     key-store-password: testtest
     key-alias: localhost
 
-# Define Security
-app:
-  eureka:
-    port: 8761
-  auth-server: http://localhost:9999/.well-known/jwks.json
-
-
 logging.level:
-    org.springframework.cloud.gateway: TRACE
-    org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: INFO
-    org.springframework.web.server.adapter.HttpWebHandlerAdapter: TRACE
+  org.springframework.cloud.gateway: TRACE
+  org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: INFO
+  org.springframework.web.server.adapter.HttpWebHandlerAdapter: TRACE
 
 ---
-spring.profiles: docker
-
-app:
-  auth-server: http://auth-server:9999/.well-known/jwks.json
-
----
-spring.profiles: external-OAuth-Provider
-
-app:
-  auth-server: https://dev-taman.eu.auth0.com/.well-known/jwks.json
+spring:
+  profiles: external-OAuth-Provider
+  security.oauth2.resourceserver:
+    jwt.jwk-set-uri: https://dev-taman.eu.auth0.com/.well-known/jwks.json

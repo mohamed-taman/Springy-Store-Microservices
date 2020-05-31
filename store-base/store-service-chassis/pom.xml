@@ -17,18 +17,6 @@
     <packaging>pom</packaging>
 
     <dependencies>
-        <!-- Start - Spring Stream processing using "RabbitMQ massaging" -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
-        </dependency>
-        <!-- End - Spring Stream processing using "RabbitMQ massaging" -->
-        <!-- Start - Spring Stream processing using "Kafka" -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-stream-kafka</artifactId>
-        </dependency>
-        <!-- End - Spring Stream processing using "Kafka" -->
         <!-- Start - Spring cloud Eureka service discovery client -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
