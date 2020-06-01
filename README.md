@@ -347,7 +347,7 @@ End, all tests OK: Tue, May 31, 2020 2:10:09 AM
 ### Tracking the services with Zipkin
 Now, you can now track Microservices interactions throughout Zipkin UI from the following link:
 [http://localhost:9411/zipkin/](http://localhost:9411/zipkin/)
-![Zipkin UI](docs/diagram/zipkin.png)
+![Zipkin UI](docs/diagram/Zipkin.png)
 
 ### Closing The Story
 
