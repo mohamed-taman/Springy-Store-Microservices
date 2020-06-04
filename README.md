@@ -5,19 +5,11 @@
 - The project follows [**CloudNative**](https://www.cncf.io/) recommendations and The [**twelve-factor app**](https://12factor.net/) methodology for building *software-as-a-service apps* to show how μServices should be developed and deployed.
 - This project uses cutting edge technologies like Docker, Kubernetes, Elasticsearch Stack for
  logging and monitoring, Java SE 14, MySQL, and MongoDB databases, all components developed with TDD in mind, covering integration & performance testing, and many more.
-
-------
-I am developing this project as stages, and all such steps are documented under the project **Springy Store μServices** [wiki page](https://github.com/mohamed-taman/Springy-Store-Microservices/wiki). Each such stage will be a release in its own, so you can go back and forward between versions to see the differences and how adding things solve specific problems we face.
-
-<u>For example, </u> in the first stage (1st release), I just created project structure, essential services' skeleton, integration between them, and finally write integration testing as well as semi-automated testing for the complete services' functionality.
-
-At the 1st stage, the **Recommendation** and **Review** microservices generate local in-memory data, and **Store Service** calls the other three services (*Product*, *Recommendation*, and *Review*) statically to generate client aggregate response for a specific product. Therefore, in: 
-
-- The second stage I will introduce **database integration**, then in (***done***)
-- The third stage I will add **Dockerization** of our services and **docker-compose**, and in (***done***)
-- In the fourth stage, I will introduce **service discovery**, and so on.
-
-## System components Structure
+ - This project is going to be developed as stages, and all such stage steps are documented under
+  the project **Springy Store μServices** [wiki page](https://github.com/mohamed-taman/Springy-Store-Microservices/wiki).
+---
+## Getting started
+### System components Structure
 Let's explain first the system structure to understand its components:
 ```
 Springy Store μService --> Parent folder. 
@@ -49,23 +41,6 @@ Springy Store μService --> Parent folder.
 |- test-em-all.sh --> This will start all docker compose landscape and test them, then shutdown docker compose containers with test finishes (use switch start stop)
 ```
 Now, as we have learned about different system components, then let's start.
-
-## Getting started
-
-The first stage, aka (**Release v1.0**), is about creating and implementing a set of project Microservices.
-
-### Creating a Set of Cooperating Microservices (Release v1.0)
-
-The following topics are going to be covered in this 1st stage (other stages topics will be documented in the project wiki pages):
-
-- Introducing the microservice landscape.
-- Generating skeleton microservices.
-- Adding RESTful APIs.
-- Adding a **Store**, **Product**, **Recommendation**, and **Review** microservices.
-- Adding error handling.
-- Testing the APIs manually.
-- Adding automated tests of microservices in isolation.
-- Adding semi-automated tests to a microservice landscape.
 
 ### System Boundary - μServices Landscape (Release 6.0-Latest)
 
@@ -294,19 +269,12 @@ $ docker-compose -p ssm down --remove-orphans
 $ docker-compose -p ssm up -d
 Wait for: curl -k https://localhost:8443/actuator/health... , retry #1 , retry #2, {"status":"UP"} DONE, continues...
 Test OK (HTTP Code: 200)
-Test OK (HTTP Code: 200)
-Test OK (HTTP Code: 200)
-Test OK (HTTP Code: 200)
+...
 Test OK (actual value: 1)
 Test OK (actual value: 3)
 Test OK (actual value: 3)
 Test OK (HTTP Code: 404, {"httpStatus":"NOT_FOUND","message":"No product found for productId: 13","path":"/store/api/v1/products/13","time":"2020-04-12@12:34:25.144+0000"})
-Test OK (HTTP Code: 200)
-Test OK (actual value: 113)
-Test OK (actual value: 0)
-Test OK (actual value: 3)
-Test OK (HTTP Code: 200)
-Test OK (actual value: 213)
+...
 Test OK (actual value: 3)
 Test OK (actual value: 0)
 Test OK (HTTP Code: 422, {"httpStatus":"UNPROCESSABLE_ENTITY","message":"Invalid productId: -1","path":"/store/api/v1/products/-1","time":"2020-04-12@12:34:26.243+0000"})
@@ -319,24 +287,14 @@ Test OK (HTTP Code: 403, )
 Start Circuit Breaker tests!
 Test OK (actual value: CLOSED)
 Test OK (HTTP Code: 500, {"timestamp":"2020-05-26T00:09:48.784+00:00","path":"/store/api/v1/products/2","status":500,"error":"Internal Server Error","message":"Did not observe any item or terminal signal within 2000ms in 'onErrorResume' (and no fallback has been configured)","requestId":"4aa9f5e8-119"})
-Test OK (actual value: Did not observe any item or terminal signal within 2000ms)
-Test OK (HTTP Code: 500, {"timestamp":"2020-05-26T00:09:51.033+00:00","path":"/store/api/v1/products/2","status":500,"error":"Internal Server Error","message":"Did not observe any item or terminal signal within 2000ms in 'onErrorResume' (and no fallback has been configured)","requestId":"4aa9f5e8-120"})
-Test OK (actual value: Did not observe any item or terminal signal within 2000ms)
-Test OK (HTTP Code: 500, {"timestamp":"2020-05-26T00:09:53.276+00:00","path":"/store/api/v1/products/2","status":500,"error":"Internal Server Error","message":"Did not observe any item or terminal signal within 2000ms in 'onErrorResume' (and no fallback has been configured)","requestId":"4aa9f5e8-121"})
+...
 Test OK (actual value: Did not observe any item or terminal signal within 2000ms)
 Test OK (HTTP Code: 200)
 Test OK (actual value: Fallback product2)
 Test OK (HTTP Code: 200)
 Test OK (actual value: Fallback product2)
 Test OK (HTTP Code: 404, {"httpStatus":"NOT_FOUND","message":"Product Id: 14 not found in fallback cache!","path":"/store/api/v1/products/14","timestamp":"2020-05-26@00:09:53.998+0000"})
-Test OK (actual value: Product Id: 14 not found in fallback cache!)
-Will sleep for 10 sec waiting for the CB to go Half Open...
-Test OK (actual value: HALF_OPEN)
-Test OK (HTTP Code: 200)
-Test OK (actual value: product name C)
-Test OK (HTTP Code: 200)
-Test OK (actual value: product name C)
-Test OK (HTTP Code: 200)
+...
 Test OK (actual value: product name C)
 Test OK (actual value: CLOSED)
 Test OK (actual value: CLOSED_TO_OPEN)
@@ -388,12 +346,6 @@ Removing network ssm_default
 ```
 ### The End
 Happy coding :)
-
-### Credit for Original Code
-The code here at first inspired by the book [Hands-On Microservices With Spring Boot and Spring
- Cloud book by Packt Publishing](https://www.packtpub.com/web-development/hands-on-microservices-with-spring-boot-and-spring-cloud). Here I am adding more business concepts, while
-  kepping the project software stack updated to the most recent software versions. Besides
-  , adding more use cases and problems, my team and I are facing in a day by day work.
 
 # License
 Copyright (C) 2017-2020 Mohamed Taman, Licensed under the MIT License.
