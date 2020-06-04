@@ -24,6 +24,7 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <!-- End - Providing some useful infos about the service through REST API -->
+
         <!-- Start - Cloud dependencies -->
         <!-- Start - Spring Stream processing using "RabbitMQ massaging" -->
         <dependency>
@@ -49,9 +50,9 @@
             <artifactId>spring-cloud-starter-zipkin</artifactId>
         </dependency>
         <!-- End - Spring Cloud Distributed Tracking with "Zipkin" -->
-
-
         <!-- End - Cloud dependencies -->
+        <!-- End - Core spring dependencies -->
+
         <!-- Start - Testing dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

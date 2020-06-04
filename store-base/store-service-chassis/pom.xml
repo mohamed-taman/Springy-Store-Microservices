@@ -23,8 +23,6 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
         <!-- End - Spring cloud Eureka service discovery client -->
-        <!-- End - Cloud dependencies  -->
-        <!-- End - Core spring dependencies -->
 
         <!-- Start - Testing dependencies -->
         <!-- Start - Spring reactor testing library -->

@@ -389,5 +389,11 @@ Removing network ssm_default
 ### The End
 Happy coding :)
 
+### Credit for Original Code
+The code here at first inspired by the book [Hands-On Microservices With Spring Boot and Spring
+ Cloud book by Packt Publishing](https://www.packtpub.com/web-development/hands-on-microservices-with-spring-boot-and-spring-cloud). Here I am adding more business concepts, while
+  kepping the project software stack updated to the most recent software versions. Besides
+  , adding more use cases and problems, my team and I are facing in a day by day work.
+
 # License
 Copyright (C) 2017-2020 Mohamed Taman, Licensed under the MIT License.
