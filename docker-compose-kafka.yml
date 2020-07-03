@@ -229,7 +229,7 @@ services:
 
   ## Start - Zipkin Distributed Tracking visualizer
   zipkin:
-    image: openzipkin/zipkin:2.21.3
+    image: openzipkin/zipkin
     environment:
       - STORAGE_TYPE=mem
       - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
