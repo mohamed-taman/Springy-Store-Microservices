@@ -1,4 +1,4 @@
-# Springy Store μServices ![GitHub release (latest by date)](https://img.shields.io/github/v/release/mohamed-taman/Springy-Store-Microservices) [![Release Codename](https://img.shields.io/badge/codename-Tracker-yellow.svg)](https://github.com/mohamed-taman/Springy-Store-Microservices/releases)
+# Springy Store μServices ![GitHub release (latest by date)](https://img.shields.io/github/v/release/mohamed-taman/Springy-Store-Microservices) [![Release Codename](https://img.shields.io/badge/codename-Refresher_2-yellow.svg)](https://github.com/mohamed-taman/Springy-Store-Microservices/releases)
 [![Twitter Follow](https://img.shields.io/twitter/follow/_tamanm?label=follow%20me&style=social)](https://twitter.com/_tamanm)
 
 - This project is a development of a small set of **Spring Boot** and **Cloud** based Microservices projects that implement cloud-native intuitive, Reactive Programming, Event-driven, Microservices design patterns, and coding best practices.
@@ -42,7 +42,7 @@ Springy Store μService --> Parent folder.
 ```
 Now, as we have learned about different system components, then let's start.
 
-### System Boundary - μServices Landscape (Release 6.0-Latest)
+### System Boundary - μServices Landscape (Release 6.2-Latest)
 
 ![System Boundary](docs/diagram/app_ms_landscape.png)
 
@@ -52,7 +52,7 @@ The following are the initially required software pieces:
 
 1. **Git**: it can be downloaded and installed from https://git-scm.com/downloads.
 
-2. **Java 14**: it can be downloaded and installed from https://www.oracle.com/technetwork/java/javase/downloads/index.html.
+2. **Java 15 EA**: it can be downloaded and installed from https://jdk.java.net/15/.
 
 3. **curl**: this command-line tool for testing HTTP-based APIs can be downloaded and installed from https://curl.haxx.se/download.html.
 

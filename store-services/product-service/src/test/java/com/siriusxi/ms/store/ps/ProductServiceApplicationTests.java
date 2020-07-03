@@ -28,6 +28,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
             "spring.data.mongodb.port: 0",
             "eureka.client.enabled: false",
             "spring.cloud.config.enabled: false",
+            "spring.sleuth.enabled: false",
             "spring.data.mongodb.auto-index-creation: true",
             "app.database.host: localhost",
             "server.error.include-message: always"})
