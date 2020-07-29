@@ -204,7 +204,7 @@ services:
 
   ## Start - RabbitMQ Messaging service
   rabbitmq:
-    image: rabbitmq:3.8.3-management
+    image: rabbitmq:3-management
     ports:
       - 5672:5672
       - 15672:15672
