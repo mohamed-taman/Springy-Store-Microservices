@@ -166,7 +166,7 @@ services:
 
   ## Start - RabbitMQ Messaging service
   rabbitmq:
-    image: rabbitmq:3.8.3-management
+    image: rabbitmq:3-management
     ports:
       - 5672:5672
       - 15672:15672
@@ -187,7 +187,7 @@ services:
     ports:
       - 9411:9411
     depends_on:
-    - rabbitmq
+      - rabbitmq
     restart: on-failure
   ## Start - Zipkin Distributed Tracking visualizer
   # End - Data and transport Infrastructure
