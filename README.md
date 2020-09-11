@@ -51,15 +51,17 @@ Now, as we have learned about different system components, then let's start.
 
 The following are the initially required software pieces:
 
-1. **Git**: it can be downloaded and installed from https://git-scm.com/downloads.
+1. **Maven**: Apache Maven is a software project management and comprehension tool, it can be downloaded from here https://maven.apache.org/download.cgi
 
-2. **Java 15 EA**: it can be downloaded and installed from https://jdk.java.net/15/.
+1. **Git**: it can be downloaded and installed from https://git-scm.com/downloads
 
-3. **curl**: this command-line tool for testing HTTP-based APIs can be downloaded and installed from https://curl.haxx.se/download.html.
+1. **Java 15 EA**: it can be downloaded and installed from https://jdk.java.net/15/
 
-4. **jq**: This command-line JSON processor can be downloaded and installed from https://stedolan.github.io/jq/download/.
+1. **curl**: this command-line tool for testing HTTP-based APIs can be downloaded and installed from https://curl.haxx.se/download.html
 
-5. Spring Boot Initializer: This *Initializer* generates *spring* boot project with just what you need to start quickly! Start from here https://start.spring.io/.
+1. **jq**: This command-line JSON processor can be downloaded and installed from https://stedolan.github.io/jq/download/
+
+1. Spring Boot Initializer: This *Initializer* generates *spring* boot project with just what you need to start quickly! Start from here https://start.spring.io/
 
 6. **Docker Desktop**: The fastest way to containerize applications on your desktop, and you can download it from here [https://www.docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop)
 
