@@ -1,7 +1,10 @@
 # Springy Store μServices ![GitHub release (latest by date)](https://img.shields.io/github/v/release/mohamed-taman/Springy-Store-Microservices) [![Release Codename](https://img.shields.io/badge/codename-Refresher_3-yellow.svg)](https://github.com/mohamed-taman/Springy-Store-Microservices/releases) [![BCH compliance](https://bettercodehub.com/edge/badge/mohamed-taman/Springy-Store-Microservices?branch=master)](https://bettercodehub.com/) | [![Twitter Follow](https://img.shields.io/twitter/follow/_tamanm?label=follow%20me&style=social)](https://twitter.com/_tamanm)
+
+## Important Note: This project's new milestone is to move The whole system to work on Kubernetes, so stay tuned.
+
 ## Better Code Hub
 I analysed this repository according to the clean code standards on [Better Code Hub](https://bettercodehub.com/) just to get an independent opinion of how bad the code is. Surprisingly, the compliance score is high!
-## Intro.
+## Introduction
 - This project is a development of a small set of **Spring Boot** and **Cloud** based Microservices projects that implement cloud-native intuitive, Reactive Programming, Event-driven, Microservices design patterns, and coding best practices.
 - The project follows [**CloudNative**](https://www.cncf.io/) recommendations and The [**twelve-factor app**](https://12factor.net/) methodology for building *software-as-a-service apps* to show how μServices should be developed and deployed.
 - This project uses cutting edge technologies like Docker, Kubernetes, Elasticsearch Stack for
@@ -348,7 +351,14 @@ Removing ssm_zipkin_1         ... done
 Removing network ssm_default
 ```
 ### The End
-Happy coding :)
+In the end, I hope you enjoyed the application and find it useful, as I did when I was developing it. 
+If you would like to enhance, please: 
+- **Open PRs**, 
+- Give **feedback**, 
+- Add **new suggestions**, and
+- Finally, give it a 🌟.
+
+*Happy Coding ...* 🙂
 
 # License
 Copyright (C) 2017-2020 Mohamed Taman, Licensed under the MIT License.
