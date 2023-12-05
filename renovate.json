@@ -1,0 +1,18 @@
+{
+    "extends": ["config:base"],
+    "includeForks": true,
+    "packageRules": [
+      {
+        "updateTypes": ["minor", "patch", "pin", "digest"],
+        "automerge": true
+      }
+    ],
+    "labels": ["dependencies"],
+    "assignees" : ["@rajadilipkolli"],
+    "cloneSubmodules" : true,
+    "vulnerabilityAlerts": {
+      "labels": ["security"],
+      "automerge": true,
+      "assignees": ["@rajadilipkolli"]
+    }
+  }
