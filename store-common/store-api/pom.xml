@@ -19,7 +19,7 @@
 
     <properties>
         <!-- Libraries versions -->
-        <spring.boot.dependencies.version>2.3.0.M4</spring.boot.dependencies.version>
+        <spring.boot.dependencies.version>2.4.13</spring.boot.dependencies.version>
     </properties>
 
     <dependencyManagement>
