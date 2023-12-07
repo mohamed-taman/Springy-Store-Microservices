@@ -132,7 +132,7 @@ services:
   ## Start - mongodb database definition
   ### $ mongo
   mongodb:
-    image: mongo:4.2.6-bionic
+    image: mongo:4.4.6-bionic
     ports:
       - "27017-27019:27017-27019"
     healthcheck:
