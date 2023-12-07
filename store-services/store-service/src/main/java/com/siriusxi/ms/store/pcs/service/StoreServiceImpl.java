@@ -11,10 +11,10 @@ import com.siriusxi.ms.store.api.core.review.dto.Review;
 import com.siriusxi.ms.store.pcs.integration.StoreIntegration;
 import com.siriusxi.ms.store.util.exceptions.NotFoundException;
 import com.siriusxi.ms.store.util.http.ServiceUtil;
-import io.github.resilience4j.circuitbreaker.CircuitBreakerOpenException;
 import io.github.resilience4j.reactor.retry.RetryExceptionWrapper;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.integration.handler.advice.RequestHandlerCircuitBreakerAdvice;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -108,7 +108,7 @@ public class StoreServiceImpl implements StoreService {
             integration
                 .getProduct(productId, delay, faultPercent)
                     .onErrorMap(RetryExceptionWrapper.class, Throwable::getCause)
-                    .onErrorReturn(CircuitBreakerOpenException.class,
+                    .onErrorReturn(RequestHandlerCircuitBreakerAdvice.CircuitBreakerOpenException.class,
                             getProductFallbackValue(productId)),
             integration.getRecommendations(productId).collectList(),
             integration.getReviews(productId).collectList())

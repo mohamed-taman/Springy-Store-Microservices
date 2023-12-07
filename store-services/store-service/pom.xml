@@ -18,7 +18,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <resilience4j.version>0.14.1</resilience4j.version>
+        <resilience4j.version>0.17.0</resilience4j.version>
     </properties>
 
     <dependencies>
