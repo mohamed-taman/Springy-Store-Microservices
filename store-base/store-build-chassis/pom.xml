@@ -30,7 +30,7 @@
         <maven.surefire.plugin.version>3.2.2</maven.surefire.plugin.version>
         <maven.failsafe.plugin.version>3.2.2</maven.failsafe.plugin.version>
         <maven.plugin.properties.version>1.2.1</maven.plugin.properties.version>
-        <maven.plugin.version.version>2.7</maven.plugin.version.version>
+        <maven.plugin.version.version>2.16.2</maven.plugin.version.version>
         <maven.plugin.dockerfile.version>1.4.13</maven.plugin.dockerfile.version>
         <springfox.swagger.version>3.0.0</springfox.swagger.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
