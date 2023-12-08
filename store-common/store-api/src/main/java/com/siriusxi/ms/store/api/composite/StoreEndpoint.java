@@ -40,17 +40,11 @@ public interface StoreEndpoint extends StoreService {
       value = {
         @ApiResponse(
             code = 400,
-            message = """
-                    Bad Request, invalid format of the request.
-                    See response message for more information.
-                    """),
+            message = "Bad Request, invalid format of the request.See response message for more information."),
         @ApiResponse(code = 404, message = "Not found, the specified id does not exist."),
         @ApiResponse(
             code = 422,
-            message = """
-                    Unprocessable entity, input parameters caused the processing to fails.
-                    See response message for more information.
-                    """)
+            message = "Unprocessable entity, input parameters caused the processing to fails.See response message for more information.")
       })
   @GetMapping(value = "products/{id}",
           produces = APPLICATION_JSON_VALUE)
@@ -77,16 +71,10 @@ public interface StoreEndpoint extends StoreService {
       value = {
         @ApiResponse(
             code = 400,
-            message = """
-                Bad Request, invalid format of the request. 
-                See response message for more information.
-                """),
+            message = "Bad Request, invalid format of the request. See response message for more information."),
         @ApiResponse(
             code = 422,
-            message = """
-                Unprocessable entity, input parameters caused the processing to fail. 
-                See response message for more information.
-                """)
+            message = "Unprocessable entity, input parameters caused the processing to fail. See response message for more information.")
       })
   @PostMapping(
           value = "products",
@@ -110,16 +98,10 @@ public interface StoreEndpoint extends StoreService {
       value = {
         @ApiResponse(
             code = 400,
-            message ="""
-                Bad Request, invalid format of the request. 
-                See response message for more information.
-                """),
+            message ="Bad Request, invalid format of the request. See response message for more information."),
         @ApiResponse(
             code = 422,
-            message ="""
-                Unprocessable entity, input parameters caused the processing to fail. 
-                See response message for more information.
-                """)
+            message ="Unprocessable entity, input parameters caused the processing to fail. See response message for more information.")
       })
   @DeleteMapping("products/{id}")
   @Override

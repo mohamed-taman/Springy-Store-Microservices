@@ -195,25 +195,28 @@ public class StoreIntegration implements ProductService, RecommendationService, 
   }
 
   private Throwable handleException(Throwable ex) {
-    if (!(ex instanceof WebClientResponseException wcre)) {
+    if (!(ex instanceof WebClientResponseException)) {
       log.warn("Got a unexpected error: {}, will rethrow it", ex.toString());
       return ex;
     }
+    WebClientResponseException wcre =  (WebClientResponseException) ex;
+    switch (wcre.getStatusCode()) {
+      case NOT_FOUND:
+          return new NotFoundException(getErrorMessage(wcre));
+      case UNPROCESSABLE_ENTITY:
+          return new InvalidInputException(getErrorMessage(wcre));
+      default:
+          log.warn("Got an unexpected HTTP error: {}, will rethrow it", wcre.getStatusCode());
+          log.warn("Error body: {}", wcre.getResponseBodyAsString());
+          throw wcre;
+    }
 
-    return switch (wcre.getStatusCode()) {
-      case NOT_FOUND -> new NotFoundException(getErrorMessage(wcre));
-      case UNPROCESSABLE_ENTITY -> new InvalidInputException(getErrorMessage(wcre));
-      default -> {
-        log.warn("Got a unexpected HTTP error: {}, will rethrow it", wcre.getStatusCode());
-        log.warn("Error body: {}", wcre.getResponseBodyAsString());
-      throw wcre;}
-    };
   }
 
   private String getErrorMessage(WebClientResponseException ex) {
     try {
-      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>:"+ mapper.readValue(ex.getResponseBodyAsString(), HttpErrorInfo.class).message());
-      return mapper.readValue(ex.getResponseBodyAsString(), HttpErrorInfo.class).message();
+      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>:"+ mapper.readValue(ex.getResponseBodyAsString(), HttpErrorInfo.class).getMessage());
+      return mapper.readValue(ex.getResponseBodyAsString(), HttpErrorInfo.class).getMessage();
     } catch (IOException ioException) {
       return ex.getMessage();
     }

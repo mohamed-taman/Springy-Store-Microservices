@@ -53,40 +53,40 @@ public class StoreServiceImpl implements StoreService {
     try {
 
       log.debug(
-          "createProduct: creates a new composite entity for productId: {}", body.productId());
+          "createProduct: creates a new composite entity for productId: {}", body.getProductId());
 
       logAuthorizationInfo(sc);
 
-      integration.createProduct(new Product(body.productId(), body.name(), body.weight(), null));
+      integration.createProduct(new Product(body.getProductId(), body.getName(), body.getWeight(), null));
 
-      if (body.recommendations() != null && !body.recommendations().isEmpty()) {
-        body.recommendations()
+      if (body.getRecommendations() != null && !body.getRecommendations().isEmpty()) {
+        body.getRecommendations()
             .forEach(
                 r ->
                     integration.createRecommendation(
                         new Recommendation(
-                            body.productId(),
-                            r.recommendationId(),
-                            r.author(),
-                            r.rate(),
-                            r.content(),
+                            body.getProductId(),
+                            r.getRecommendationId(),
+                            r.getAuthor(),
+                            r.getRate(),
+                            r.getContent(),
                             null)));
       }
 
-      if (body.reviews() != null && !body.reviews().isEmpty()) {
-        body.reviews()
+      if (body.getReviews() != null && !body.getReviews().isEmpty()) {
+        body.getReviews()
             .forEach(
                 r ->
                     integration.createReview(
                         new Review(
-                            body.productId(),
-                            r.reviewId(),
-                            r.author(),
-                            r.subject(),
-                            r.content(),
+                            body.getProductId(),
+                            r.getReviewId(),
+                            r.getAuthor(),
+                            r.getSubject(),
+                            r.getContent(),
                             null)));
       }
-      log.debug("createProduct: composite entities created for productId: {}", body.productId());
+      log.debug("createProduct: composite entities created for productId: {}", body.getProductId());
 
     } catch (RuntimeException re) {
       log.warn("createProduct failed: {}", re.toString());

@@ -18,7 +18,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <java.version>15</java.version>
+        <java.version>11</java.version>
         <spring.cloud.version>2020.0.0-M3</spring.cloud.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

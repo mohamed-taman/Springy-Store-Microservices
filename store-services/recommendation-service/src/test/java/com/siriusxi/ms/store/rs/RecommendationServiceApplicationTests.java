@@ -85,7 +85,8 @@ class RecommendationServiceApplicationTests {
       sendCreateRecommendationEvent(productId, recommendationId);
       fail("Expected a MessagingException here!");
     } catch (MessagingException me) {
-      if (me.getCause() instanceof InvalidInputException iie)	{
+      if (me.getCause() instanceof InvalidInputException)	{
+        InvalidInputException iie = (InvalidInputException) me.getCause();
         assertEquals("Duplicate key, Product Id: 1, Recommendation Id:1", iie.getMessage());
       } else {
         fail("Expected a InvalidInputException as the root cause!");

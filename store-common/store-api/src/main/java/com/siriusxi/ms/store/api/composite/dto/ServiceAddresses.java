@@ -14,8 +14,50 @@ package com.siriusxi.ms.store.api.composite.dto;
  * @version v4.6
  * @since v0.1
  */
-public record ServiceAddresses( String storeService,
-                                String productService,
-                                String reviewService,
-                                String recommendationService) {
+public class ServiceAddresses {
+    private String storeService;
+    private String productService;
+    private String reviewService;
+    private String recommendationService;
+
+    public ServiceAddresses(String storeService, String productService, String reviewService, String recommendationService) {
+        this.storeService = storeService;
+        this.productService = productService;
+        this.reviewService = reviewService;
+        this.recommendationService = recommendationService;
+    }
+
+    public String getStoreService() {
+        return storeService;
+    }
+
+    public void setStoreService(String storeService) {
+        this.storeService = storeService;
+    }
+
+    public String getProductService() {
+        return productService;
+    }
+
+    public void setProductService(String productService) {
+        this.productService = productService;
+    }
+
+    public String getReviewService() {
+        return reviewService;
+    }
+
+    public void setReviewService(String reviewService) {
+        this.reviewService = reviewService;
+    }
+
+    public String getRecommendationService() {
+        return recommendationService;
+    }
+
+    public void setRecommendationService(String recommendationService) {
+        this.recommendationService = recommendationService;
+    }
+
+    // You can also override toString(), equals(), and hashCode() methods if needed
 }

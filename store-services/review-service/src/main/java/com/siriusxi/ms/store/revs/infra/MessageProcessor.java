@@ -26,32 +26,31 @@ public class MessageProcessor {
 
     @StreamListener(target = Sink.INPUT)
     public void process(Event<Integer, Review> event) {
-
         log.info("Process message created at {}...", event.getEventCreatedAt());
-
+    
         switch (event.getEventType()) {
-            case CREATE -> {
+            case CREATE:
                 Review review = event.getData();
                 log.info("Create review with ID: {}/{}", review.getProductId(),
                         review.getReviewId());
                 service.createReview(review);
-            }
-            case DELETE -> {
+                break;
+    
+            case DELETE:
                 int productId = event.getKey();
                 log.info("Delete review with Product Id: {}", productId);
                 service.deleteReviews(productId);
-            }
-            default -> {
+                break;
+    
+            default:
                 String errorMessage =
                         "Incorrect event type: "
-                                .concat(valueOf(event.getEventType()))
+                                .concat(String.valueOf(event.getEventType()))
                                 .concat(", expected a CREATE or DELETE event");
                 log.warn(errorMessage);
                 throw new EventProcessingException(errorMessage);
-            }
         }
-
+    
         log.info("Message processing done!");
     }
-
-}
+}    

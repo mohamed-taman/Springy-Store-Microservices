@@ -28,30 +28,28 @@ public class MessageProcessor {
     public void process(Event<Integer, Recommendation> event) {
 
         log.info("Process message created at {}...", event.getEventCreatedAt());
-
+    
         switch (event.getEventType()) {
-            case CREATE -> {
+            case CREATE:
                 Recommendation recommendation = event.getData();
                 log.info("Create recommendation with ID: {}/{}", recommendation.getProductId(),
                         recommendation.getRecommendationId());
                 service.createRecommendation(recommendation);
-            }
-            case DELETE -> {
+                break;
+            case DELETE:
                 int productId = event.getKey();
                 log.info("Delete recommendations with ProductID: {}", productId);
                 service.deleteRecommendations(productId);
-            }
-            default -> {
+                break;
+            default:
                 String errorMessage =
                         "Incorrect event type: "
-                                .concat(valueOf(event.getEventType()))
+                                .concat(String.valueOf(event.getEventType()))
                                 .concat(", expected a CREATE or DELETE event");
                 log.warn(errorMessage);
                 throw new EventProcessingException(errorMessage);
-            }
         }
-
+    
         log.info("Message processing done!");
     }
-
-}
+}    

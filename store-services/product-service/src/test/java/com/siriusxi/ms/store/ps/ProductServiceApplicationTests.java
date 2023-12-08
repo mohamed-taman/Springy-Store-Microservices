@@ -85,7 +85,8 @@ class ProductServiceApplicationTests {
       sendCreateProductEvent(productId);
       fail("Expected a MessagingException here!");
     } catch (MessagingException me) {
-      if (me.getCause() instanceof InvalidInputException iie){
+      if (me.getCause() instanceof InvalidInputException){
+        InvalidInputException iie = (InvalidInputException) me.getCause();
         assertEquals("Duplicate key, Product Id: ".concat(String.valueOf(productId)), iie.getMessage());
       } else {
         fail("Expected a InvalidInputException as the root cause!");

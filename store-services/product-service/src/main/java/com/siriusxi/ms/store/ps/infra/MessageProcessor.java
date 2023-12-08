@@ -24,30 +24,27 @@ public class MessageProcessor {
 
     @StreamListener(target = Sink.INPUT)
     public void process(Event<Integer, Product> event) {
-
         log.info("Process message created at {}...", event.getEventCreatedAt());
-
+    
         switch (event.getEventType()) {
-            case CREATE -> {
-                Product product = event.getData();
-                log.info("Create product with ID: {}", product.getProductId());
-                productService.createProduct(product);
-            }
-            case DELETE -> {
+            case CREATE:
+                Product productCreate = event.getData();
+                log.info("Create product with ID: {}", productCreate.getProductId());
+                productService.createProduct(productCreate);
+                break;
+            case DELETE:
                 log.info("Delete product with Product Id: {}", event.getKey());
                 productService.deleteProduct(event.getKey());
-            }
-            default -> {
+                break;
+            default:
                 String errorMessage =
                         "Incorrect event type: "
                                 .concat(event.getEventType().toString())
                                 .concat(", expected a CREATE or DELETE event.");
                 log.warn(errorMessage);
                 throw new EventProcessingException(errorMessage);
-            }
         }
-
+    
         log.info("Message processing done!");
     }
-
-}
+}    
