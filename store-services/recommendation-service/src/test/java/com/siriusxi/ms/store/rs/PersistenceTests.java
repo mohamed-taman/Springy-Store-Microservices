@@ -2,7 +2,6 @@ package com.siriusxi.ms.store.rs;
 
 import com.siriusxi.ms.store.rs.persistence.RecommendationEntity;
 import com.siriusxi.ms.store.rs.persistence.RecommendationRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ class PersistenceTests {
   private RecommendationEntity savedEntity;
 
   @BeforeEach
-  public void setupDb() {
+  void setupDb() {
     repository.deleteAll().block();
 
     RecommendationEntity entity = new RecommendationEntity(1, 2, "a", 3, "c");
@@ -38,7 +37,7 @@ class PersistenceTests {
   }
 
   @Test
-  public void create() {
+  void create() {
 
     var newEntity = new RecommendationEntity(1, 3, "a", 3, "c");
     repository.save(newEntity).block();
@@ -52,7 +51,7 @@ class PersistenceTests {
   }
 
   @Test
-  public void update() {
+  void update() {
     savedEntity.setAuthor("a2");
     repository.save(savedEntity).block();
 
@@ -65,13 +64,13 @@ class PersistenceTests {
   }
 
   @Test
-  public void delete() {
+  void delete() {
     repository.delete(savedEntity).block();
-    assertEquals(false, repository.existsById(savedEntity.getId()).block());
+    assertFalse(repository.existsById(savedEntity.getId()).block());
   }
 
   @Test
-  public void getByProductId() {
+  void getByProductId() {
     List<RecommendationEntity> entityList =
             repository.findByProductId(savedEntity.getProductId()).collectList().block();
 
@@ -80,9 +79,9 @@ class PersistenceTests {
   }
 
   @Test
-  public void duplicateError() {
+  void duplicateError() {
 
-    Assertions.assertThrows(
+    assertThrows(
         DuplicateKeyException.class,
         () -> repository
                 .save(new RecommendationEntity(1, 2, "a", 3, "c"))
@@ -90,7 +89,7 @@ class PersistenceTests {
   }
 
   @Test
-  public void optimisticLockError() {
+  void optimisticLockError() {
 
     // Store the saved entity in two separate entity objects
     RecommendationEntity entity1 = repository.findById(savedEntity.getId()).block(),

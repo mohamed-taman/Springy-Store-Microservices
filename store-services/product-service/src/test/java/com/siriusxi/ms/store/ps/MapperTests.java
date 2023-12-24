@@ -12,7 +12,7 @@ class MapperTests {
   private final ProductMapper mapper = ProductMapper.INSTANCE;
 
   @Test
-  public void mapperTests() {
+  void mapperTests() {
 
     assertNotNull(mapper);
 

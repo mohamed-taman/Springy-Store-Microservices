@@ -76,7 +76,7 @@ class StoreServiceApplicationTests {
   }
 
   @Test
-  public void getProductById() {
+  void getProductById() {
 
     getAndVerifyProduct(PRODUCT_ID_OK, OK)
         .jsonPath("$.productId")
@@ -88,7 +88,7 @@ class StoreServiceApplicationTests {
   }
 
   @Test
-  public void getProductNotFound() {
+  void getProductNotFound() {
 
     getAndVerifyProduct(PRODUCT_ID_NOT_FOUND, NOT_FOUND)
         .jsonPath("$.path")
@@ -98,7 +98,7 @@ class StoreServiceApplicationTests {
   }
 
   @Test
-  public void getProductInvalidInput() {
+  void getProductInvalidInput() {
 
     getAndVerifyProduct(PRODUCT_ID_INVALID, UNPROCESSABLE_ENTITY)
         .jsonPath("$.path")

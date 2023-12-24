@@ -48,13 +48,13 @@ class ProductServiceApplicationTests {
   private AbstractMessageChannel input = null;
 
   @BeforeEach
-  public void setupDb() {
+  void setupDb() {
     input = (AbstractMessageChannel) channels.input();
     repository.deleteAll().block();
   }
 
   @Test
-  public void getProductById() {
+  void getProductById() {
 
     int productId = 1;
 
@@ -71,7 +71,7 @@ class ProductServiceApplicationTests {
   }
 
   @Test
-  public void duplicateError() {
+  void duplicateError() {
 
     int productId = 1;
 
@@ -95,7 +95,7 @@ class ProductServiceApplicationTests {
   }
 
   @Test
-  public void deleteProduct() {
+  void deleteProduct() {
 
     int productId = 1;
 
@@ -107,7 +107,7 @@ class ProductServiceApplicationTests {
   }
 
   @Test
-  public void getProductInvalidParameterString() {
+  void getProductInvalidParameterString() {
     var uri = BASE_URI.concat("no-integer");
     getAndVerifyProduct(uri, BAD_REQUEST)
         .jsonPath("$.path").isEqualTo(uri)
@@ -115,7 +115,7 @@ class ProductServiceApplicationTests {
   }
 
   @Test
-  public void getProductNotFound() {
+  void getProductNotFound() {
 
     int productIdNotFound = 13;
 
@@ -126,7 +126,7 @@ class ProductServiceApplicationTests {
   }
 
   @Test
-  public void getProductInvalidParameterNegativeValue() {
+  void getProductInvalidParameterNegativeValue() {
 
     int productIdInvalid = -1;
 

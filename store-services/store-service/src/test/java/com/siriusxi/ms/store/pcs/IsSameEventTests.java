@@ -18,7 +18,7 @@ class IsSameEventTests {
   ObjectMapper mapper = new ObjectMapper();
 
   @Test
-  public void testEventObjectCompare() throws JsonProcessingException {
+  void eventObjectCompare() throws JsonProcessingException {
 
     /*
      Event #1 and #2 are the same event, but occurs as different times

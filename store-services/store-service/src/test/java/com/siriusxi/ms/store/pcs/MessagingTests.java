@@ -58,14 +58,14 @@ class MessagingTests {
   @Autowired private MessageCollector collector;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     queueProducts = getQueue(channels.outputProducts());
     queueRecommendations = getQueue(channels.outputRecommendations());
     queueReviews = getQueue(channels.outputReviews());
   }
 
   @Test
-  public void createCompositeProduct1() {
+  void createCompositeProduct1() {
 
     ProductAggregate composite = new ProductAggregate(1, "name", 1, null, null, null);
     postAndVerifyProduct(composite);
@@ -86,7 +86,7 @@ class MessagingTests {
   }
 
   @Test
-  public void createCompositeProduct2() {
+  void createCompositeProduct2() {
 
     ProductAggregate composite =
         new ProductAggregate(
@@ -148,7 +148,7 @@ class MessagingTests {
   }
 
   @Test
-  public void deleteCompositeProduct() {
+  void deleteCompositeProduct() {
 
     deleteAndVerifyProduct(1);
 

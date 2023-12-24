@@ -37,7 +37,7 @@ class EurekaDiscoveryServerTests {
   }
 
   @Test
-  public void catalogLoads() {
+  void catalogLoads() {
 
     String expectedResponseBody =
         "{\"applications\":{\"versions__delta\":\"1\","
@@ -48,7 +48,7 @@ class EurekaDiscoveryServerTests {
   }
 
   @Test
-  public void healthy() {
+  void healthy() {
     String expectedResponseBody = "{\"status\":\"UP\"}";
     ResponseEntity<String> entity = testRestTemplate.getForEntity("/actuator/health", String.class);
     assertEquals(HttpStatus.OK, entity.getStatusCode());

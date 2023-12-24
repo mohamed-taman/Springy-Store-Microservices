@@ -15,7 +15,7 @@ class MapperTests {
   private final ReviewMapper mapper = ReviewMapper.INSTANCE;
 
   @Test
-  public void mapperTests() {
+  void mapperTests() {
 
     assertNotNull(mapper);
 
@@ -40,7 +40,7 @@ class MapperTests {
   }
 
   @Test
-  public void mapperListTests() {
+  void mapperListTests() {
 
     assertNotNull(mapper);
 

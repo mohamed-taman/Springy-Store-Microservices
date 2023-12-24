@@ -43,13 +43,13 @@ class ReviewServiceApplicationTests {
   private AbstractMessageChannel input = null;
 
   @BeforeEach
-  public void setupDb() {
+  void setupDb() {
     input = (AbstractMessageChannel) channels.input();
     repository.deleteAll();
   }
 
   @Test
-  public void getReviewsByProductId() {
+  void getReviewsByProductId() {
 
     int productId = 1;
 
@@ -68,7 +68,7 @@ class ReviewServiceApplicationTests {
   }
 
   @Test
-  public void duplicateError() {
+  void duplicateError() {
 
     int productId = 1;
     int reviewId = 1;
@@ -95,7 +95,7 @@ class ReviewServiceApplicationTests {
   }
 
   @Test
-  public void deleteReviews() {
+  void deleteReviews() {
 
     int productId = 1;
     int reviewId = 1;
@@ -110,7 +110,7 @@ class ReviewServiceApplicationTests {
   }
 
   @Test
-  public void getReviewsMissingParameter() {
+  void getReviewsMissingParameter() {
 
     getAndVerifyReviewsByProductId("", BAD_REQUEST)
         .jsonPath("$.path").isEqualTo(BASE_URI)
@@ -119,7 +119,7 @@ class ReviewServiceApplicationTests {
   }
 
   @Test
-  public void getReviewsInvalidParameter() {
+  void getReviewsInvalidParameter() {
 
     getAndVerifyReviewsByProductId("?productId=no-integer", BAD_REQUEST)
         .jsonPath("$.path").isEqualTo(BASE_URI)
@@ -127,14 +127,14 @@ class ReviewServiceApplicationTests {
   }
 
   @Test
-  public void getReviewsNotFound() {
+  void getReviewsNotFound() {
 
     getAndVerifyReviewsByProductId("?productId=213", OK)
             .jsonPath("$.length()").isEqualTo(0);
   }
 
   @Test
-  public void getReviewsInvalidParameterNegativeValue() {
+  void getReviewsInvalidParameterNegativeValue() {
 
     int productIdInvalid = -1;
 

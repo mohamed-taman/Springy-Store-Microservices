@@ -21,7 +21,7 @@ class PersistenceTests {
   private ProductEntity savedEntity;
 
   @BeforeEach
-  public void setupDb() {
+  void setupDb() {
 
     StepVerifier.create(repository.deleteAll()).verifyComplete();
 
@@ -37,7 +37,7 @@ class PersistenceTests {
   }
 
   @Test
-  public void create() {
+  void create() {
 
     var newEntity = new ProductEntity(2, "n", 2);
 
@@ -54,7 +54,7 @@ class PersistenceTests {
   }
 
   @Test
-  public void update() {
+  void update() {
     savedEntity.setName("n2");
 
     StepVerifier.create(repository.save(savedEntity))
@@ -68,7 +68,7 @@ class PersistenceTests {
   }
 
   @Test
-  public void delete() {
+  void delete() {
     StepVerifier.create(repository.delete(savedEntity)).verifyComplete();
 
     StepVerifier.create(repository.existsById(savedEntity.getId()))
@@ -77,7 +77,7 @@ class PersistenceTests {
   }
 
   @Test
-  public void getByProductId() {
+  void getByProductId() {
 
     StepVerifier.create(repository.findByProductId(savedEntity.getProductId()))
         .expectNextMatches(foundEntity -> areProductEqual(savedEntity, foundEntity))
@@ -85,7 +85,7 @@ class PersistenceTests {
   }
 
   @Test
-  public void duplicateError() {
+  void duplicateError() {
     StepVerifier
             .create(repository.save(new ProductEntity(savedEntity.getProductId(), "n", 1)))
         .expectError(DuplicateKeyException.class)
@@ -93,7 +93,7 @@ class PersistenceTests {
   }
 
   @Test
-  public void optimisticLockError() {
+  void optimisticLockError() {
 
     // Store the saved entity in two separate entity objects
     ProductEntity entity1 = repository.findById(savedEntity.getId()).block(),

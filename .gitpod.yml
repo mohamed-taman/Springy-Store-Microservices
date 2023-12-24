@@ -1,0 +1,9 @@
+
+
+tasks:
+  - init: ./mvnw install -DskipTests=false
+
+vscode:
+  extensions:
+    - vscjava.vscode-java-pack
+    - Pivotal.vscode-boot-dev-pack

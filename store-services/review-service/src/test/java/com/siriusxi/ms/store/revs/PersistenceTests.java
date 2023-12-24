@@ -16,8 +16,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.fail;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.transaction.annotation.Propagation.NOT_SUPPORTED;
 
 @DataJpaTest(properties = {"spring.cloud.config.enabled: false"})
@@ -31,7 +30,7 @@ class PersistenceTests {
   private ReviewEntity savedEntity;
 
   @BeforeEach
-  public void setupDb() {
+  void setupDb() {
     repository.deleteAll();
 
     var entity = new ReviewEntity(1, 2, "amazon", "s", "c");
@@ -41,7 +40,7 @@ class PersistenceTests {
   }
 
   @Test
-  public void create() {
+  void create() {
 
     var newEntity = new ReviewEntity(1, 3, "amazon 1", "s", "c");
     repository.save(newEntity);
@@ -54,7 +53,7 @@ class PersistenceTests {
   }
 
   @Test
-  public void update() {
+  void update() {
 
     savedEntity.setAuthor("amazon 2");
     repository.save(savedEntity);
@@ -66,14 +65,14 @@ class PersistenceTests {
   }
 
   @Test
-  public void delete() {
+  void delete() {
     repository.delete(savedEntity);
 
     assertFalse(repository.existsById(savedEntity.getId()));
   }
 
   @Test
-  public void getByProductId() {
+  void getByProductId() {
     List<ReviewEntity> entityList = repository.findByProductId(savedEntity.getProductId());
 
     assertThat(entityList, hasSize(1));
@@ -81,9 +80,9 @@ class PersistenceTests {
   }
 
   @Test
-  public void duplicateError() {
+  void duplicateError() {
 
-    Assertions.assertThrows(
+    assertThrows(
             DataIntegrityViolationException.class,
             () -> repository.save(new ReviewEntity(
                     1, 2, "amazon 1",
@@ -91,7 +90,7 @@ class PersistenceTests {
   }
 
   @Test
-  public void optimisticLockError() {
+  void optimisticLockError() {
 
     // Store the saved entity in two separate entity objects
     ReviewEntity entity1 = repository.findById(savedEntity.getId()).orElse(new ReviewEntity()),

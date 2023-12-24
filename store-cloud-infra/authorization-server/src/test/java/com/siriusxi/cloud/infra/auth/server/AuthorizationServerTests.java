@@ -24,7 +24,7 @@ class AuthorizationServerTests {
   @Autowired MockMvc mvc;
 
   @Test
-  public void requestTokenWhenUsingPasswordGrantTypeThenOk() throws Exception {
+  void requestTokenWhenUsingPasswordGrantTypeThenOk() throws Exception {
 
     this.mvc
         .perform(
@@ -37,7 +37,7 @@ class AuthorizationServerTests {
   }
 
   @Test
-  public void requestJwkSetWhenUsingDefaultsThenOk() throws Exception {
+  void requestJwkSetWhenUsingDefaultsThenOk() throws Exception {
 
     this.mvc
             .perform(get("/.well-known/jwks.json"))

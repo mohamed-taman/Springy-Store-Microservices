@@ -10,8 +10,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ReactorTests {
 
-    @Test
-    public void TestFlux() {
+  @Test
+  void TestFlux() {
 
         List<Integer> list = new ArrayList<>();
 
@@ -24,8 +24,8 @@ class ReactorTests {
         assertThat(list).containsExactly(4, 8);
     }
 
-    @Test
-    public void TestFluxBlocking() {
+  @Test
+  void TestFluxBlocking() {
 
         List<Integer> list = Flux.just(1, 2, 3, 4)
                 .filter(n -> n % 2 == 0)
