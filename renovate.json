@@ -1,0 +1,16 @@
+{
+    "extends": ["config:base"],
+    "includeForks": true,
+    "packageRules": [
+      {
+        "updateTypes": ["minor", "patch", "pin", "digest"],
+        "automerge": true
+      }
+    ],
+    "labels": ["dependencies"],
+    "cloneSubmodules" : true,
+    "vulnerabilityAlerts": {
+      "labels": ["security"],
+      "automerge": true
+    }
+  }
